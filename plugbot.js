@@ -98,6 +98,7 @@ var b = 1013904223;
 var M = 4294967296; // 2^32
 var ix = 0;
 var genNb = 0;
+var safeIt;
 
 function rand() {
     ix = (ix * a + b) % M;
@@ -330,12 +331,12 @@ function djAdvanced(obj) {
         $("#button-vote-positive").click();
     }
 
-    if (djAdvanceCnt == 99) {
+    if (djAdvanceCnt == 97) {
         djAdvanceCnt = 1;
     } else {
         djAdvanceCnt += 1;
     }
-    if (djAdvanceCnt % 2 == 0) {
+    if (djAdvanceCnt % 3 == 0) {
         // send msg to chat
         safeIt = genNb;
         genNb = rand();
