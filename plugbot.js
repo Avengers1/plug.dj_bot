@@ -141,6 +141,7 @@ function initAPIListeners() {
      */
     API.addEventListener(API.USER_JOIN, function (user) {
         if (userList) {
+            /*
             var text = "Welcome ";
             var pom = 'Ji' + '\xAE' + 'in';
             if (user.username == pom) {
@@ -149,7 +150,7 @@ function initAPIListeners() {
             else {
                 API.sendChat('Welcome ' + user.username + ' !');
             }
-
+            */
             //console.log("® char value = " + char_R + ";");
 /*
             var txt = '';
@@ -172,6 +173,7 @@ function initAPIListeners() {
      */
     API.addEventListener(API.USER_LEAVE, function (user) {
         if (userList) {
+            /*
             var pom = 'Ji' + '\xAE' + 'in';
             if (user.username == pom) {
                 API.sendChat('Ji' + '\xAE' + 'in has left the room!');
@@ -179,6 +181,7 @@ function initAPIListeners() {
             else {
                 API.sendChat('@' + user.username + ' has left the room!');
             }
+            */
             populateUserlist();
         }
     });
