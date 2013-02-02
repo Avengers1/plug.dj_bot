@@ -59,6 +59,11 @@ var userList;
 var welcomeLeaveMsg;
 
 /*
+ * Whether or not the user want to send generated messages
+ */
+var autoMsg;
+
+/*
  * Cookie constants
  */
 var COOKIE_WOOT = 'autowoot';
@@ -66,6 +71,7 @@ var COOKIE_QUEUE = 'autoqueue';
 var COOKIE_HIDE_VIDEO = 'hidevideo';
 var COOKIE_USERLIST = 'userlist';
 var COOKIE_WELCOMELEAVEMSG = 'welcome/leave msg';
+var COOKIE_AUTOMSG = 'automsg';
 
 /*
  * Maximum amount of people that can be in the waitlist.
@@ -258,8 +264,9 @@ function displayUI() {
     var cHideVideo = hideVideo ? "#3FFF00" : "#ED1C24";
     var cUserList = userList ? "#3FFF00" : "#ED1C24";
     var cWelcomeLeaveMsg = welcomeLeaveMsg ? "#3FFF00" : "#ED1C24";
+    var cAutoMsg = autoMsg ? "#3FFF00" : "#ED1C24";
     $('#plugbot-ui').append(
-        '<p id="plugbot-btn-woot" style="color:' + cWoot + '">auto-woot</p><p id="plugbot-btn-queue" style="color:' + cQueue + '">auto-queue</p><p id="plugbot-btn-hidevideo" style="color:' + cHideVideo + '">hide video</p><p id="plugbot-btn-userlist" style="color:' + cUserList + '">userlist</p><p id="plugbot-btn-welcome-leave" style="color:' + cWelcomeLeaveMsg + '">Welcome/Leave msg</p><h2 title="This makes it so you can give a user in the room a special colour when they chat!">Custom Username FX: <br /><br id="space" /><span onclick="promptCustomUsername()" style="cursor:pointer">+ add new</span></h2>');
+        '<p id="plugbot-btn-woot" style="color:' + cWoot + '">auto-woot</p><p id="plugbot-btn-queue" style="color:' + cQueue + '">auto-queue</p><p id="plugbot-btn-hidevideo" style="color:' + cHideVideo + '">hide video</p><p id="plugbot-btn-userlist" style="color:' + cUserList + '">userlist</p><p id="plugbot-btn-auto-msg" style="color:' + cAutoMsg + '">Autosending messages</p><p id="plugbot-btn-auto-msg" style="color:' + cAutoMsg + '">Autosending msgs</p><h2 title="This makes it so you can give a user in the room a special colour when they chat!">Custom Username FX: <br /><br id="space" /><span onclick="promptCustomUsername()" style="cursor:pointer">+ add new</span></h2>');
 }
 
 /**
@@ -343,6 +350,15 @@ function initUIListeners() {
     });
 
     /*
+     * Toggle autosending of generated messages
+     */
+     $("#plugbot-btn-auto-msg").on("click", function () {
+        autoMsg = !autoMsg;
+        $(this).css("color", autoMsg ? "#3FFF00" : "#ED1C24");
+        jaaulde.utils.cookies.set(COOKIE_AUTOMSG, autoMsg);
+    });
+
+    /*
      * Toggle auto-welcome/leave messages
      */
      $("#plugbot-btn-welcome-leave").on("click", function () {
@@ -374,48 +390,51 @@ function djAdvanced(obj) {
         $("#button-vote-positive").click();
     }
 
-    if (djAdvanceCnt == 97) {
-        djAdvanceCnt = 1;
-    } else {
-        djAdvanceCnt++;
-    }
-    if (djAdvanceCnt % 3 == 0) {
-        // send msg to chat
-        safeIt = genNb;
-        genNb = rand();
-        while (Math.floor(safeIt * 10) == Math.floor(genNb * 10)) {
-            genNb = rand();
+    if (autoMsg) {
+        if (djAdvanceCnt == 97) {
+            djAdvanceCnt = 1;
+        } else {
+            djAdvanceCnt++;
         }
-        // send msg after randomized delay betweeb 5 - 60 seconds
-        var delay = getRandomInRange(5000, 60000);        
-        timeoutId = setTimeout(function() {
-            // choose which msg to send - positive vs negative
-            var positive = parseInt($('#room-score-positive-value').text());
-            var negative = parseInt($('#room-score-negative-value').text());
-            if (negative == 0 && positive > 0) {
-                // everyone likes that
-                API.sendChat(msgArrayPositive[Math.floor(genNb * 10)]);
+        if (djAdvanceCnt % 3 == 0) {
+            // send msg to chat
+            safeIt = genNb;
+            genNb = rand();
+            while (Math.floor(safeIt * 10) == Math.floor(genNb * 10)) {
+                genNb = rand();
             }
-            else if (positive <= negative) {
-                // MEH - more dislikes
-                API.sendChat(msgArrayNegative[Math.floor(genNb * 10)]);
-            }
-            else if (positive > negative) {
-                // get negative percentage 
-                if (negative/positive > 0.25) {
-                    // more then 25% of negative votes
-                    API.sendChat(msgArrayNegative[Math.floor(genNb * 10)]);
-                }
-                else {
+            // send msg after randomized delay betweeb 5 - 60 seconds
+            var delay = getRandomInRange(5000, 60000);        
+            timeoutId = setTimeout(function() {
+                // choose which msg to send - positive vs negative
+                var positive = parseInt($('#room-score-positive-value').text());
+                var negative = parseInt($('#room-score-negative-value').text());
+                if (negative == 0 && positive > 0) {
+                    // everyone likes that
                     API.sendChat(msgArrayPositive[Math.floor(genNb * 10)]);
                 }
-            }
-            else {
-                // no votes
-                API.sendChat(msgArrayNeutral[Math.floor(genNb * 10)]);
-            }
-            
-        }, delay);
+                else if (positive <= negative) {
+                    // MEH - more dislikes
+                    API.sendChat(msgArrayNegative[Math.floor(genNb * 10)]);
+                }
+                else if (positive > negative) {
+                    // get negative percentage 
+                    if (negative/positive > 0.25) {
+                        // more then 25% of negative votes
+                        API.sendChat(msgArrayNegative[Math.floor(genNb * 10)]);
+                    }
+                    else {
+                        API.sendChat(msgArrayPositive[Math.floor(genNb * 10)]);
+                    }
+                }
+                else {
+                    // no votes
+                    API.sendChat(msgArrayNeutral[Math.floor(genNb * 10)]);
+                }
+                
+            }, delay);
+        }
+
     }
 
     /*
@@ -754,7 +773,13 @@ function readCookies() {
     userList = value != null ? value : true;
 
     /*
-     * Read userlist cookie (false by default)
+     * Read automsg cookie (false by default)
+     */
+    value = jaaulde.utils.cookies.get(COOKIE_AUTOMSG);
+    autoMsg = value != null ? value: false;
+
+    /*
+     * Read welcome/leave msg cookie (false by default)
      */
     value = jaaulde.utils.cookies.get(COOKIE_WELCOMELEAVEMSG);
     welcomeLeaveMsg = value != null ? value: false;
