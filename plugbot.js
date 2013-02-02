@@ -330,9 +330,10 @@ function djAdvanced(obj) {
     }
     console.log("testing LCG");
     for (var i = 0; i < 10; i++) {
-        console.log(Math.floor(genNb * 10));
+        var test = rand();
+        console.log(Math.floor(test * 10));
     }
-    cnsole.log("...");
+    console.log("...");
 
     if (djAdvanceCnt == 99) {
         djAdvanceCnt = 1;
