@@ -93,10 +93,10 @@ var msgArray = new Array(
 /*
  * LCG
  */
-var a = 69096;
-var b = 1;
+var a = 1664525;
+var b = 1013904223;
 var M = 4294967296; // 2^32
-var ix = 1;
+var ix = 0;
 
 function rand() {
     ix = (ix * a + b) % M;
