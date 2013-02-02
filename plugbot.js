@@ -96,7 +96,7 @@ var msgArray = new Array(
 var a = 69096;
 var b = 1;
 var M = 4294967296; // 2^32
-var ix = 0;
+var ix = 1;
 
 function rand() {
     ix = (ix * a + b) % M;
