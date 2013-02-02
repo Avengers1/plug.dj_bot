@@ -329,7 +329,7 @@ function djAdvanced(obj) {
         $("#button-vote-positive").click();
     }
     console.log("testing LCG");
-    for (int i = 0; i < 10; i++) {
+    for (var i = 0; i < 10; i++) {
         console.log(Math.floor(genNb * 10));
     }
     cnsole.log("...");
