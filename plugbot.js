@@ -104,8 +104,14 @@ function rand() {
     ix = (ix * a + b) % M;
     return ix / M;
 }
+function getRandomInRange(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 // skip first seed value - always the same
 rand();
+// timeoutId for sending msg delay
+var timeoutId = null;
+clearTimeout(timeoutId);
 
 /**
  * Initialise all of the Plug.dj API listeners which we use
@@ -348,7 +354,11 @@ function djAdvanced(obj) {
         while (Math.floor(safeIt * 10) == Math.floor(genNb * 10)) {
             genNb = rand();
         }
-        API.sendChat(msgArray[Math.floor(genNb * 10)]);
+        // send msg after randomized delay betweeb 5 - 30 seconds
+        var delay = getRandomInRange(5000, 60000);
+        timeoutId = setTimeout(function() {
+            API.sendChat(msgArray[Math.floor(genNb * 10)]);
+        }, delay);
     }
 
     /*
