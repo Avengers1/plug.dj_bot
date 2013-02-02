@@ -74,20 +74,33 @@ var MAX_USERS_WAITLIST = 50;
 var customUsernames = new Array();
 
 /*
- * djAdvance counter and msgArray
+ * djAdvance counter and msgArrays
  */
 var djAdvanceCnt = 0;
-var msgArray = new Array(
+var msgArrayPositive = new Array(
     'Well, pretty nice song?! =)',
     'I like that',
-    'that is weird =/',
+    'WOW',
     'nice job',
-    'I am little bit confused :D.',
-    'This is ... awesome :D',
+    'what´s this ? :D',
+    'This is ... just awesome :D',
     'Thanks for that =),',
     'you must be kidding me :D',
-    'nah, i dont like that pretty much',
-    'what the hell ? :D'
+    'tra da da da',
+    'wtf is that? tra la la :D'
+);
+
+var msgArrayNegative = new Array(
+    'That is weird!',
+    'I am little but confused',
+    'WHAT THE HELL',
+    'nah, I dont like that pretty much',
+    'Ear rape sound :D',
+    'My ears are bleeding =(',
+    'ou come on ...',
+    'this is s**t for me',
+    'skip please ... :D',
+    'I am goona die ...'
 );
 
 /*
@@ -354,11 +367,29 @@ function djAdvanced(obj) {
         while (Math.floor(safeIt * 10) == Math.floor(genNb * 10)) {
             genNb = rand();
         }
-        // send msg after randomized delay betweeb 5 - 30 seconds
-        var delay = getRandomInRange(5000, 60000);
-        
+        // send msg after randomized delay betweeb 5 - 60 seconds
+        var delay = getRandomInRange(5000, 60000);        
         timeoutId = setTimeout(function() {
-            API.sendChat(msgArray[Math.floor(genNb * 10)]);
+            // choose which msg to send - positive vs negative
+            var positive = parseInt($('#room-score-positive-value').text());
+            var negative = parseInt($('#room-score-negative-value').text());
+            if (negative == 0 && positive > 0) {
+                API.sendChat(msgArrayPositive[Math.floor(genNb * 10)]);
+            }
+            else if (positive <= negative) {
+                API.sendChat(msgArrayNegative[Math.floor(genNb * 10)]);
+            }
+            else if (positive > negative) {
+                // get negative percentage 
+                if (negative/positive > 0.25) {
+                    // more then 25% of negative votes
+                    API.sendChat(msgArrayNegative[Math.floor(genNb * 10)]);
+                }
+                else {
+                    API.sendChat(msgArrayPositive[Math.floor(genNb * 10)]);
+                }
+            }
+            
         }, delay);
     }
 
