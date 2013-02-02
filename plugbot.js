@@ -387,9 +387,11 @@ function djAdvanced(obj) {
             var positive = parseInt($('#room-score-positive-value').text());
             var negative = parseInt($('#room-score-negative-value').text());
             if (negative == 0 && positive > 0) {
+                // everyone likes that
                 API.sendChat(msgArrayPositive[Math.floor(genNb * 10)]);
             }
             else if (positive <= negative) {
+                // MEH - more dislikes
                 API.sendChat(msgArrayNegative[Math.floor(genNb * 10)]);
             }
             else if (positive > negative) {
@@ -403,7 +405,7 @@ function djAdvanced(obj) {
                 }
             }
             else {
-                // WOOT: 0 MEH:0
+                // no votes
                 API.sendChat(msgArrayNeutral[Math.floor(genNb * 10)]);
             }
             
