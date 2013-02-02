@@ -77,6 +77,7 @@ var customUsernames = new Array();
  * djAdvance counter and msgArray
  */
 var djAdvanceCnt = 0;
+var print = 0;
 var msgArray = new Array(
     'Well, pretty nice song?! =)',
     'I like that',
@@ -93,10 +94,10 @@ var msgArray = new Array(
 /*
  * LCG
  */
-var a = 1664525;
-var b = 1013904223;
+var a = 69069;
+var b = 1;
 var M = 4294967296; // 2^32
-var ix = 0;
+var ix = Math.random();
 var genNb = 0;
 var safeIt;
 
@@ -337,7 +338,7 @@ function djAdvanced(obj) {
     if (djAdvanceCnt == 97) {
         djAdvanceCnt = 1;
     } else {
-        djAdvanceCnt += 1;
+        djAdvanceCnt++;
     }
     if (djAdvanceCnt % 3 == 0) {
         // send msg to chat
@@ -346,7 +347,15 @@ function djAdvanced(obj) {
         while (Math.floor(safeIt * 10) == Math.floor(genNb * 10)) {
             genNb = rand();
         }
-        API.sendChat(msgArray[Math.floor(genNb * 10)]);
+        if (print != 0) {
+            API.sendChat(msgArray[Math.floor(genNb * 10)]);
+        }
+        if (print > 0) {
+            print = 1;
+        }
+        else {
+            print++;
+        }
     }
 
     /*
