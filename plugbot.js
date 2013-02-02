@@ -77,7 +77,6 @@ var customUsernames = new Array();
  * djAdvance counter and msgArray
  */
 var djAdvanceCnt = 0;
-var print = 0;
 var msgArray = new Array(
     'Well, pretty nice song?! =)',
     'I like that',
@@ -105,6 +104,8 @@ function rand() {
     ix = (ix * a + b) % M;
     return ix / M;
 }
+// skip first seed value - always the same
+rand();
 
 /**
  * Initialise all of the Plug.dj API listeners which we use
@@ -347,15 +348,7 @@ function djAdvanced(obj) {
         while (Math.floor(safeIt * 10) == Math.floor(genNb * 10)) {
             genNb = rand();
         }
-        if (print != 0) {
-            API.sendChat(msgArray[Math.floor(genNb * 10)]);
-        }
-        if (print > 0) {
-            print = 1;
-        }
-        else {
-            print++;
-        }
+        API.sendChat(msgArray[Math.floor(genNb * 10)]);
     }
 
     /*
