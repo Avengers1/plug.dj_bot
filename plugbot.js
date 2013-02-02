@@ -53,6 +53,10 @@ var hideVideo;
  * Whether or not the user has enabled the userlist.
  */
 var userList;
+/*
+ * Whether or not the user want to send Welcome/Leave messages
+ */
+var welcomeLeaveMsg;
 
 /*
  * Cookie constants
@@ -61,6 +65,7 @@ var COOKIE_WOOT = 'autowoot';
 var COOKIE_QUEUE = 'autoqueue';
 var COOKIE_HIDE_VIDEO = 'hidevideo';
 var COOKIE_USERLIST = 'userlist';
+var COOKIE_WELCOMELEAVEMSG = 'welcome/leave msg';
 
 /*
  * Maximum amount of people that can be in the waitlist.
@@ -174,29 +179,19 @@ function initAPIListeners() {
      * Whenever a user joins, this listener is called.
      */
     API.addEventListener(API.USER_JOIN, function (user) {
-        if (userList) {
+        if (welcomeLeaveMsg) {
             /*
             var text = "Welcome ";
             var pom = 'Ji' + '\xAE' + 'in';
             if (user.username == pom) {
                 API.sendChat('Welcome Ji' + '\xAE' + 'in');
             }
-            else {
+            else { */
                 API.sendChat('Welcome ' + user.username + ' !');
-            }
-            */
-            //console.log("® char value = " + char_R + ";");
-/*
-            var txt = '';
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function(){
-               if(xmlhttp.status==200 && xmlhttp.readyState==4){
-                   txt=xmlhttp.responseText;
-               }
-            }
-            xmlhttp.open("GET","abc.txt",true);
-            xmlhttp.send();
-*/
+            //}
+        }
+
+        if (userList) {
 
             populateUserlist();
         }
@@ -206,16 +201,17 @@ function initAPIListeners() {
      * Called upon a user exiting the room.
      */
     API.addEventListener(API.USER_LEAVE, function (user) {
-        if (userList) {
+        if (welcomeLeaveMsg) {
             /*
             var pom = 'Ji' + '\xAE' + 'in';
             if (user.username == pom) {
                 API.sendChat('Ji' + '\xAE' + 'in has left the room!');
             }
-            else {
+            else { */
                 API.sendChat('@' + user.username + ' has left the room!');
-            }
-            */
+            //}
+        }
+        if (userList) {
             populateUserlist();
         }
     });
@@ -261,8 +257,9 @@ function displayUI() {
     var cQueue = autoqueue ? "#3FFF00" : "#ED1C24";
     var cHideVideo = hideVideo ? "#3FFF00" : "#ED1C24";
     var cUserList = userList ? "#3FFF00" : "#ED1C24";
+    var cWelcomeLeaveMsg = welcomeLeaveMsg ? "#3FFF00" : "#ED1C24";
     $('#plugbot-ui').append(
-        '<p id="plugbot-btn-woot" style="color:' + cWoot + '">auto-woot</p><p id="plugbot-btn-queue" style="color:' + cQueue + '">auto-queue</p><p id="plugbot-btn-hidevideo" style="color:' + cHideVideo + '">hide video</p><p id="plugbot-btn-userlist" style="color:' + cUserList + '">userlist</p><h2 title="This makes it so you can give a user in the room a special colour when they chat!">Custom Username FX: <br /><br id="space" /><span onclick="promptCustomUsername()" style="cursor:pointer">+ add new</span></h2>');
+        '<p id="plugbot-btn-woot" style="color:' + cWoot + '">auto-woot</p><p id="plugbot-btn-queue" style="color:' + cQueue + '">auto-queue</p><p id="plugbot-btn-hidevideo" style="color:' + cHideVideo + '">hide video</p><p id="plugbot-btn-userlist" style="color:' + cUserList + '">userlist</p><p id="plugbot-btn-welcome-leave" style="color:' + cWelcomeLeaveMsg + '">Welcome/Leave msg</p><h2 title="This makes it so you can give a user in the room a special colour when they chat!">Custom Username FX: <br /><br id="space" /><span onclick="promptCustomUsername()" style="cursor:pointer">+ add new</span></h2>');
 }
 
 /**
@@ -343,6 +340,15 @@ function initUIListeners() {
             joinQueue();
         }
         jaaulde.utils.cookies.set(COOKIE_QUEUE, autoqueue);
+    });
+
+    /*
+     * Toggle auto-welcome/leave messages
+     */
+     $("#plugbot-btn-welcome-leave").on("click", function () {
+        welcomeLeaveMsg = !welcomeLeaveMsg;
+        $(this).css("color", welcomeLeaveMsg ? "#3FFF00" : "#ED1C24");
+        jaaulde.utils.cookies.set(COOKIE_WELCOMELEAVEMSG, welcomeLeaveMsg);
     });
 }
 
@@ -747,6 +753,12 @@ function readCookies() {
     value = jaaulde.utils.cookies.get(COOKIE_USERLIST);
     userList = value != null ? value : true;
 
+    /*
+     * Read userlist cookie (false by default)
+     */
+    value = jaaulde.utils.cookies.get(COOKIE_WELCOMELEAVEMSG);
+    welcomeLeaveMsg = value != null ? value: false;
+
     onCookiesLoaded();
 }
 
@@ -805,7 +817,6 @@ function onCookiesLoaded() {
     initAPIListeners();
     displayUI();
     initUIListeners();
-    appended = true;
 }
 
 /*
