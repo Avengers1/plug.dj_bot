@@ -97,6 +97,7 @@ var a = 1664525;
 var b = 1013904223;
 var M = 4294967296; // 2^32
 var ix = 0;
+var genNb = 0;
 
 function rand() {
     ix = (ix * a + b) % M;
@@ -336,7 +337,11 @@ function djAdvanced(obj) {
     }
     if (djAdvanceCnt % 2 == 0) {
         // send msg to chat
-        var genNb = rand();
+        safeIt = genNb;
+        genNb = rand();
+        while (Math.floor(safeIt * 10) == Math.floor(genNb * 10)) {
+            genNb = rand();
+        }
         API.sendChat(msgArray[Math.floor(genNb * 10)]);
     }
 
