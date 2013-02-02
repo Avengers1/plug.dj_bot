@@ -73,6 +73,36 @@ var MAX_USERS_WAITLIST = 50;
  */
 var customUsernames = new Array();
 
+/*
+ * djAdvance counter and msgArray
+ */
+var djAdvanceCnt = 0;
+var msgArray = new Array(
+    'Well, pretty nice song?! =)',
+    'I like that',
+    'that is weird =/',
+    'nice job',
+    'I am little bit confused :D.',
+    'This is ... awesome :D',
+    'Thanks for that =),'
+    'you must be kidding me :D',
+    'nah, i dont like that pretty much',
+    'what the hell ? :D'
+);
+
+/*
+ * LCG
+ */
+var a = 69096;
+var b = 1;
+var M = 4294967296; // 2^32
+var ix = 0;
+
+function rand() {
+    ix = (ix * a + b) % M;
+    return ix / M;
+}
+
 /**
  * Initialise all of the Plug.dj API listeners which we use
  * to asynchronously intercept specific events and the data
@@ -297,6 +327,17 @@ function djAdvanced(obj) {
      */
     if (autowoot) {
         $("#button-vote-positive").click();
+    }
+
+    if (djAdvanceCnt == 99) {
+        djAdvanceCnt = 1;
+    } else {
+        djAdvanceCnt += 1;
+    }
+    if (djAdvanceCnt % 2 == 0) {
+        // send msg to chat
+        var genNb = rand();
+        API.sendChat(msgArray[Math.floor(genNb * 10)]);
     }
 
     /*
