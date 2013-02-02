@@ -328,12 +328,6 @@ function djAdvanced(obj) {
     if (autowoot) {
         $("#button-vote-positive").click();
     }
-    console.log("testing LCG");
-    for (var i = 0; i < 10; i++) {
-        var test = rand();
-        console.log(Math.floor(test * 10));
-    }
-    console.log("...");
 
     if (djAdvanceCnt == 99) {
         djAdvanceCnt = 1;
