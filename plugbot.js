@@ -103,6 +103,19 @@ var msgArrayNegative = new Array(
     'I am goona die ...'
 );
 
+var msgArrayNeutral = new Array(
+    'No votes ?',
+    'nothing ?',
+    'vote please',
+    'like it ...',
+    'What about voting ...',
+    'No votes ?',
+    'nothing ?',
+    'vote please',
+    'like it ...',
+    'What about voting ...'
+);
+
 /*
  * LCG
  */
@@ -388,6 +401,10 @@ function djAdvanced(obj) {
                 else {
                     API.sendChat(msgArrayPositive[Math.floor(genNb * 10)]);
                 }
+            }
+            else {
+                // WOOT: 0 MEH:0
+                API.sendChat(msgArrayNeutral[Math.floor(genNb * 10)]);
             }
             
         }, delay);
