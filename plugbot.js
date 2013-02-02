@@ -356,6 +356,7 @@ function djAdvanced(obj) {
         }
         // send msg after randomized delay betweeb 5 - 30 seconds
         var delay = getRandomInRange(5000, 60000);
+        
         timeoutId = setTimeout(function() {
             API.sendChat(msgArray[Math.floor(genNb * 10)]);
         }, delay);
