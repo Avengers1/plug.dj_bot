@@ -84,7 +84,7 @@ var msgArray = new Array(
     'nice job',
     'I am little bit confused :D.',
     'This is ... awesome :D',
-    'Thanks for that =),'
+    'Thanks for that =),',
     'you must be kidding me :D',
     'nah, i dont like that pretty much',
     'what the hell ? :D'
