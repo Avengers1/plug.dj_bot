@@ -391,12 +391,12 @@ function djAdvanced(obj) {
     }
 
     if (autoMsg) {
-        if (djAdvanceCnt == 97) {
+        if (djAdvanceCnt == 101) {
             djAdvanceCnt = 1;
         } else {
             djAdvanceCnt++;
         }
-        if (djAdvanceCnt % 3 == 0) {
+        if (djAdvanceCnt % 10 == 0) {
             // send msg to chat
             safeIt = genNb;
             genNb = rand();
