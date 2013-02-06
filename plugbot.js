@@ -183,11 +183,22 @@ function initAPIListeners() {
             var score = API.getRoomScore();
             var woots = score.positive;
             var mehs = score.negative;
+            var votes = woots + mehs;
+            var mehsRatio = mehs/woots;
+            var wootsRatio = woots/mehs;
             var Djs = new Array();
+
             Djs = API.getDJs();
 
-            if (woots + mehs >= 15) {
-                if (mehs/woots >= 0.5) {
+
+            if (votes >= 10 && votes <= 20) {
+                if (mehsRatio >= 0.5) {
+                    API.moderateForceSkip();
+                    API.sendChat('/em ' + Djs[0].username + 'has been skipped due to bad score ratio.');
+                }
+            }
+            if (votes >= 21) {
+                if (mehsRatio >= 0.35) {
                     API.moderateForceSkip();
                     API.sendChat('/em ' + Djs[0].username + 'has been skipped due to bad score ratio.');
                 }
