@@ -65,6 +65,8 @@ var autoMsg;
 
 var autoForceSkip;
 
+var mediaObj;
+
 /*
  * Cookie constants
  */
@@ -149,6 +151,15 @@ function getRandomInRange(min, max) {
 }
 // skip first seed value - always the same
 rand();
+
+function printObject(o) {
+  var out = '';
+  for (var p in o) {
+    out += p + ': ' + o[p] + '\n';
+  }
+  console.log("object proprerty: " + out);
+}
+
 // timeoutId for sending msg delay
 var timeoutId = null;
 clearTimeout(timeoutId);
@@ -424,6 +435,7 @@ function initUIListeners() {
     });
 }
 
+
 /**
  * Called whenever a new DJ begins playing in the room.
  *
@@ -438,6 +450,9 @@ function djAdvanced(obj) {
         $("#yt-frame").css("height", "0px");
         $("#playback .frame-background").css("opacity", "0.0");
     }
+
+    mediaObj = API.getMedia();
+    printObject(mediaObj);
 
     /*
      * If auto-woot is enabled, WOOT! the song.
