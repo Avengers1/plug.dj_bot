@@ -396,7 +396,7 @@ function djAdvanced(obj) {
         } else {
             djAdvanceCnt++;
         }
-        if (djAdvanceCnt % 10 == 0) {
+        if (djAdvanceCnt % 9 == 0) {
             // send msg to chat
             safeIt = genNb;
             genNb = rand();
@@ -743,6 +743,7 @@ function readCookies() {
      */
     var currentDate = new Date();
     currentDate.setFullYear(currentDate.getFullYear() + 1); //Cookies expire after 1 year
+    console.log("current cokkie date: " + currentDate);
     var newOptions = {
         expiresAt: currentDate
     }
