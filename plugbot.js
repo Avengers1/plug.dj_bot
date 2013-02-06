@@ -63,6 +63,8 @@ var welcomeLeaveMsg;
  */
 var autoMsg;
 
+var autoForceSkip;
+
 /*
  * Cookie constants
  */
@@ -72,6 +74,7 @@ var COOKIE_HIDE_VIDEO = 'hidevideo';
 var COOKIE_USERLIST = 'userlist';
 var COOKIE_WELCOMELEAVEMSG = 'welcome/leave msg';
 var COOKIE_AUTOMSG = 'automsg';
+var COOKIE_AUTOFORCESKIP = 'autoforceskip';
 
 /*
  * Maximum amount of people that can be in the waitlist.
@@ -176,6 +179,11 @@ function initAPIListeners() {
      * or Mehs the current song.
      */
     API.addEventListener(API.VOTE_UPDATE, function (obj) {
+        if (autoForceSkip) {
+           var score = API.getRoomScore();
+           console.log("score:\n" + score);
+        }
+
         if (userList) {
             populateUserlist();
         }
@@ -223,6 +231,26 @@ function initAPIListeners() {
     });
 
     API.addEventListener(API.CHAT, checkCustomUsernames);
+
+    /*
+        This is called when an incoming chat arrives. It passes a chat object.
+
+        USAGE
+        API.addEventListener(API.CHAT, callback);
+        function callback(data)
+        {
+        data.type
+        // "message", "emote", "moderation", "system"
+        data.from
+        // the username of the person
+        data.fromID
+        // the user id of the person
+        data.message
+        // the chat message
+        data.language
+        // the two character code of the incoming language
+        }
+    */
 }
 
 /**
@@ -265,8 +293,9 @@ function displayUI() {
     var cUserList = userList ? "#3FFF00" : "#ED1C24";
     var cWelcomeLeaveMsg = welcomeLeaveMsg ? "#3FFF00" : "#ED1C24";
     var cAutoMsg = autoMsg ? "#3FFF00" : "#ED1C24";
+    var cAutoForceSkip = autoForceSkip ? "#3FFF00" : "#ED1C24";
     $('#plugbot-ui').append(
-        '<p id="plugbot-btn-woot" style="color:' + cWoot + '">auto-woot</p><p id="plugbot-btn-queue" style="color:' + cQueue + '">auto-queue</p><p id="plugbot-btn-hidevideo" style="color:' + cHideVideo + '">hide video</p><p id="plugbot-btn-userlist" style="color:' + cUserList + '">userlist</p><p id="plugbot-btn-welcome-leave" style="color:' + cWelcomeLeaveMsg + '">Welcome/leave msgs</p><p id="plugbot-btn-auto-msg" style="color:' + cAutoMsg + '">Autosending msgs</p><h2 title="This makes it so you can give a user in the room a special colour when they chat!">Custom Username FX: <br /><br id="space" /><span onclick="promptCustomUsername()" style="cursor:pointer">+ add new</span></h2>');
+        '<p id="plugbot-btn-woot" style="color:' + cWoot + '">auto-woot</p><p id="plugbot-btn-queue" style="color:' + cQueue + '">auto-queue</p><p id="plugbot-btn-hidevideo" style="color:' + cHideVideo + '">hide video</p><p id="plugbot-btn-userlist" style="color:' + cUserList + '">userlist</p><p id="plugbot-btn-auto-forceskip" style="color:' + cAutoForceSkip + '">AutoForceSkip</p><p id="plugbot-btn-welcome-leave" style="color:' + cWelcomeLeaveMsg + '">autoForceSkip</p><p id="plugbot-btn-auto-msg" style="color:' + cAutoMsg + '">Autosending msgs</p><h2 title="This makes it so you can give a user in the room a special colour when they chat!">Custom Username FX: <br /><br id="space" /><span onclick="promptCustomUsername()" style="cursor:pointer">+ add new</span></h2>');
 }
 
 /**
@@ -361,10 +390,16 @@ function initUIListeners() {
     /*
      * Toggle auto-welcome/leave messages
      */
-     $("#plugbot-btn-welcome-leave").on("click", function () {
+    $("#plugbot-btn-welcome-leave").on("click", function () {
         welcomeLeaveMsg = !welcomeLeaveMsg;
         $(this).css("color", welcomeLeaveMsg ? "#3FFF00" : "#ED1C24");
         jaaulde.utils.cookies.set(COOKIE_WELCOMELEAVEMSG, welcomeLeaveMsg);
+    });
+
+    $("#plugbot-btn-auto-forceskip").on("click", function () {
+        autoForceSkip = !autoForceSkip;
+        $(this).css("color", autoForceSkip ? "#3FFF00" : "#ED1C24");
+        jaaulde.utils.cookies.set(COOKIE_AUTOFORCESKIP, autoForceSkip);
     });
 }
 
@@ -411,25 +446,25 @@ function djAdvanced(obj) {
                 var negative = parseInt($('#room-score-negative-value').text());
                 if (negative == 0 && positive > 0) {
                     // everyone likes that
-                    API.sendChat('/em ' + msgArrayPositive[Math.floor(genNb * 10)]);
+                    API.sendChat(msgArrayPositive[Math.floor(genNb * 10)]);
                 }
                 else if (positive <= negative) {
                     // MEH - more dislikes
-                    API.sendChat('/em ' + msgArrayNegative[Math.floor(genNb * 10)]);
+                    API.sendChat(msgArrayNegative[Math.floor(genNb * 10)]);
                 }
                 else if (positive > negative) {
                     // get negative percentage 
                     if (negative/positive > 0.25) {
                         // more then 25% of negative votes
-                        API.sendChat('/em ' + msgArrayNegative[Math.floor(genNb * 10)]);
+                        API.sendChat(msgArrayNegative[Math.floor(genNb * 10)]);
                     }
                     else {
-                        API.sendChat('\\em ' + msgArrayPositive[Math.floor(genNb * 10)]);
+                        API.sendChat(msgArrayPositive[Math.floor(genNb * 10)]);
                     }
                 }
                 else {
                     // no votes
-                    API.sendChat('/em ' + msgArrayNeutral[Math.floor(genNb * 10)]);
+                    API.sendChat(msgArrayNeutral[Math.floor(genNb * 10)]);
                 }
                 
             }, delay);
