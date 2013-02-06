@@ -180,8 +180,15 @@ function initAPIListeners() {
      */
     API.addEventListener(API.VOTE_UPDATE, function (obj) {
         if (autoForceSkip) {
-           var score = API.getRoomScore();
-           console.log("score:\n" + score);
+            var score = API.getRoomScore();
+            var woots = score.positive;
+            var mehs = score.negative;
+
+            if (woots + mehs >= 15) {
+                if (mehs/woots >= 0.5) {
+                    API.moderateForceSkip();
+                }
+            }
         }
 
         if (userList) {
@@ -295,7 +302,7 @@ function displayUI() {
     var cAutoMsg = autoMsg ? "#3FFF00" : "#ED1C24";
     var cAutoForceSkip = autoForceSkip ? "#3FFF00" : "#ED1C24";
     $('#plugbot-ui').append(
-        '<p id="plugbot-btn-woot" style="color:' + cWoot + '">auto-woot</p><p id="plugbot-btn-queue" style="color:' + cQueue + '">auto-queue</p><p id="plugbot-btn-hidevideo" style="color:' + cHideVideo + '">hide video</p><p id="plugbot-btn-userlist" style="color:' + cUserList + '">userlist</p><p id="plugbot-btn-auto-forceskip" style="color:' + cAutoForceSkip + '">AutoForceSkip</p><p id="plugbot-btn-welcome-leave" style="color:' + cWelcomeLeaveMsg + '">autoForceSkip</p><p id="plugbot-btn-auto-msg" style="color:' + cAutoMsg + '">Autosending msgs</p><h2 title="This makes it so you can give a user in the room a special colour when they chat!">Custom Username FX: <br /><br id="space" /><span onclick="promptCustomUsername()" style="cursor:pointer">+ add new</span></h2>');
+        '<p id="plugbot-btn-woot" style="color:' + cWoot + '">auto-woot</p><p id="plugbot-btn-queue" style="color:' + cQueue + '">auto-queue</p><p id="plugbot-btn-hidevideo" style="color:' + cHideVideo + '">hide video</p><p id="plugbot-btn-userlist" style="color:' + cUserList + '">userlist</p><p id="plugbot-btn-auto-forceskip" style="color:' + cAutoForceSkip + '">AutoForceSkip</p><p id="plugbot-btn-welcome-leave" style="color:' + cWelcomeLeaveMsg + '">welcome/leave msgs</p><p id="plugbot-btn-auto-msg" style="color:' + cAutoMsg + '">Autosending msgs</p><h2 title="This makes it so you can give a user in the room a special colour when they chat!">Custom Username FX: <br /><br id="space" /><span onclick="promptCustomUsername()" style="cursor:pointer">+ add new</span></h2>');
 }
 
 /**
