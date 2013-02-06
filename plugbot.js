@@ -185,7 +185,6 @@ function initAPIListeners() {
             var mehs = score.negative;
             var Djs = new Array();
             Djs = API.getDJs();
-            console.log("dj USERNAME : " + Djs[0].username);
 
             if (woots + mehs >= 15) {
                 if (mehs/woots >= 0.5) {
