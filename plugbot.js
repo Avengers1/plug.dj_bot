@@ -193,7 +193,7 @@ function initAPIListeners() {
                 API.sendChat('Welcome Ji' + '\xAE' + 'in');
             }
             else { */
-                API.sendChat('\\em ' + 'Welcome ' + user.username + ' !');
+                API.sendChat('/em ' + 'Welcome ' + user.username + ' !');
             //}
         }
 
@@ -214,7 +214,7 @@ function initAPIListeners() {
                 API.sendChat('Ji' + '\xAE' + 'in has left the room!');
             }
             else { */
-                API.sendChat('\\em ' + '@' + user.username + ' has left the room!');
+                API.sendChat('/em ' + '@' + user.username + ' has left the room!');
             //}
         }
         if (userList) {
@@ -411,17 +411,17 @@ function djAdvanced(obj) {
                 var negative = parseInt($('#room-score-negative-value').text());
                 if (negative == 0 && positive > 0) {
                     // everyone likes that
-                    API.sendChat('\\em ' + msgArrayPositive[Math.floor(genNb * 10)]);
+                    API.sendChat('/em ' + msgArrayPositive[Math.floor(genNb * 10)]);
                 }
                 else if (positive <= negative) {
                     // MEH - more dislikes
-                    API.sendChat('\\em ' + msgArrayNegative[Math.floor(genNb * 10)]);
+                    API.sendChat('/em ' + msgArrayNegative[Math.floor(genNb * 10)]);
                 }
                 else if (positive > negative) {
                     // get negative percentage 
                     if (negative/positive > 0.25) {
                         // more then 25% of negative votes
-                        API.sendChat('\\em ' + msgArrayNegative[Math.floor(genNb * 10)]);
+                        API.sendChat('/em ' + msgArrayNegative[Math.floor(genNb * 10)]);
                     }
                     else {
                         API.sendChat('\\em ' + msgArrayPositive[Math.floor(genNb * 10)]);
@@ -429,7 +429,7 @@ function djAdvanced(obj) {
                 }
                 else {
                     // no votes
-                    API.sendChat('\\em ' + msgArrayNeutral[Math.floor(genNb * 10)]);
+                    API.sendChat('/em ' + msgArrayNeutral[Math.floor(genNb * 10)]);
                 }
                 
             }, delay);
