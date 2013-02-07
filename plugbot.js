@@ -73,7 +73,8 @@ var autoForceSkip;
  */
 var prevDj = API.getDJs()[0].username;
 var savedScore = new Array(0, 0, 0, 0);
-var savedSong = new Array(getMedia().author, getMedia().title);
+var song = getMedia();
+var savedSong = new Array(song.author, song.title);
 
 var woots, mehs, curates, votes, mehsRatio, wootsRatio, percentil;
 var clearScore = true;
