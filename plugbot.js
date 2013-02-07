@@ -164,7 +164,9 @@ rand();
 
 // timeoutId for sending msg delay
 var timeoutId = null;
+var songTimeoutId = null;
 clearTimeout(timeoutId);
+clearTimeout(songTimeoutId);
 
 function printObject(o) {
   var out = '';
@@ -481,12 +483,15 @@ function initUIListeners() {
  */
 function djAdvanced(obj) {
 
-    var currentDj = obj.dj;
+    if (autoForceSkip) {
+        clearTimeout(songTimeoutId);
+    }
     if (djAdvanceCnt == 101) {
         djAdvanceCnt = 1;
     } else {
         djAdvanceCnt++;
     }
+    var currentDj = obj.dj;
 
     if (hostingBot) {
         // DJ just left the booth
@@ -494,6 +499,15 @@ function djAdvanced(obj) {
                     + ' with score: WOOTS-' + savedScore[0] + ', MEHS-' + savedScore[1]
                     + ', CURATES-' + savedScore[2] + ' and final ratio ' + Math.floor(savedScore[3] * 100) + '%';
         API.sendChat(msg);
+    }
+    if (autoForceSkip) {
+        var duration = obj.media.duration;
+        if (duration > 480) {
+            songTimeoutId = setTimeout(function() {
+                API.sendChat('/em ' + prevDj + 'has been skipped due to reaching song length limit of 8 minutes!');
+                API.moderateForceSkip();
+            });
+        }
     }
     /*
      * If they want the video to be hidden, be sure to re-hide it.
