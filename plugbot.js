@@ -215,13 +215,13 @@ function initAPIListeners() {
             if (votes >= 10 && votes <= 20) {
                 if (mehsRatio >= 0.5) {
                     API.moderateForceSkip();
-                    API.sendChat('/em ' + Djs[0].username + 'has been skipped due to bad score ratio.');
+                    API.sendChat('/em ' + ': ' + Djs[0].username + 'has been skipped due to bad score ratio.');
                 }
             }
             if (votes >= 21) {
                 if (mehsRatio >= 0.35) {
                     API.moderateForceSkip();
-                    API.sendChat('/em ' + Djs[0].username + 'has been skipped due to bad score ratio.');
+                    API.sendChat('/em ' + ': ' + Djs[0].username + 'has been skipped due to bad score ratio.');
                 }
             }
         }
@@ -257,7 +257,7 @@ function initAPIListeners() {
     API.addEventListener(API.CURATE_UPDATE, function (obj) {
         if (hostingBot) {
             var media = API.getMedia();
-            API.sendChat('/em ' + obj.user.username + " just added " + media.author + " - " + media.title);
+            API.sendChat('/em ' + ': ' + obj.user.username + " just added " + media.author + " - " + media.title);
         }
     });
 
@@ -273,7 +273,7 @@ function initAPIListeners() {
                 API.sendChat('Welcome Ji' + '\xAE' + 'in');
             }
             else { */
-                API.sendChat('/em ' + 'Welcome ' + user.username + ' !');
+                API.sendChat('/em ' + ': ' + 'Welcome ' + user.username + ' !');
             //}
         }
 
@@ -294,7 +294,7 @@ function initAPIListeners() {
                 API.sendChat('Ji' + '\xAE' + 'in has left the room!');
             }
             else { */
-                API.sendChat('/em ' + '@' + user.username + ' has left the room!');
+                API.sendChat('/em ' + ': ' + user.username + ' has left the room!');
             //}
         }
         if (userList) {
@@ -504,7 +504,7 @@ function djAdvanced(obj) {
 
     if (hostingBot) {
         // DJ just left the booth
-        var msg = '/em ' + prevDj + ' just played ' + savedSong[0] + '-' + savedSong[1]
+        var msg = '/em ' + ': ' + prevDj + ' just played ' + savedSong[0] + '-' + savedSong[1]
                     + ' and achieved ' + savedScore[0] + ' WOOTS' + ', ' + savedScore[1] + ' MEHS, '
                     + savedScore[2] + ' CURATES and final ratio of ' + Math.floor(savedScore[3] * 100) + '%';
         API.sendChat(msg);
@@ -513,7 +513,7 @@ function djAdvanced(obj) {
         var duration = obj.media.duration;
         if (duration > 480) {
             songTimeoutId = setTimeout(function() {
-                API.sendChat('/em ' + prevDj + 'has been skipped due to reaching song length limit of 8 minutes!');
+                API.sendChat('/em ' + ': ' + prevDj + 'has been skipped due to reaching song length limit of 8 minutes!');
                 API.moderateForceSkip();
             });
         }
