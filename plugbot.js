@@ -252,6 +252,13 @@ function initAPIListeners() {
         }
     });
 
+    API.addEventListener(API.CURATE_UPDATE, function (obj) {
+        if (hostingBot) {
+            var media = API.getMedia();
+            API.sendChat('/em ' + obj.user + "just added " + media.author + " - " + media.title);
+        }
+    });
+
     /*
      * Whenever a user joins, this listener is called.
      */
@@ -496,8 +503,8 @@ function djAdvanced(obj) {
     if (hostingBot) {
         // DJ just left the booth
         var msg = '/em ' + prevDj + 'jus played ' + obj.media.author + '-' + obj.media.title
-                    + ' with score: WOOTS-' + savedScore[0] + ', MEHS-' + savedScore[1]
-                    + ', CURATES-' + savedScore[2] + ' and final ratio ' + Math.floor(savedScore[3] * 100) + '%';
+                    + ' and achieved ' + savedScore[0] + ' WOOTS' + ', ' + savedScore[1] + ' MEHS, '
+                    + savedScore[2] + ' CURATES and final ratio of ' + Math.floor(savedScore[3] * 100) + '%';
         API.sendChat(msg);
     }
     if (autoForceSkip) {
