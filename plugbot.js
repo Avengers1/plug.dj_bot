@@ -71,9 +71,9 @@ var autoForceSkip;
 /*
  * global variables
  */
-var savedDj = new Object();
-var score = new Object();
-var savedScore = new Object();
+var savedDj;
+var score;
+var savedScore;
 
 var woots, mehs, curates, votes, mehsRatio, wootsRatio;
 var clearScore = true;
@@ -181,7 +181,7 @@ function printObject(o) {
  * attached with them.
  */
 function initAPIListeners() {
-    
+
     API.addEventListener(API.ROOM_SCORE_UPDATE, function (obj) {
 
         woots = obj.positive;
@@ -211,6 +211,7 @@ function initAPIListeners() {
             if (obj.positive == 0 && obj.negative == 0) {
                 // save score
                 savedScore = score;
+                printObject(savedScore);
                 clearScore = true;
             }
             else {
@@ -481,7 +482,8 @@ function djAdvanced(obj) {
     }
     if (hostingBot) {
         // DJ just left the booth
-        console.log("SCORE:\n WOOTS:" + savedScore.positive + '\nMEHS:' + savedScore.negative);
+        console.log("DK ADVANCED\n");
+        printObject(savedScore);
 
     }
     /*
