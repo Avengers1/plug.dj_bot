@@ -283,6 +283,7 @@ function initAPIListeners() {
         // the two character code of the incoming language
         var zprava = new Object();
         var ja = API.getSelf();
+        printObject(ja);
         zprava.type = "message";
         zprava.from = ja.username;
         zprava.fromID = 50fc0b9fc3b97a409682a3d0;
