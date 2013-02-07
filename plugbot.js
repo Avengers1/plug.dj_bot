@@ -229,11 +229,9 @@ function initAPIListeners() {
                 // save score
                 savedScore = obj;
                 clearScore = false;
-                console.log("ROOM SCORE > 0");
             }
             else {
                 clearScore = true;
-                console.log("ROOM SCORE = 0");
             }
         }
 
@@ -474,14 +472,8 @@ function initUIListeners() {
  */
 function djAdvanced(obj) {
     console.log("DJ ADVANCE");
-    if (obj == null) return; // no dj
-var str = "";
-var currentDJ = obj.dj;
-str += currentDJ.username;
-var total = currentDJ.djPoints + currentDJ.listenerPoints + currentDJ.curatorPoints;
-str += " points: " + total;
-str += ", fans: " + currentDJ.fans;
-str += " || " + obj.media.author + " - " + obj.media.title;
+    if (obj == null) alert("DJ odchazi"); // no dj
+var str = "score: " + score.score;
 alert(str);
     /*
      * If they want the video to be hidden, be sure to re-hide it.
