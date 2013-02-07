@@ -479,7 +479,7 @@ function djAdvanced(obj) {
     }
     if (obj == null) {
         // DJ just left the booth
-        console.log("DJ left the booth : WOOT - " + score.positive + ' MEHS - ' + score.negative + 'CURATES - ' score.curates);
+        console.log("DJ left the booth : WOOT - " + score.positive + ' MEHS - ' + score.negative + 'CURATES - ' + score.curates);
         console.log("clearScore :" + clearScore);
 
     }
