@@ -485,7 +485,7 @@ function djAdvanced(obj) {
     if (hostingBot) {
         // DJ just left the booth
         if (savedScore[0] != 0) {
-            console.log("TAK BACHA !!!!!!!!!!!!!!!!!!!!!\n" + 'WOOTS-' + savedScore[0] + ' MEHS-' + savedScore[1);
+            console.log("TAK BACHA !!!!!!!!!!!!!!!!!!!!!\n" + 'WOOTS-' + savedScore[0] + ' MEHS-' + savedScore[1]);
         }
     }
     /*
