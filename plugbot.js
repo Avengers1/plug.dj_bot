@@ -71,8 +71,7 @@ var autoForceSkip;
 /*
  * global variables
  */
-var arr = API.getDJs;
-var prevDj = arr[0];
+var prevDj = API.getDJs()[0].username;
 var savedScore = new Array(0, 0, 0, 0);
 
 var woots, mehs, curates, votes, mehsRatio, wootsRatio, percentil;
@@ -555,6 +554,8 @@ function djAdvanced(obj) {
     if (userList) {
         populateUserlist();
     }
+
+    prevDj = currentDj.username;
     
 }
 
