@@ -72,6 +72,7 @@ var autoForceSkip;
  * global variables
  */
 var savedDj = new Object();
+var score = new Object();
 var savedScore = new Object();
 
 var woots, mehs, curates, votes, mehsRatio, wootsRatio;
@@ -227,9 +228,8 @@ function initAPIListeners() {
         if (hostingBot) {
             if (obj.positive + obj.negative > 0) {
                 // save score
-                savedScore = obj;
+                score = obj;
                 clearScore = false;
-                printObject(savedScore);
             }
             else {
                 clearScore = true;
@@ -472,9 +472,16 @@ function initUIListeners() {
  *        This contains the current DJ's data.
  */
 function djAdvanced(obj) {
+    if (djAdvanceCnt == 101) {
+        djAdvanceCnt = 1;
+    } else {
+        djAdvanceCnt++;
+    }
     if (obj == null) {
-        var str = "score: " + savedScore.positive + ' ' + savedScore.negative;
-        alert(str);
+        // DJ just left the booth
+        console.log("DJ left the booth : WOOT - " + score.positive + ' MEHS - ' + score.negative + 'CURATES - ' score.curates);
+        console.log("clearScore :" + clearScore);
+
     }
     /*
      * If they want the video to be hidden, be sure to re-hide it.
@@ -492,11 +499,6 @@ function djAdvanced(obj) {
     }
 
     if (autoMsg) {
-        if (djAdvanceCnt == 101) {
-            djAdvanceCnt = 1;
-        } else {
-            djAdvanceCnt++;
-        }
         if (djAdvanceCnt % 8 == 0) {
             // send msg to chat
             safeIt = genNb;
