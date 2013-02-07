@@ -200,8 +200,7 @@ function initAPIListeners() {
      */
     API.addEventListener(API.ROOM_SCORE_UPDATE, function (obj) {
         console.log("ROOM_SCORE_UPDATE");
-
-    }
+    });
 
     API.addEventListener(API.VOTE_UPDATE, function (obj) {
         score = API.getRoomScore();
