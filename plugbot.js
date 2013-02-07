@@ -71,7 +71,8 @@ var autoForceSkip;
 /*
  * global variables
  */
-var savedDj;
+var arr = API.getDJs;
+var prevDj = arr[0];
 var savedScore = new Array(0, 0, 0, 0);
 
 var woots, mehs, curates, votes, mehsRatio, wootsRatio, percentil;
@@ -476,6 +477,8 @@ function initUIListeners() {
  *        This contains the current DJ's data.
  */
 function djAdvanced(obj) {
+
+    var currentDj = obj.dj;
     if (djAdvanceCnt == 101) {
         djAdvanceCnt = 1;
     } else {
@@ -484,9 +487,10 @@ function djAdvanced(obj) {
 
     if (hostingBot) {
         // DJ just left the booth
-        if (savedScore[0] != 0) {
-            console.log("TAK BACHA !!!!!!!!!!!!!!!!!!!!!\n" + 'WOOTS-' + savedScore[0] + ' MEHS-' + savedScore[1]);
-        }
+        var msg = '/em ' + prevDj + 'jus played ' + obj.media.author + '-' + obj.media.title
+                    + ' with score: WOOTS-' + savedScore[0] + ', MEHS-' + savedScore[1]
+                    + ', CURATES-' + savedScore[2] + ' and final ratio ' + Math.floor(savedScore[3] * 100) + '%';
+        console.log(msg);
     }
     /*
      * If they want the video to be hidden, be sure to re-hide it.
