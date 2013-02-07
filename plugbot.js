@@ -63,18 +63,19 @@ var hostingBot;
  */
 var autoMsg;
 
+/*
+ * Whether or not the user want to auto force skip mod
+ */
 var autoForceSkip;
 
-var currentDj = new Array();
-var savedDj = new Array();
-savedDj[0] = 0;
-var score = new Object();
+/*
+ * global variables
+ */
+var savedDj = new Object();
 var savedScore = new Object();
-savedScore = null;
 
 var woots, mehs, curates, votes, mehsRatio, wootsRatio;
-/*
- * Dj[0] - Dj object, Dj[1] - media object, Dj[2] - room score
+var clearScore = true;
 
 /*
  * Cookie constants
@@ -199,13 +200,10 @@ function initAPIListeners() {
      * or Mehs the current song.
      */
     API.addEventListener(API.ROOM_SCORE_UPDATE, function (obj) {
-        console.log("ROOM_SCORE_UPDATE");
-    });
 
-    API.addEventListener(API.VOTE_UPDATE, function (obj) {
-        score = API.getRoomScore();
-        woots = score.positive;
-        mehs = score.negative;
+        woots = obj.positive;
+        mehs = obj.negative;
+        curates = obj.curates;
         votes = woots + mehs;
         mehsRatio = mehs/woots;
         wootsRatio = woots/mehs;
@@ -226,7 +224,24 @@ function initAPIListeners() {
                 }
             }
         }
+        if (hostingBot) {
+            if (obj.positive + obj.negative > 0) {
+                // save score
+                savedScore = obj;
+                clearScore = false;
+                console.log("ROOM SCORE > 0");
+            }
+            else {
+                clearScore = true;
+                console.log("ROOM SCORE = 0");
+            }
+        }
 
+
+        
+    });
+
+    API.addEventListener(API.VOTE_UPDATE, function (obj) {
         if (userList) {
             populateUserlist();
         }
@@ -458,6 +473,16 @@ function initUIListeners() {
  *        This contains the current DJ's data.
  */
 function djAdvanced(obj) {
+    console.log("DJ ADVANCE");
+    if (obj == null) return; // no dj
+var str = "";
+var currentDJ = obj.dj;
+str += currentDJ.username;
+var total = currentDJ.djPoints + currentDJ.listenerPoints + currentDJ.curatorPoints;
+str += " points: " + total;
+str += ", fans: " + currentDJ.fans;
+str += " || " + obj.media.author + " - " + obj.media.title;
+alert(str);
     /*
      * If they want the video to be hidden, be sure to re-hide it.
      */
@@ -465,25 +490,6 @@ function djAdvanced(obj) {
         $("#yt-frame").css("height", "0px");
         $("#playback .frame-background").css("opacity", "0.0");
     }
-/*
-    currentDj[0] = obj;
-    currentDj[1] = API.getMedia();
-
-    if (notifications) {
-        if (savedDj[0] != 0) {
-            API.sendChat('/em ' + savedDj[0].username
-                + ' just played ' + savedDj[1].title
-                + ' with score: WOOTS-' + ', MEHS-');
-        }
-    }
-*/
-    /*
-        media obj
-            .title
-            .duration
-            .author
-            ...
-    */
 
     /*
      * If auto-woot is enabled, WOOT! the song.
