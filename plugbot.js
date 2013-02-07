@@ -72,10 +72,13 @@ var autoForceSkip;
  * global variables
  */
 var savedDj;
-var score;
-var savedScore;
+var savedScore = new Object();
+savedScore.positive = 0;
+savedScore.negative = 0;
+savedScore.curates = 0;
+savedScore.score = 0;
 
-var woots, mehs, curates, votes, mehsRatio, wootsRatio;
+var woots, mehs, curates, votes, mehsRatio, wootsRatio, percentil;
 var clearScore = true;
 
 /*
@@ -184,12 +187,27 @@ function initAPIListeners() {
 
     API.addEventListener(API.ROOM_SCORE_UPDATE, function (obj) {
 
-        woots = obj.positive;
-        mehs = obj.negative;
-        curates = obj.curates;
-        votes = woots + mehs;
-        mehsRatio = mehs/woots;
-        wootsRatio = woots/mehs;
+        if (hostingBot) {
+
+            if (obj.positive != 0 && obj.negative != 0) {
+                woots = obj.positive;
+                mehs = obj.negative;
+                curates = obj.curates;
+                percentil = obj.score;
+                votes = woots + mehs;
+                mehsRatio = mehs/woots;
+                wootsRatio = woots/mehs;
+                clearScore = false;
+            }
+            else {
+                clearScore = true;
+                savedScore.positive = woots;
+                savedScore.negative = mehs;
+                savedScore.curates = curates;
+                savedScore.score = percentil;
+            }
+
+        }
 
         if (autoForceSkip) {
             var Djs = API.getDJs();
@@ -207,19 +225,6 @@ function initAPIListeners() {
                 }
             }
         }
-        if (hostingBot) {
-            if (obj.positive == 0 && obj.negative == 0) {
-                // save score
-                savedScore = score;
-                printObject(savedScore);
-                clearScore = true;
-            }
-            else {
-                clearScore = false;
-                score = obj;
-            }
-        }
-
 
         
     });
@@ -480,11 +485,10 @@ function djAdvanced(obj) {
     } else {
         djAdvanceCnt++;
     }
+
     if (hostingBot) {
         // DJ just left the booth
-        console.log("DK ADVANCED\n");
         printObject(savedScore);
-
     }
     /*
      * If they want the video to be hidden, be sure to re-hide it.
