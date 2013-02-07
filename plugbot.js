@@ -478,8 +478,9 @@ function djAdvanced(obj) {
         djAdvanceCnt++;
     }
     if (obj == null) {
+        savedScore = score;
         // DJ just left the booth
-        console.log("DJ left the booth : WOOT - " + score.positive + ' MEHS - ' + score.negative + 'CURATES - ' + score.curates);
+        console.log("DJ left the booth : WOOT - " + savedScore.positive + ' MEHS - ' + savedScore.negative + 'CURATES - ' + savedScore.curates);
         console.log("clearScore :" + clearScore);
 
     }
