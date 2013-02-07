@@ -961,6 +961,11 @@ function onCookiesLoaded() {
     initAPIListeners();
     displayUI();
     initUIListeners();
+    if (hostingBot) {
+        $('#button-vote-negative').click();
+        $('#button-vote-positive').click();
+    }
+
 }
 
 /*
