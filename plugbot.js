@@ -54,9 +54,9 @@ var hideVideo;
  */
 var userList;
 /*
- * Whether or not the user want to send Welcome/Leave messages
+ * Whether or not the user want to turn on hosting bot
  */
-var welcomeLeaveMsg;
+var hostingBot;
 
 /*
  * Whether or not the user want to send generated messages
@@ -65,7 +65,16 @@ var autoMsg;
 
 var autoForceSkip;
 
-var mediaObj;
+var currentDj = new Array();
+var savedDj = new Array();
+savedDj[0] = 0;
+var score = new Object();
+var savedScore = new Object();
+savedScore = null;
+
+var woots, mehs, curates, votes, mehsRatio, wootsRatio;
+/*
+ * Dj[0] - Dj object, Dj[1] - media object, Dj[2] - room score
 
 /*
  * Cookie constants
@@ -74,7 +83,7 @@ var COOKIE_WOOT = 'autowoot';
 var COOKIE_QUEUE = 'autoqueue';
 var COOKIE_HIDE_VIDEO = 'hidevideo';
 var COOKIE_USERLIST = 'userlist';
-var COOKIE_WELCOMELEAVEMSG = 'welcome/leave msg';
+var COOKIE_HOSTINGBOT = 'hostingbot';
 var COOKIE_AUTOMSG = 'automsg';
 var COOKIE_AUTOFORCESKIP = 'autoforceskip';
 
@@ -103,7 +112,7 @@ var msgArrayPositive = new Array(
     'Thanks for that =),',
     'you must be kidding me :D',
     'tra da da da',
-    'wtf is that? tra la la :D'
+    'this is crazy =)'
 );
 
 var msgArrayNegative = new Array(
@@ -152,6 +161,10 @@ function getRandomInRange(min, max) {
 // skip first seed value - always the same
 rand();
 
+// timeoutId for sending msg delay
+var timeoutId = null;
+clearTimeout(timeoutId);
+
 function printObject(o) {
   var out = '';
   for (var p in o) {
@@ -159,10 +172,6 @@ function printObject(o) {
   }
   console.log("object proprerty: " + out);
 }
-
-// timeoutId for sending msg delay
-var timeoutId = null;
-clearTimeout(timeoutId);
 
 /**
  * Initialise all of the Plug.dj API listeners which we use
@@ -189,18 +198,21 @@ function initAPIListeners() {
      * This listens for whenever a user in the room either WOOT!s
      * or Mehs the current song.
      */
+    API.addEventListener(API.ROOM_SCORE_UPDATE, function (obj) {
+        console.log("ROOM_SCORE_UPDATE");
+
+    }
+
     API.addEventListener(API.VOTE_UPDATE, function (obj) {
+        score = API.getRoomScore();
+        woots = score.positive;
+        mehs = score.negative;
+        votes = woots + mehs;
+        mehsRatio = mehs/woots;
+        wootsRatio = woots/mehs;
+
         if (autoForceSkip) {
-            var score = API.getRoomScore();
-            var woots = score.positive;
-            var mehs = score.negative;
-            var votes = woots + mehs;
-            var mehsRatio = mehs/woots;
-            var wootsRatio = woots/mehs;
-            var Djs = new Array();
-
-            Djs = API.getDJs();
-
+            var Djs = API.getDJs();
 
             if (votes >= 10 && votes <= 20) {
                 if (mehsRatio >= 0.5) {
@@ -225,7 +237,7 @@ function initAPIListeners() {
      * Whenever a user joins, this listener is called.
      */
     API.addEventListener(API.USER_JOIN, function (user) {
-        if (welcomeLeaveMsg) {
+        if (hostingBot) {
             /*
             var text = "Welcome ";
             var pom = 'Ji' + '\xAE' + 'in';
@@ -247,7 +259,7 @@ function initAPIListeners() {
      * Called upon a user exiting the room.
      */
     API.addEventListener(API.USER_LEAVE, function (user) {
-        if (welcomeLeaveMsg) {
+        if (hostingBot) {
             /*
             var pom = 'Ji' + '\xAE' + 'in';
             if (user.username == pom) {
@@ -323,11 +335,11 @@ function displayUI() {
     var cQueue = autoqueue ? "#3FFF00" : "#ED1C24";
     var cHideVideo = hideVideo ? "#3FFF00" : "#ED1C24";
     var cUserList = userList ? "#3FFF00" : "#ED1C24";
-    var cWelcomeLeaveMsg = welcomeLeaveMsg ? "#3FFF00" : "#ED1C24";
+    var cHostingBot = hostingBot ? "#3FFF00" : "#ED1C24";
     var cAutoMsg = autoMsg ? "#3FFF00" : "#ED1C24";
     var cAutoForceSkip = autoForceSkip ? "#3FFF00" : "#ED1C24";
     $('#plugbot-ui').append(
-        '<p id="plugbot-btn-woot" style="color:' + cWoot + '">auto-woot</p><p id="plugbot-btn-queue" style="color:' + cQueue + '">auto-queue</p><p id="plugbot-btn-hidevideo" style="color:' + cHideVideo + '">hide video</p><p id="plugbot-btn-userlist" style="color:' + cUserList + '">userlist</p><p id="plugbot-btn-auto-forceskip" style="color:' + cAutoForceSkip + '">AutoForceSkip</p><p id="plugbot-btn-welcome-leave" style="color:' + cWelcomeLeaveMsg + '">welcome/leave msgs</p><p id="plugbot-btn-auto-msg" style="color:' + cAutoMsg + '">Autosending msgs</p><h2 title="This makes it so you can give a user in the room a special colour when they chat!">Custom Username FX: <br /><br id="space" /><span onclick="promptCustomUsername()" style="cursor:pointer">+ add new</span></h2>');
+        '<p id="plugbot-btn-woot" style="color:' + cWoot + '">auto-woot</p><p id="plugbot-btn-queue" style="color:' + cQueue + '">auto-queue</p><p id="plugbot-btn-hidevideo" style="color:' + cHideVideo + '">hide video</p><p id="plugbot-btn-userlist" style="color:' + cUserList + '">userlist</p><p id="plugbot-btn-auto-forceskip" style="color:' + cAutoForceSkip + '">AutoForceSkip</p><p id="plugbot-btn-hostingbot" style="color:' + cHostingBot + '">hosting bot</p><p id="plugbot-btn-auto-msg" style="color:' + cAutoMsg + '">Autosending msgs</p><h2 title="This makes it so you can give a user in the room a special colour when they chat!">Custom Username FX: <br /><br id="space" /><span onclick="promptCustomUsername()" style="cursor:pointer">+ add new</span></h2>');
 }
 
 /**
@@ -422,11 +434,15 @@ function initUIListeners() {
     /*
      * Toggle auto-welcome/leave messages
      */
-    $("#plugbot-btn-welcome-leave").on("click", function () {
-        welcomeLeaveMsg = !welcomeLeaveMsg;
-        $(this).css("color", welcomeLeaveMsg ? "#3FFF00" : "#ED1C24");
-        jaaulde.utils.cookies.set(COOKIE_WELCOMELEAVEMSG, welcomeLeaveMsg);
+    $("#plugbot-btn-hostingbot").on("click", function () {
+        hostingBot = !hostingBot;
+        $(this).css("color", hostingBot ? "#3FFF00" : "#ED1C24");
+        jaaulde.utils.cookies.set(COOKIE_HOSTINGBOT, hostingBot);
     });
+
+     /*
+     * Toggle autoForceSkip mod
+     */
 
     $("#plugbot-btn-auto-forceskip").on("click", function () {
         autoForceSkip = !autoForceSkip;
@@ -450,9 +466,25 @@ function djAdvanced(obj) {
         $("#yt-frame").css("height", "0px");
         $("#playback .frame-background").css("opacity", "0.0");
     }
+/*
+    currentDj[0] = obj;
+    currentDj[1] = API.getMedia();
 
-    mediaObj = API.getMedia();
-    printObject(mediaObj);
+    if (notifications) {
+        if (savedDj[0] != 0) {
+            API.sendChat('/em ' + savedDj[0].username
+                + ' just played ' + savedDj[1].title
+                + ' with score: WOOTS-' + ', MEHS-');
+        }
+    }
+*/
+    /*
+        media obj
+            .title
+            .duration
+            .author
+            ...
+    */
 
     /*
      * If auto-woot is enabled, WOOT! the song.
@@ -467,7 +499,7 @@ function djAdvanced(obj) {
         } else {
             djAdvanceCnt++;
         }
-        if (djAdvanceCnt % 9 == 0) {
+        if (djAdvanceCnt % 8 == 0) {
             // send msg to chat
             safeIt = genNb;
             genNb = rand();
@@ -850,10 +882,16 @@ function readCookies() {
     autoMsg = value != null ? value: false;
 
     /*
-     * Read welcome/leave msg cookie (false by default)
+     * Read hostingbot cookie (false by default)
      */
-    value = jaaulde.utils.cookies.get(COOKIE_WELCOMELEAVEMSG);
-    welcomeLeaveMsg = value != null ? value: false;
+    value = jaaulde.utils.cookies.get(COOKIE_HOSTINGBOT);
+    hostingBot = value != null ? value: false;
+
+    /*
+     * Read autoForceSkip cookie (false by default)
+     */
+    value = jaaulde.utils.cookies.get(COOKIE_AUTOFORCESKIP);
+    autoForceSkip = value != null ? value: false;
 
     onCookiesLoaded();
 }
