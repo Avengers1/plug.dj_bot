@@ -471,9 +471,8 @@ function initUIListeners() {
  *        This contains the current DJ's data.
  */
 function djAdvanced(obj) {
-    console.log("DJ ADVANCE");
     if (obj == null) alert("DJ odchazi"); // no dj
-var str = "score: " + score.score;
+var str = "score: " + savedScore.positive + ' ' + savedScore.negative;
 alert(str);
     /*
      * If they want the video to be hidden, be sure to re-hide it.
