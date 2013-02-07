@@ -181,25 +181,7 @@ function printObject(o) {
  * attached with them.
  */
 function initAPIListeners() {
-    /*
-     * This listens in for whenever a new DJ starts playing.
-     */
-    API.addEventListener(API.DJ_ADVANCE, djAdvanced);
-
-    /*
-     * This listens for changes in the waiting list
-     */
-    API.addEventListener(API.WAIT_LIST_UPDATE, queueUpdate);
-
-    /*
-     * This listens for changes in the dj booth
-     */
-    API.addEventListener(API.DJ_UPDATE, queueUpdate);
-
-    /*
-     * This listens for whenever a user in the room either WOOT!s
-     * or Mehs the current song.
-     */
+    
     API.addEventListener(API.ROOM_SCORE_UPDATE, function (obj) {
 
         woots = obj.positive;
@@ -226,19 +208,39 @@ function initAPIListeners() {
             }
         }
         if (hostingBot) {
-            if (obj.positive + obj.negative > 0) {
+            if (obj.positive == 0 && obj.negative == 0) {
                 // save score
-                score = obj;
-                clearScore = false;
+                savedScore = score;
+                clearScore = true;
             }
             else {
-                clearScore = true;
+                clearScore = false;
+                score = obj;
             }
         }
 
 
         
     });
+    /*
+     * This listens in for whenever a new DJ starts playing.
+     */
+    API.addEventListener(API.DJ_ADVANCE, djAdvanced);
+
+    /*
+     * This listens for changes in the waiting list
+     */
+    API.addEventListener(API.WAIT_LIST_UPDATE, queueUpdate);
+
+    /*
+     * This listens for changes in the dj booth
+     */
+    API.addEventListener(API.DJ_UPDATE, queueUpdate);
+
+    /*
+     * This listens for whenever a user in the room either WOOT!s
+     * or Mehs the current song.
+     */
 
     API.addEventListener(API.VOTE_UPDATE, function (obj) {
         if (userList) {
@@ -477,11 +479,9 @@ function djAdvanced(obj) {
     } else {
         djAdvanceCnt++;
     }
-    if (obj == null) {
-        savedScore = score;
+    if (hostingBot) {
         // DJ just left the booth
-        console.log("DJ left the booth : WOOT - " + savedScore.positive + ' MEHS - ' + savedScore.negative + 'CURATES - ' + savedScore.curates);
-        console.log("clearScore :" + clearScore);
+        console.log("SCORE:\n WOOTS:" + savedScore.positive + '\nMEHS:' + savedScore.negative);
 
     }
     /*
