@@ -229,6 +229,7 @@ function initAPIListeners() {
                 // save score
                 savedScore = obj;
                 clearScore = false;
+                printObject(savedScore);
             }
             else {
                 clearScore = true;
