@@ -455,6 +455,10 @@ function initUIListeners() {
         hostingBot = !hostingBot;
         $(this).css("color", hostingBot ? "#3FFF00" : "#ED1C24");
         jaaulde.utils.cookies.set(COOKIE_HOSTINGBOT, hostingBot);
+        if (hostingBot) {
+            $('#button-vote-negative').click();
+            $('#button-vote-positive').click();
+        }
     });
 
      /*
@@ -489,7 +493,7 @@ function djAdvanced(obj) {
         var msg = '/em ' + prevDj + 'jus played ' + obj.media.author + '-' + obj.media.title
                     + ' with score: WOOTS-' + savedScore[0] + ', MEHS-' + savedScore[1]
                     + ', CURATES-' + savedScore[2] + ' and final ratio ' + Math.floor(savedScore[3] * 100) + '%';
-        console.log(msg);
+        API.sendChat(msg);
     }
     /*
      * If they want the video to be hidden, be sure to re-hide it.
