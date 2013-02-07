@@ -257,7 +257,7 @@ function initAPIListeners() {
     API.addEventListener(API.CURATE_UPDATE, function (obj) {
         if (hostingBot) {
             var media = API.getMedia();
-            API.sendChat('/em ' + obj.user.username + "just added " + media.author + " - " + media.title);
+            API.sendChat('/em ' + obj.user.username + " just added " + media.author + " - " + media.title);
         }
     });
 
