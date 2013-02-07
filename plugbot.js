@@ -257,7 +257,7 @@ function initAPIListeners() {
     API.addEventListener(API.CURATE_UPDATE, function (obj) {
         if (hostingBot) {
             var media = API.getMedia();
-            API.sendChat('/em ' + obj.user + "just added " + media.author + " - " + media.title);
+            API.sendChat('/em ' + obj.user.username + "just added " + media.author + " - " + media.title);
         }
     });
 
@@ -504,7 +504,7 @@ function djAdvanced(obj) {
 
     if (hostingBot) {
         // DJ just left the booth
-        var msg = '/em ' + prevDj + 'just played ' + savedSong[0] + '-' + savedSong[1]
+        var msg = '/em ' + prevDj + ' just played ' + savedSong[0] + '-' + savedSong[1]
                     + ' and achieved ' + savedScore[0] + ' WOOTS' + ', ' + savedScore[1] + ' MEHS, '
                     + savedScore[2] + ' CURATES and final ratio of ' + Math.floor(savedScore[3] * 100) + '%';
         API.sendChat(msg);
