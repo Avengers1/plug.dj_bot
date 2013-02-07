@@ -73,6 +73,7 @@ var autoForceSkip;
  */
 var prevDj = API.getDJs()[0].username;
 var savedScore = new Array(0, 0, 0, 0);
+var savedSong = new Array(getMedia().author, getMedia().title);
 
 var woots, mehs, curates, votes, mehsRatio, wootsRatio, percentil;
 var clearScore = true;
@@ -502,7 +503,7 @@ function djAdvanced(obj) {
 
     if (hostingBot) {
         // DJ just left the booth
-        var msg = '/em ' + prevDj + 'jus played ' + obj.media.author + '-' + obj.media.title
+        var msg = '/em ' + prevDj + 'just played ' + savedSong[0] + '-' + savedSong[1]
                     + ' and achieved ' + savedScore[0] + ' WOOTS' + ', ' + savedScore[1] + ' MEHS, '
                     + savedScore[2] + ' CURATES and final ratio of ' + Math.floor(savedScore[3] * 100) + '%';
         API.sendChat(msg);
@@ -581,6 +582,8 @@ function djAdvanced(obj) {
     }
 
     prevDj = currentDj.username;
+    savedSong[0] = obj.media.author;
+    savedSong[1] = obj.media.title;
     
 }
 
