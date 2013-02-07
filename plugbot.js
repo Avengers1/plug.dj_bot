@@ -69,6 +69,11 @@ var autoMsg;
 var autoForceSkip;
 
 /*
+ * Whether or not the user want to use curate notifications
+ */
+var curateNotes;
+
+/*
  * global variables
  */
 var prevDj = API.getDJs()[0].username;
@@ -89,6 +94,7 @@ var COOKIE_USERLIST = 'userlist';
 var COOKIE_HOSTINGBOT = 'hostingbot';
 var COOKIE_AUTOMSG = 'automsg';
 var COOKIE_AUTOFORCESKIP = 'autoforceskip';
+var COOKIE_CURATENOTES = 'curatenotes';
 
 /*
  * Maximum amount of people that can be in the waitlist.
@@ -256,8 +262,10 @@ function initAPIListeners() {
 
     API.addEventListener(API.CURATE_UPDATE, function (obj) {
         if (hostingBot) {
-            var media = API.getMedia();
-            API.sendChat('/em ' + ': ' + obj.user.username + " just added " + media.author + " - " + media.title);
+            if (curateNotes) {
+                var media = API.getMedia();
+                API.sendChat('/em ' + ': ' + obj.user.username + " just added " + media.author + " - " + media.title);
+            }
         }
     });
 
@@ -366,8 +374,9 @@ function displayUI() {
     var cHostingBot = hostingBot ? "#3FFF00" : "#ED1C24";
     var cAutoMsg = autoMsg ? "#3FFF00" : "#ED1C24";
     var cAutoForceSkip = autoForceSkip ? "#3FFF00" : "#ED1C24";
+    var cCurateNotes = curateNotes ? "#3FFF00" : "#ED1C24";
     $('#plugbot-ui').append(
-        '<p id="plugbot-btn-woot" style="color:' + cWoot + '">auto-woot</p><p id="plugbot-btn-queue" style="color:' + cQueue + '">auto-queue</p><p id="plugbot-btn-hidevideo" style="color:' + cHideVideo + '">hide video</p><p id="plugbot-btn-userlist" style="color:' + cUserList + '">userlist</p><p id="plugbot-btn-auto-forceskip" style="color:' + cAutoForceSkip + '">AutoForceSkip</p><p id="plugbot-btn-hostingbot" style="color:' + cHostingBot + '">hosting bot</p><p id="plugbot-btn-auto-msg" style="color:' + cAutoMsg + '">Autosending msgs</p><h2 title="This makes it so you can give a user in the room a special colour when they chat!">Custom Username FX: <br /><br id="space" /><span onclick="promptCustomUsername()" style="cursor:pointer">+ add new</span></h2>');
+        '<p id="plugbot-btn-woot" style="color:' + cWoot + '">auto-woot</p><p id="plugbot-btn-queue" style="color:' + cQueue + '">auto-queue</p><p id="plugbot-btn-hidevideo" style="color:' + cHideVideo + '">hide video</p><p id="plugbot-btn-userlist" style="color:' + cUserList + '">userlist</p><p id="plugbot-btn-curate-notes" style="color:' + cCurateNotes + '">curate notifications</p><p id="plugbot-btn-auto-forceskip" style="color:' + cAutoForceSkip + '">AutoForceSkip</p><p id="plugbot-btn-hostingbot" style="color:' + cHostingBot + '">hosting bot</p><p id="plugbot-btn-auto-msg" style="color:' + cAutoMsg + '">Autosending msgs</p><h2 title="This makes it so you can give a user in the room a special colour when they chat!">Custom Username FX: <br /><br id="space" /><span onclick="promptCustomUsername()" style="cursor:pointer">+ add new</span></h2>');
 }
 
 /**
@@ -480,6 +489,16 @@ function initUIListeners() {
         autoForceSkip = !autoForceSkip;
         $(this).css("color", autoForceSkip ? "#3FFF00" : "#ED1C24");
         jaaulde.utils.cookies.set(COOKIE_AUTOFORCESKIP, autoForceSkip);
+    });
+
+    /*
+     * Toggle curate notifications
+     */
+
+    $("#plugbot-btn-curate-notes").on("click", function () {
+        curateNotes = !curateNotes;
+        $(this).css("color", curateNotes ? "#3FFF00" : "#ED1C24");
+        jaaulde.utils.cookies.set(COOKIE_CURATENOTES, curateNotes);
     });
 }
 
@@ -931,6 +950,12 @@ function readCookies() {
      */
     value = jaaulde.utils.cookies.get(COOKIE_AUTOFORCESKIP);
     autoForceSkip = value != null ? value: false;
+
+    /*
+     * Read curate notifications cookie (false by default)
+     */
+    value = jaaulde.utils.cookies.get(COOKIE_CURATENOTES);
+    curateNotes = value != null ? value: false;
 
     onCookiesLoaded();
 }
