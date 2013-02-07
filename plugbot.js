@@ -286,7 +286,7 @@ function initAPIListeners() {
         printObject(ja);
         zprava.type = "message";
         zprava.from = ja.username;
-        zprava.fromID = 50fc0b9fc3b97a409682a3d0;
+        zprava.fromID = ja.id;
         zprava.message = "WORKING ?";
         zprava.language = "cs";
 
