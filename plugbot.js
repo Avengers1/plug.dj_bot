@@ -205,6 +205,7 @@ function initAPIListeners() {
                 savedScore.negative = mehs;
                 savedScore.curates = curates;
                 savedScore.score = percentil;
+                printObject(savedScore);
             }
 
         }
@@ -488,7 +489,9 @@ function djAdvanced(obj) {
 
     if (hostingBot) {
         // DJ just left the booth
-        printObject(savedScore);
+        if (savedScore.positive != 0) {
+            printObject(savedScore);
+        }
     }
     /*
      * If they want the video to be hidden, be sure to re-hide it.
