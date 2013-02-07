@@ -72,11 +72,7 @@ var autoForceSkip;
  * global variables
  */
 var savedDj;
-var savedScore = new Object();
-savedScore.positive = 0;
-savedScore.negative = 0;
-savedScore.curates = 0;
-savedScore.score = 0;
+var savedScore = new Array(0, 0, 0, 0);
 
 var woots, mehs, curates, votes, mehsRatio, wootsRatio, percentil;
 var clearScore = true;
@@ -201,11 +197,10 @@ function initAPIListeners() {
             }
             else {
                 clearScore = true;
-                savedScore.positive = woots;
-                savedScore.negative = mehs;
-                savedScore.curates = curates;
-                savedScore.score = percentil;
-                printObject(savedScore);
+                savedScore[0] = woots;
+                savedScore[1] = mehs;
+                savedScore[2] = curates;
+                savedScore[3] = percentil;
             }
 
         }
@@ -489,8 +484,8 @@ function djAdvanced(obj) {
 
     if (hostingBot) {
         // DJ just left the booth
-        if (savedScore.positive != 0) {
-            printObject(savedScore);
+        if (savedScore[0] != 0) {
+            console.log("TAK BACHA !!!!!!!!!!!!!!!!!!!!!\n" + 'WOOTS-' + savedScore[0] + ' MEHS-' + savedScore[1);
         }
     }
     /*
