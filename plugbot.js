@@ -269,6 +269,20 @@ function initAPIListeners() {
         }
     });
 
+    API.addEventListener(API.CHAT, function (data) {
+        console.log("CHAT MSG");
+        console.log("data.type: " + data.type);
+        // "message", "emote", "moderation", "system"
+        console.log("data.from: " + data.from);
+        // the username of the person
+        console.log("fromID: " + data.fromID);
+        // the user id of the person
+        console.log("MSG: " + data.message);
+        // the chat message
+        console.log("LANG: " + data.language);
+        // the two character code of the incoming language
+    });
+
     /*
      * Whenever a user joins, this listener is called.
      */
