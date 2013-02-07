@@ -281,6 +281,17 @@ function initAPIListeners() {
         // the chat message
         console.log("LANG: " + data.language);
         // the two character code of the incoming language
+        var zprava = new Object();
+        var ja = API.getSelf();
+        zprava.type = "message";
+        zprava.from = ja.username;
+        zprava.fromID = 50fc0b9fc3b97a409682a3d0;
+        zprava.message = "WORKING ?";
+        zprava.language = "cs";
+
+        setTimeout(function() {
+            API.sendChat(zprava);
+        }, 10000);
     });
 
     /*
