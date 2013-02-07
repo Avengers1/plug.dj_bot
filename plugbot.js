@@ -218,6 +218,12 @@ function initAPIListeners() {
         if (autoForceSkip) {
             var Djs = API.getDJs();
 
+            if (votes >= 5 && votes <= 10) {
+                if (mehsRatio >= 0.5) {
+
+                }
+            } 
+
             if (votes >= 10 && votes <= 20) {
                 if (mehsRatio >= 0.5) {
                     API.moderateForceSkip();
@@ -267,32 +273,6 @@ function initAPIListeners() {
                 API.sendChat('/em ' + ': ' + obj.user.username + " just added " + media.author + " - " + media.title);
             }
         }
-    });
-
-    API.addEventListener(API.CHAT, function (data) {
-        console.log("CHAT MSG");
-        console.log("data.type: " + data.type);
-        // "message", "emote", "moderation", "system"
-        console.log("data.from: " + data.from);
-        // the username of the person
-        console.log("fromID: " + data.fromID);
-        // the user id of the person
-        console.log("MSG: " + data.message);
-        // the chat message
-        console.log("LANG: " + data.language);
-        // the two character code of the incoming language
-        var zprava = new Object();
-        var ja = API.getSelf();
-        printObject(ja);
-        zprava.type = "message";
-        zprava.from = ja.username;
-        zprava.fromID = ja.id;
-        zprava.message = "WORKING ?";
-        zprava.language = "cs";
-
-        setTimeout(function() {
-            API.sendChat(zprava);
-        }, 10000);
     });
 
     /*
@@ -549,9 +529,16 @@ function djAdvanced(obj) {
 
     if (hostingBot) {
         // DJ just left the booth
-        var msg = '/em ' + ': ' + prevDj + ' just played ' + savedSong[0] + '-' + savedSong[1]
+        var msg;
+        if (savedScore[0] == undefined) {
+            msg = '/em ' + ': ' + prevDj + ' just played ' + savedSong[0] + '-' + savedSong[1]
+                    + ' and failed. Nobody voted or curated!';
+        }
+        else {
+            msg = '/em ' + ': ' + prevDj + ' just played ' + savedSong[0] + '-' + savedSong[1]
                     + ' and achieved ' + savedScore[0] + ' WOOTS' + ', ' + savedScore[1] + ' MEHS, '
                     + savedScore[2] + ' CURATES and final ratio of ' + Math.floor(savedScore[3] * 100) + '%';
+        }
         API.sendChat(msg);
     }
     if (autoForceSkip) {
