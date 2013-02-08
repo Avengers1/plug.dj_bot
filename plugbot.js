@@ -232,7 +232,7 @@ function initAPIListeners() {
         }
 
         if (autoForceSkip) {
-            if (autoForSkipFlag) {
+            if (autoForceSkipFlag) {
                 var Djs = API.getDJs();
 
                 if (votes >= 5 && votes <= 10) {
