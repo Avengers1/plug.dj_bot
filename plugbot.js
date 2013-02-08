@@ -68,6 +68,7 @@ var autoMsg;
  */
 var autoForceSkip;
 var autoForSkipFlag = false;
+var delay;
 
 /*
  * Whether or not the user want to use curate notifications
@@ -567,10 +568,10 @@ function djAdvanced(obj) {
         autoForSkipFlag = false;
         clearTimeout(songTimeoutId);
         clearTimeout(autoSkipActivate);
-
+        delay = (Math.floor(obj.media.duration/5) > 60) ? 60 : Math.floor(obj.media.duration/5);
         autoSkipActivate = setTimeout(function() {
             autoForSkipFlag = true;
-        }, obj.media.duration /5);
+        }, delay);
     }
     if (djAdvanceCnt == 101) {
         djAdvanceCnt = 1;
