@@ -67,6 +67,7 @@ var autoMsg;
  * Whether or not the user want to auto force skip mod
  */
 var autoForceSkip;
+var autoForSkipFlag = false;
 
 /*
  * Whether or not the user want to use curate notifications
@@ -83,6 +84,17 @@ var savedSong = new Array(song.author, song.title);
 
 var woots, mehs, curates, votes, mehsRatio, wootsRatio, percentil;
 var clearScore = true;
+
+function chatMsg(type, from, fromId, msg,language)
+{
+this.type=type;
+this.from=from;
+this.fromId=fromId;
+this.msg=msg;
+this.language = language;
+}
+
+var chatLog = [];
 
 /*
  * Cookie constants
@@ -173,8 +185,10 @@ rand();
 // timeoutId for sending msg delay
 var timeoutId = null;
 var songTimeoutId = null;
+var autoSkipActivate = null;
 clearTimeout(timeoutId);
 clearTimeout(songTimeoutId);
+clearTimeout(autoSkipActivate);
 
 function printObject(o) {
   var out = '';
@@ -183,6 +197,7 @@ function printObject(o) {
   }
   console.log("object proprerty: " + out);
 }
+
 
 /**
  * Initialise all of the Plug.dj API listeners which we use
@@ -216,24 +231,27 @@ function initAPIListeners() {
         }
 
         if (autoForceSkip) {
-            var Djs = API.getDJs();
+            if (autoForSkipFlag) {
+                var Djs = API.getDJs();
 
-            if (votes >= 5 && votes <= 10) {
-                if (mehsRatio >= 0.5) {
+                if (votes >= 5 && votes <= 10) {
+                    if (mehsRatio > 0.5) {
+                        API.moderateForceSkip();
+                        API.sendChat('/em ' + ': ' + Djs[0].username + 'has been skipped due to bad score ratio.');
+                    }
+                } 
 
+                if (votes >= 10 && votes <= 20) {
+                    if (mehsRatio >= 0.5) {
+                        API.moderateForceSkip();
+                        API.sendChat('/em ' + ': ' + Djs[0].username + 'has been skipped due to bad score ratio.');
+                    }
                 }
-            } 
-
-            if (votes >= 10 && votes <= 20) {
-                if (mehsRatio >= 0.5) {
-                    API.moderateForceSkip();
-                    API.sendChat('/em ' + ': ' + Djs[0].username + 'has been skipped due to bad score ratio.');
-                }
-            }
-            if (votes >= 21) {
-                if (mehsRatio >= 0.35) {
-                    API.moderateForceSkip();
-                    API.sendChat('/em ' + ': ' + Djs[0].username + 'has been skipped due to bad score ratio.');
+                if (votes >= 21) {
+                    if (mehsRatio >= 0.35) {
+                        API.moderateForceSkip();
+                        API.sendChat('/em ' + ': ' + Djs[0].username + 'has been skipped due to bad score ratio.');
+                    }
                 }
             }
         }
@@ -316,7 +334,35 @@ function initAPIListeners() {
         }
     });
 
-    API.addEventListener(API.CHAT, checkCustomUsernames);
+    API.addEventListener(API.CHAT, function (obj) {
+        /*
+        obj.type
+        // "message", "emote", "moderation", "system"
+        obj.from
+        // the username of the person
+        obj.fromID
+        // the user id of the person
+        obj.message
+        // the chat message
+        obj.language
+        // the two character code of the incoming language
+        */
+
+        checkCustomUsernames();
+
+        if (autoMsg) {
+            var msgInstance = new chatMsg(obj.type, obj.from, obj.fromID, obj.message, obj.language);
+            chatLog.push(msgInstance);
+/*
+            while (image_array!=undefined && image_array.length > 0) {
+                var chatMsgObj = chatLog.pop();
+                var toInvestigate = chatMsgObj.msg;
+
+            }
+*/
+        }
+
+    });
 
     /*
         This is called when an incoming chat arrives. It passes a chat object.
@@ -518,7 +564,13 @@ function initUIListeners() {
 function djAdvanced(obj) {
 
     if (autoForceSkip) {
+        autoForSkipFlag = false;
         clearTimeout(songTimeoutId);
+        clearTimeout(autoSkipActivate);
+
+        autoSkipActivate = setTimeout(function() {
+            autoForSkipFlag = true;
+        }, obj.media.duration /5);
     }
     if (djAdvanceCnt == 101) {
         djAdvanceCnt = 1;
@@ -547,7 +599,7 @@ function djAdvanced(obj) {
             songTimeoutId = setTimeout(function() {
                 API.sendChat('/em ' + ': ' + prevDj + 'has been skipped due to reaching song length limit of 8 minutes!');
                 API.moderateForceSkip();
-            });
+            }, 480000);
         }
     }
     /*
@@ -573,7 +625,7 @@ function djAdvanced(obj) {
             while (Math.floor(safeIt * 10) == Math.floor(genNb * 10)) {
                 genNb = rand();
             }
-            // send msg after randomized delay betweeb 5 - 60 seconds
+            // send msg after randomized delay between 5 - 60 seconds
             var delay = getRandomInRange(5000, 60000);        
             timeoutId = setTimeout(function() {
                 // choose which msg to send - positive vs negative
