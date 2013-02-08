@@ -236,20 +236,20 @@ function initAPIListeners() {
                 var Djs = API.getDJs();
 
                 if (votes >= 5 && votes <= 10) {
-                    if (mehsRatio > 0.5) {
+                    if (mehsRatio > 0.5 && curates == 0) {
                         API.moderateForceSkip();
                         API.sendChat('/em ' + ': ' + Djs[0].username + 'has been skipped due to bad score ratio.');
                     }
                 } 
 
                 if (votes >= 10 && votes <= 20) {
-                    if (mehsRatio >= 0.5) {
+                    if (mehsRatio >= 0.5 && curates == 0) {
                         API.moderateForceSkip();
                         API.sendChat('/em ' + ': ' + Djs[0].username + 'has been skipped due to bad score ratio.');
                     }
                 }
                 if (votes >= 21) {
-                    if (mehsRatio >= 0.35) {
+                    if (mehsRatio >= 0.35 && curates == 0) {
                         API.moderateForceSkip();
                         API.sendChat('/em ' + ': ' + Djs[0].username + 'has been skipped due to bad score ratio.');
                     }
