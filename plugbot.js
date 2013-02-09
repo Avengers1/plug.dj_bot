@@ -599,7 +599,7 @@ function djAdvanced(obj) {
 
         clearTimeout(timeout);
         timeout = setTimeout(function() {
-            API.sendChat('/em ' + ': ' + currentDj.username + '´s stats: totalPoints:' + (currentDj.djPoints + currentDj.listenerPoints) + '(djPoints-' + currentDj.djPoints + '|listenerPoints-' + currentDj.listenerPoints + '), fans-' + currentDj.fans + ' curatedCount-' + currentDj.curatorPoints + ' is currently playing ...');
+            API.sendChat('/em ' + ': ' + currentDj.username + '´s stats: totalPoints:' + (currentDj.djPoints + currentDj.listenerPoints) + '(djPoints-' + currentDj.djPoints + ' | listenerPoints-' + currentDj.listenerPoints + '), fans-' + currentDj.fans + ' curatedCount-' + currentDj.curatorPoints + ' is currently playing ...');
         }, 5000);
 
 
