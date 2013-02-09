@@ -67,7 +67,6 @@ var autoMsg;
  * Whether or not the user want to auto force skip mod
  */
 var autoForceSkip;
-var autoForSkipFlag = false;
 var delay;
 
 /*
@@ -187,9 +186,11 @@ rand();
 var timeoutId = null;
 var songTimeoutId = null;
 var autoSkipActivate = null;
+var timeout = null;
 clearTimeout(timeoutId);
 clearTimeout(songTimeoutId);
 clearTimeout(autoSkipActivate);
+clearTimeout(timeout);
 
 function printObject(o) {
   var out = '';
@@ -232,29 +233,7 @@ function initAPIListeners() {
         }
 
         if (autoForceSkip) {
-            if (autoForceSkipFlag) {
-                var Djs = API.getDJs();
-
-                if (votes >= 5 && votes <= 10) {
-                    if (mehsRatio > 0.5 && curates == 0) {
-                        API.moderateForceSkip();
-                        API.sendChat('/em ' + ': ' + Djs[0].username + 'has been skipped due to bad score ratio.');
-                    }
-                } 
-
-                if (votes >= 10 && votes <= 20) {
-                    if (mehsRatio >= 0.5 && curates == 0) {
-                        API.moderateForceSkip();
-                        API.sendChat('/em ' + ': ' + Djs[0].username + 'has been skipped due to bad score ratio.');
-                    }
-                }
-                if (votes >= 21) {
-                    if (mehsRatio >= 0.35 && curates == 0) {
-                        API.moderateForceSkip();
-                        API.sendChat('/em ' + ': ' + Djs[0].username + 'has been skipped due to bad score ratio.');
-                    }
-                }
-            }
+            checkScore();
         }
 
         
@@ -556,6 +535,30 @@ function initUIListeners() {
 }
 
 
+function checkScore() {
+    var Djs = API.getDJs();
+
+    if (votes >= 5 && votes <= 10) {
+        if (mehsRatio > 0.5 && curates == 0) {
+            API.moderateForceSkip();
+            API.sendChat('/em ' + ': ' + Djs[0].username + 'has been skipped due to bad score ratio.');
+        }
+    } 
+
+    if (votes >= 10 && votes <= 20) {
+        if (mehsRatio >= 0.5 && curates == 0) {
+            API.moderateForceSkip();
+            API.sendChat('/em ' + ': ' + Djs[0].username + 'has been skipped due to bad score ratio.');
+        }
+    }
+    if (votes >= 21) {
+        if (mehsRatio >= 0.35 && curates == 0) {
+            API.moderateForceSkip();
+            API.sendChat('/em ' + ': ' + Djs[0].username + 'has been skipped due to bad score ratio.');
+        }
+    }
+}
+
 /**
  * Called whenever a new DJ begins playing in the room.
  *
@@ -570,7 +573,7 @@ function djAdvanced(obj) {
         clearTimeout(autoSkipActivate);
         delay = (Math.floor(obj.media.duration/5) > 60) ? 60 : Math.floor(obj.media.duration/5);
         autoSkipActivate = setTimeout(function() {
-            autoForSkipFlag = true;
+            checkScore();
         }, delay);
     }
     if (djAdvanceCnt == 101) {
@@ -593,6 +596,13 @@ function djAdvanced(obj) {
                     + savedScore[2] + ' CURATES and final ratio of ' + Math.floor(savedScore[3] * 100) + '%';
         }
         API.sendChat(msg);
+
+        clearTimeout(timeout);
+        timeout = setTimeout(function() {
+            console.log('/em ' + ': ' + currentDj.username + '(' + currentDJ.djPoints + ' ' + currentDJ.listenerPoints + ' '+  currentDJ.curatorPoints + ' ' + currentDj.fans);
+        }, 5000);
+
+
     }
     if (autoForceSkip) {
         var duration = obj.media.duration;
@@ -1030,7 +1040,7 @@ function readCookies() {
  * Write the CSS rules that are used for components of the
  * Plug.bot UI.
  */
-$('body').prepend('<style type="text/css" id="plugbot-css">#plugbot-ui { position: absolute; margin-left: 349px; }#plugbot-ui p { background-color: #0b0b0b; height: 32px; padding-top: 8px; padding-left: 8px; cursor: pointer; font-variant: small-caps; width: 84px; font-size: 15px; margin: 0; }#plugbot-ui h2 { background-color: #0b0b0b; height: 112px; width: 156px; margin: 0; color: #fff; font-size: 13px; font-variant: small-caps; padding: 8px 0 0 12px; border-top: 1px dotted #292929; }#plugbot-userlist { border: 6px solid rgba(10, 10, 10, 0.8); border-left: 0 !important; background-color: #000000; padding: 8px 0px 20px 0px; width: 12%; }#plugbot-userlist p { margin: 0; padding-top: 4px; text-indent: 24px; font-size: 10px; }#plugbot-userlist p:first-child { padding-top: 0px !important; }#plugbot-queuespot { color: #42A5DC; text-align: left; font-size: 15px; margin-left: 8px }');
+$('body').prepend('<style type="text/css" id="plugbot-css">#plugbot-ui { position: absolute; margin-left: 349px; }#plugbot-ui p { background-color: #0b0b0b; height: 32px; padding-top: 8px; padding-left: 8px; cursor: pointer; font-variant: small-caps; font-size: 15px; margin: 0; }#plugbot-ui h2 { background-color: #0b0b0b; height: 112px; width: 156px; margin: 0; color: #fff; font-size: 13px; font-variant: small-caps; padding: 8px 0 0 12px; border-top: 1px dotted #292929; }#plugbot-userlist { border: 6px solid rgba(10, 10, 10, 0.8); border-left: 0 !important; background-color: #000000; padding: 8px 0px 20px 0px; width: 12%; }#plugbot-userlist p { margin: 0; padding-top: 4px; text-indent: 24px; font-size: 10px; }#plugbot-userlist p:first-child { padding-top: 0px !important; }#plugbot-queuespot { color: #42A5DC; text-align: left; font-size: 15px; margin-left: 8px }');
 $('body').append('<div id="plugbot-userlist"></div>');
 
 /*
