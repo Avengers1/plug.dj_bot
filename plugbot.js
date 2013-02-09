@@ -599,7 +599,7 @@ function djAdvanced(obj) {
 
         clearTimeout(timeout);
         timeout = setTimeout(function() {
-            console.log('/em ' + ': ' + currentDj.username + '(' + currentDJ.djPoints + ' ' + currentDJ.listenerPoints + ' '+  currentDJ.curatorPoints + ' ' + currentDj.fans);
+            console.log('/em ' + ': ' + currentDj.username + '(' + currentDj.djPoints + ' ' + currentDj.listenerPoints + ' '+  currentDj.curatorPoints + ' ' + currentDj.fans);
         }, 5000);
 
 
