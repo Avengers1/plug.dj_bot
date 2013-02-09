@@ -218,7 +218,7 @@ function initAPIListeners() {
 
         if (hostingBot) {
 
-            if (obj.positive != 0 || obj.negative != 0) {
+            if ((obj.positive != 0 && obj.negative != 0) || (obj.positive != 0 || obj.negative != 0)) {
                 woots = obj.positive;
                 mehs = obj.negative;
                 curates = obj.curates;
