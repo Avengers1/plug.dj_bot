@@ -75,6 +75,11 @@ var delay;
 var curateNotes;
 
 /*
+ * Whether or not the user want to use DJ stats notification
+ */
+var djStats;
+
+/*
  * global variables
  */
 var prevDj = API.getDJs()[0].username;
@@ -107,6 +112,7 @@ var COOKIE_HOSTINGBOT = 'hostingbot';
 var COOKIE_AUTOMSG = 'automsg';
 var COOKIE_AUTOFORCESKIP = 'autoforceskip';
 var COOKIE_CURATENOTES = 'curatenotes';
+var COOKIE_DJSTATS = 'djstats';
 
 /*
  * Maximum amount of people that can be in the waitlist.
@@ -331,8 +337,8 @@ function initAPIListeners() {
         checkCustomUsernames();
 
         if (autoMsg) {
-            var msgInstance = new chatMsg(obj.type, obj.from, obj.fromID, obj.message, obj.language);
-            chatLog.push(msgInstance);
+            /*var msgInstance = new chatMsg(obj.type, obj.from, obj.fromID, obj.message, obj.language);
+            chatLog.push(msgInstance);*/
 /*
             while (image_array!=undefined && image_array.length > 0) {
                 var chatMsgObj = chatLog.pop();
@@ -407,8 +413,9 @@ function displayUI() {
     var cAutoMsg = autoMsg ? "#3FFF00" : "#ED1C24";
     var cAutoForceSkip = autoForceSkip ? "#3FFF00" : "#ED1C24";
     var cCurateNotes = curateNotes ? "#3FFF00" : "#ED1C24";
+    var cDjStats = djStats ? "#3FFF00" : "#ED1C24";
     $('#plugbot-ui').append(
-        '<p id="plugbot-btn-woot" style="color:' + cWoot + '">auto-woot</p><p id="plugbot-btn-queue" style="color:' + cQueue + '">auto-queue</p><p id="plugbot-btn-hidevideo" style="color:' + cHideVideo + '">hide video</p><p id="plugbot-btn-userlist" style="color:' + cUserList + '">userlist</p><p id="plugbot-btn-curate-notes" style="color:' + cCurateNotes + '">curate notifications</p><p id="plugbot-btn-auto-forceskip" style="color:' + cAutoForceSkip + '">AutoForceSkip</p><p id="plugbot-btn-hostingbot" style="color:' + cHostingBot + '">hosting bot</p><p id="plugbot-btn-auto-msg" style="color:' + cAutoMsg + '">Autosending msgs</p><h2 title="This makes it so you can give a user in the room a special colour when they chat!">Custom Username FX: <br /><br id="space" /><span onclick="promptCustomUsername()" style="cursor:pointer">+ add new</span></h2>');
+        '<p id="plugbot-btn-woot" style="color:' + cWoot + '">auto-woot</p><p id="plugbot-btn-queue" style="color:' + cQueue + '">auto-queue</p><p id="plugbot-btn-hidevideo" style="color:' + cHideVideo + '">hide video</p><p id="plugbot-btn-userlist" style="color:' + cUserList + '">userlist</p><p id="plugbot-btn-hostingbot" style="color:' + cHostingBot + '">hosting bot</p><p id="plugbot-btn-curate-notes" style="color:' + cCurateNotes + '">curate notifications</p><p id="plugbot-btn-auto-forceskip" style="color:' + cAutoForceSkip + '">AutoForceSkip</p><p id="plugbot-btn-djStats" style="color:' + cDjStats + '">djStats notification</p><p id="plugbot-btn-auto-msg" style="color:' + cAutoMsg + '">Autosending msgs</p><h2 title="This makes it so you can give a user in the room a special colour when they chat!">Custom Username FX: <br /><br id="space" /><span onclick="promptCustomUsername()" style="cursor:pointer">+ add new</span></h2>');
 }
 
 /**
@@ -532,6 +539,16 @@ function initUIListeners() {
         $(this).css("color", curateNotes ? "#3FFF00" : "#ED1C24");
         jaaulde.utils.cookies.set(COOKIE_CURATENOTES, curateNotes);
     });
+
+    /*
+     * Toggle djStats notification
+     */
+
+    $("#plugbot-btn-djStats").on("click", function () {
+        djStats = !djStats;
+        $(this).css("color", djStats ? "#3FFF00" : "#ED1C24");
+        jaaulde.utils.cookies.set(COOKIE_DJSTATS, djStats);
+    });
 }
 
 
@@ -597,10 +614,12 @@ function djAdvanced(obj) {
         }
         API.sendChat(msg);
 
-        clearTimeout(timeout);
-        timeout = setTimeout(function() {
-            API.sendChat('/em ' + ': ' + currentDj.username + '´s stats: totalPoints:' + (currentDj.djPoints + currentDj.listenerPoints) + '(djPoints-' + currentDj.djPoints + ' | listenerPoints-' + currentDj.listenerPoints + '), fans-' + currentDj.fans + ' curatedCount-' + currentDj.curatorPoints + ' is currently playing ...');
-        }, 5000);
+        if (djStats) {
+            clearTimeout(timeout);
+            timeout = setTimeout(function() {
+                API.sendChat('/em ' + ': ' + currentDj.username + '´s stats: totalPoints:' + (currentDj.djPoints + currentDj.listenerPoints) + '(djPoints-' + currentDj.djPoints + ' | listenerPoints-' + currentDj.listenerPoints + '), fans-' + currentDj.fans + ' curatedCount-' + currentDj.curatorPoints + ' is currently playing ...');
+            }, 5000);
+        }
 
 
     }
@@ -1032,6 +1051,12 @@ function readCookies() {
      */
     value = jaaulde.utils.cookies.get(COOKIE_CURATENOTES);
     curateNotes = value != null ? value: false;
+
+    /*
+     * Read djStats notification cookie (false by default)
+     */
+    value = jaaulde.utils.cookies.get(COOKIE_DJSTATS);
+    djStats = value != null ? value: false;
 
     onCookiesLoaded();
 }
