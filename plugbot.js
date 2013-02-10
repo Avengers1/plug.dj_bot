@@ -551,15 +551,6 @@ function initUIListeners() {
     });
 }
 
-function clearScore() {
-    votes = 0;
-    woots = 0;
-    mehs = 0;
-    curates = 0;
-    percentil = 0;
-
-}
-
 function checkScore() {
     var Djs = API.getDJs();
 
@@ -610,7 +601,11 @@ function djAdvanced(obj) {
 
     if (hostingBot) {
         // DJ just left the booth
-        clearScore();
+        votes = 0;
+        woots = 0;
+        mehs = 0;
+        curates = 0;
+        percentil = 0;
         var msg;
         if (savedScore[0] == undefined) {
             msg = '/em ' + ': ' + prevDj + ' just played ' + savedSong[0] + '-' + savedSong[1]
