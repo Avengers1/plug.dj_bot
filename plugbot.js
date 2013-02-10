@@ -216,12 +216,14 @@ function initAPIListeners() {
     API.addEventListener(API.ROOM_SCORE_UPDATE, function (obj) {
 
         if (hostingBot) {
+            /*
             if (obj.positive == 0 && obj.negative == 0) {
                 savedScore[0] = woots;
                 savedScore[1] = mehs;
                 savedScore[2] = curates;
                 savedScore[3] = percentil;
             }
+            */
             woots = obj.positive;
             mehs = obj.negative;
             curates = obj.curates;
@@ -596,6 +598,10 @@ function djAdvanced(obj) {
 
     if (hostingBot) {
         // DJ just left the booth
+        savedScore[0] = woots;
+        savedScore[1] = mehs;
+        savedScore[2] = curates;
+        savedScore[3] = percentil;
         var msg;
         if (savedScore[0] == undefined) {
             msg = '/em ' + ': ' + prevDj + ' just played ' + savedSong[0] + '-' + savedSong[1]
