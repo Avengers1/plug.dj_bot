@@ -610,7 +610,7 @@ function djAdvanced(obj) {
         else {
             msg = '/em ' + ': ' + prevDj + ' just played ' + savedSong[0] + '-' + savedSong[1]
                     + ' and achieved ' + savedScore[0] + ' woots' + ', ' + savedScore[1] + ' mehs, '
-                    + savedScore[2] + ' curates and final ratio of ' + Math.floor(savedScore[3] * 100) + '%';
+                    + savedScore[2] + ' curates and final score ' + Math.floor(savedScore[3] * 100) + '%';
         }
         API.sendChat(msg);
 
