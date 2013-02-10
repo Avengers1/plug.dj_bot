@@ -88,7 +88,6 @@ var song = API.getMedia();
 var savedSong = new Array(song.author, song.title);
 
 var woots, mehs, curates, votes, mehsRatio, wootsRatio, percentil;
-var clearScore = true;
 
 function chatMsg(type, from, fromId, msg,language)
 {
@@ -217,24 +216,20 @@ function initAPIListeners() {
     API.addEventListener(API.ROOM_SCORE_UPDATE, function (obj) {
 
         if (hostingBot) {
-
-            if (obj.positive != 0 && obj.negative != 0) {
-                woots = obj.positive;
-                mehs = obj.negative;
-                curates = obj.curates;
-                percentil = obj.score;
-                votes = woots + mehs;
-                mehsRatio = mehs/woots;
-                wootsRatio = woots/mehs;
-                clearScore = false;
-            }
-            else {
-                clearScore = true;
+            if (obj.positive == 0 && obj.negative == 0) {
                 savedScore[0] = woots;
                 savedScore[1] = mehs;
                 savedScore[2] = curates;
                 savedScore[3] = percentil;
             }
+            woots = obj.positive;
+            mehs = obj.negative;
+            curates = obj.curates;
+            percentil = obj.score;
+            votes = woots + mehs;
+            mehsRatio = mehs/woots;
+            wootsRatio = woots/mehs;
+
 
         }
 
@@ -601,11 +596,6 @@ function djAdvanced(obj) {
 
     if (hostingBot) {
         // DJ just left the booth
-        votes = 0;
-        woots = 0;
-        mehs = 0;
-        curates = 0;
-        percentil = 0;
         var msg;
         if (savedScore[0] == undefined) {
             msg = '/em ' + ': ' + prevDj + ' just played ' + savedSong[0] + '-' + savedSong[1]
