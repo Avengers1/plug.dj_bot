@@ -552,6 +552,7 @@ function initUIListeners() {
 }
 
 function clearScore() {
+    votes = 0;
     woots = 0;
     mehs = 0;
     curates = 0;
