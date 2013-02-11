@@ -353,7 +353,7 @@ function initAPIListeners() {
 
         checkCustomUsernames();
 
-        if (autoMsg) {
+       // if (autoMsg) {
             /*var msgInstance = new chatMsg(obj.type, obj.from, obj.fromID, obj.message, obj.language);
             chatLog.push(msgInstance);*/
 /*
@@ -363,14 +363,15 @@ function initAPIListeners() {
 
             }
 */
-        }
+        // }
 
         if (chatCommands) {
             ret = obj.message.search(cmd_check);
             if (ret != -1) {
                 numb = parseInt(obj.message.substring(ret + 5, ret + 6));
+                console.log("NUMB: " + numb);
                 var booth = API.getDJs();
-                API.sendChat('/em checking ' + booth[numb].username + '... Points: ' + (booth[numb].djPoints + booth[numb].listenerPoints) + '(djPts-' + booth[numb].djPoints + ' | listenerPts-' + booth[numb].listenerPoints + ') Fans: ' + booth[numb].fans + ' CuratorPts: ' + booth[numb].curatorPoints);
+                //API.sendChat('/em checking ' + booth[numb].username + '... Points: ' + (booth[numb].djPoints + booth[numb].listenerPoints) + '(djPts-' + booth[numb].djPoints + ' | listenerPts-' + booth[numb].listenerPoints + ') Fans: ' + booth[numb].fans + ' CuratorPts: ' + booth[numb].curatorPoints);
                 delete booth;
                 booth = null;
             }
