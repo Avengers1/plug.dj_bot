@@ -369,10 +369,10 @@ function initAPIListeners() {
             ret = obj.message.search(cmd_check);
             if (ret != -1) {
                 numb = parseInt(obj.message.substring(ret + 5, ret + 6));
-                var booth = new Array();
-                booth = API.getDJs();
+                var booth = API.getDJs();
                 API.sendChat('/em checking ' + booth[numb].username + '... Points: ' + (booth[numb].djPoints + booth[numb].listenerPoints) + '(djPts-' + booth[numb].djPoints + ' | listenerPts-' + booth[numb].listenerPoints + ') Fans: ' + booth[numb].fans + ' CuratorPts: ' + booth[numb].curatorPoints);
-                delete booth[];
+                delete booth;
+                booth = null;
             }
 
         }
