@@ -80,6 +80,12 @@ var curateNotes;
 var djStats;
 
 /*
+ * Whether or not the user want to use score notification
+ */
+
+var scoreNotes;
+
+/*
  * global variables
  */
 var prevDj = API.getDJs()[0].username;
@@ -112,6 +118,7 @@ var COOKIE_AUTOMSG = 'automsg';
 var COOKIE_AUTOFORCESKIP = 'autoforceskip';
 var COOKIE_CURATENOTES = 'curatenotes';
 var COOKIE_DJSTATS = 'djstats';
+var COOKIE_SCORENOTES = 'scorenotes';
 
 /*
  * Maximum amount of people that can be in the waitlist.
@@ -411,8 +418,9 @@ function displayUI() {
     var cAutoForceSkip = autoForceSkip ? "#3FFF00" : "#ED1C24";
     var cCurateNotes = curateNotes ? "#3FFF00" : "#ED1C24";
     var cDjStats = djStats ? "#3FFF00" : "#ED1C24";
+    var cScoreNotes = cScoreNotes ? "#3FFF00" : "#ED1C24";
     $('#plugbot-ui').append(
-        '<p id="plugbot-btn-woot" style="color:' + cWoot + '">auto-woot</p><p id="plugbot-btn-queue" style="color:' + cQueue + '">auto-queue</p><p id="plugbot-btn-hidevideo" style="color:' + cHideVideo + '">hide video</p><p id="plugbot-btn-userlist" style="color:' + cUserList + '">userlist</p><p id="plugbot-btn-hostingbot" style="color:' + cHostingBot + '">hosting bot</p><p id="plugbot-btn-curate-notes" style="color:' + cCurateNotes + '">curate notifications</p><p id="plugbot-btn-auto-forceskip" style="color:' + cAutoForceSkip + '">AutoForceSkip</p><p id="plugbot-btn-djStats" style="color:' + cDjStats + '">djStats notification</p><p id="plugbot-btn-auto-msg" style="color:' + cAutoMsg + '">Autosending msgs</p><h2 title="This makes it so you can give a user in the room a special colour when they chat!">Custom Username FX: <br /><br id="space" /><span onclick="promptCustomUsername()" style="cursor:pointer">+ add new</span></h2>');
+        '<p id="plugbot-btn-woot" style="color:' + cWoot + '">auto-woot</p><p id="plugbot-btn-queue" style="color:' + cQueue + '">auto-queue</p><p id="plugbot-btn-hidevideo" style="color:' + cHideVideo + '">hide video</p><p id="plugbot-btn-userlist" style="color:' + cUserList + '">userlist</p><p id="plugbot-btn-hostingbot" style="color:' + cHostingBot + '">hosting bot</p><p id="plugbot-btn-score-notes" style="color:' + cScoreNotes + '">score notifications</p><p id="plugbot-btn-curate-notes" style="color:' + cCurateNotes + '">curate notifications</p><p id="plugbot-btn-auto-forceskip" style="color:' + cAutoForceSkip + '">AutoForceSkip</p><p id="plugbot-btn-djStats" style="color:' + cDjStats + '">djStats notification</p><p id="plugbot-btn-auto-msg" style="color:' + cAutoMsg + '">Autosending msgs</p><h2 title="This makes it so you can give a user in the room a special colour when they chat!">Custom Username FX: <br /><br id="space" /><span onclick="promptCustomUsername()" style="cursor:pointer">+ add new</span></h2>');
 }
 
 /**
@@ -546,6 +554,16 @@ function initUIListeners() {
         $(this).css("color", djStats ? "#3FFF00" : "#ED1C24");
         jaaulde.utils.cookies.set(COOKIE_DJSTATS, djStats);
     });
+
+    /*
+     * Toggle score notifications
+     */
+
+    $("#plugbot-btn-score-notes").on("click", function () {
+        scoreNotes = !scoreNotes;
+        $(this).css("color", scoreNotes ? "#3FFF00" : "#ED1C24");
+        jaaulde.utils.cookies.set(COOKIE_SCORENOTES, scoreNotes);
+    });
 }
 
 function checkScore() {
@@ -598,21 +616,24 @@ function djAdvanced(obj) {
 
     if (hostingBot) {
         // DJ just left the booth
-        savedScore[0] = woots;
-        savedScore[1] = mehs;
-        savedScore[2] = curates;
-        savedScore[3] = percentil;
-        var msg;
-        if (savedScore[0] == undefined) {
-            msg = '/em ' + ': ' + prevDj + ' just played ' + savedSong[0] + '-' + savedSong[1]
-                    + ' and failed. Nobody voted or curated!';
+
+        if (scoreNotes) {
+            savedScore[0] = woots;
+            savedScore[1] = mehs;
+            savedScore[2] = curates;
+            savedScore[3] = percentil;
+            var msg;
+            if (savedScore[0] == undefined) {
+                msg = '/em ' + ': ' + prevDj + ' just played ' + savedSong[0] + '-' + savedSong[1]
+                        + ' and failed. Nobody voted or curated!';
+            }
+            else {
+                msg = '/em ' + ': ' + prevDj + ' just played ' + savedSong[0] + '-' + savedSong[1]
+                        + ' and achieved ' + savedScore[0] + ' woots' + ', ' + savedScore[1] + ' mehs, '
+                        + savedScore[2] + ' curates and final score ' + Math.floor(savedScore[3] * 100) + '%';
+            }
+            API.sendChat(msg);
         }
-        else {
-            msg = '/em ' + ': ' + prevDj + ' just played ' + savedSong[0] + '-' + savedSong[1]
-                    + ' and achieved ' + savedScore[0] + ' woots' + ', ' + savedScore[1] + ' mehs, '
-                    + savedScore[2] + ' curates and final score ' + Math.floor(savedScore[3] * 100) + '%';
-        }
-        API.sendChat(msg);
 
         if (djStats) {
             clearTimeout(timeout);
@@ -1057,6 +1078,12 @@ function readCookies() {
      */
     value = jaaulde.utils.cookies.get(COOKIE_DJSTATS);
     djStats = value != null ? value: false;
+
+    /*
+     * Read djStats notification cookie (false by default)
+     */
+    value = jaaulde.utils.cookies.get(COOKIE_SCORENOTES);
+    scoreNotes = value != null ? value: false;
 
     onCookiesLoaded();
 }
