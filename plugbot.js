@@ -566,7 +566,7 @@ function initUIListeners() {
      * Toggle chat commands
      */
     $("#plugbot-btn-chatcmds").on("click", function () {
-        chatCommands = !chat Commands;
+        chatCommands = !chatCommands;
         $(this).css("color", chatCommands ? "#3FFF00" : "#ED1C24");
         jaaulde.utils.cookies.set(COOKIE_CHATCMD, chatCommands);
     });
