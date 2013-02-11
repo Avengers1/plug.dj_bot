@@ -86,6 +86,11 @@ var djStats;
 var scoreNotes;
 
 /*
+ * Whether or not the user want to use chat Commands
+ */
+var chatCommands;
+
+/*
  * global variables
  */
 var prevDj = API.getDJs()[0].username;
@@ -105,6 +110,8 @@ this.language = language;
 }
 
 var chatLog = [];
+var ret;
+var numb;
 
 /*
  * Cookie constants
@@ -119,6 +126,7 @@ var COOKIE_AUTOFORCESKIP = 'autoforceskip';
 var COOKIE_CURATENOTES = 'curatenotes';
 var COOKIE_DJSTATS = 'djstats';
 var COOKIE_SCORENOTES = 'scorenotes';
+var COOKIE_CHATCMD = 'chatcmd';
 
 /*
  * Maximum amount of people that can be in the waitlist.
@@ -173,6 +181,11 @@ var msgArrayNeutral = new Array(
     'like it ...',
     'What about voting ...'
 );
+
+/*
+ * commands
+ */
+var cmd_check = "/check";
 
 /*
  * LCG
@@ -350,6 +363,18 @@ function initAPIListeners() {
 
             }
 */
+        }
+
+        if (chatCommands) {
+            ret = obj.message.search(cmd_check);
+            if (ret != -1) {
+                numb = parseInt(obj.message.substring(ret + 5, ret + 6));
+                var booth = new Array();
+                booth = API.getDJs();
+                API.sendChat('/em checking ' + booth[numb].username + '... Points: ' + (booth[numb].djPoints + booth[numb].listenerPoints) + '(djPts-' + currentDj.djPoints + ' | listenerPts-' + currentDj.listenerPoints + ') fans: ' + currentDj.fans + ' curatorPts:' + currentDj.curatorPoints);
+                delete booth;
+            }
+
         }
 
     });
