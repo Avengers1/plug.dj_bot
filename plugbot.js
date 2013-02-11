@@ -371,7 +371,7 @@ function initAPIListeners() {
                 numb = parseInt(obj.message.substring(ret + 5, ret + 6));
                 var booth = new Array();
                 booth = API.getDJs();
-                API.sendChat('/em checking ' + booth[numb].username + '... Points: ' + (booth[numb].djPoints + booth[numb].listenerPoints) + '(djPts-' + currentDj.djPoints + ' | listenerPts-' + currentDj.listenerPoints + ') fans: ' + currentDj.fans + ' curatorPts:' + currentDj.curatorPoints);
+                API.sendChat('/em checking ' + booth[numb].username + '... Points: ' + (booth[numb].djPoints + booth[numb].listenerPoints) + '(djPts-' + booth[numb].djPoints + ' | listenerPts-' + booth[numb].listenerPoints + ') fans: ' + booth[numb].fans + ' curatorPts:' + booth[numb].curatorPoints);
                 delete booth;
             }
 
