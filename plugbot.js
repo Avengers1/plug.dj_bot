@@ -444,8 +444,20 @@ function displayUI() {
     var cCurateNotes = curateNotes ? "#3FFF00" : "#ED1C24";
     var cDjStats = djStats ? "#3FFF00" : "#ED1C24";
     var cScoreNotes = cScoreNotes ? "#3FFF00" : "#ED1C24";
-    $('#plugbot-ui').append(
-        '<p id="plugbot-btn-woot" style="color:' + cWoot + '">auto-woot</p><p id="plugbot-btn-queue" style="color:' + cQueue + '">auto-queue</p><p id="plugbot-btn-hidevideo" style="color:' + cHideVideo + '">hide video</p><p id="plugbot-btn-userlist" style="color:' + cUserList + '">userlist</p><p id="plugbot-btn-hostingbot" style="color:' + cHostingBot + '">hosting bot</p><p id="plugbot-btn-score-notes" style="color:' + cScoreNotes + '">score notifications</p><p id="plugbot-btn-curate-notes" style="color:' + cCurateNotes + '">curate notifications</p><p id="plugbot-btn-auto-forceskip" style="color:' + cAutoForceSkip + '">AutoForceSkip</p><p id="plugbot-btn-djStats" style="color:' + cDjStats + '">djStats notification</p><p id="plugbot-btn-auto-msg" style="color:' + cAutoMsg + '">Autosending msgs</p><h2 title="This makes it so you can give a user in the room a special colour when they chat!">Custom Username FX: <br /><br id="space" /><span onclick="promptCustomUsername()" style="cursor:pointer">+ add new</span></h2>');
+    var cChatCommands = cChatCommands ? "#3FFF00" : "#ED1C24";
+    $('#plugbot-ui').append( '<p id="plugbot-btn-woot" style="color:' + cWoot + '">auto-woot</p>'
+                + '<p id="plugbot-btn-queue" style="color:' + cQueue + '">auto-queue</p>'
+                + '<p id="plugbot-btn-hidevideo" style="color:' + cHideVideo + '">hide video</p>'
+                + '<p id="plugbot-btn-userlist" style="color:' + cUserList + '">userlist</p>'
+                + '<p id="plugbot-btn-hostingbot" style="color:' + cHostingBot + '">hosting bot</p>'
+                + '<p id="plugbot-btn-chatcmds" style="color:' + cChatCommands + '">chat commands</p>'
+                + '<p id="plugbot-btn-score-notes" style="color:' + cScoreNotes + '">score notifications</p>'
+                + '<p id="plugbot-btn-curate-notes" style="color:' + cCurateNotes + '">curate notifications</p>'
+                + '<p id="plugbot-btn-djStats" style="color:' + cDjStats + '">djStats notification</p>'
+                + '<p id="plugbot-btn-auto-msg" style="color:' + cAutoMsg + '">Autosending msgs</p>'
+                + '<h2 title="This makes it so you can give a user in the room a special colour when they chat!">'
+                + 'Custom Username FX: <br /><br id="space" /><span onclick="promptCustomUsername()" style="cursor:pointer">'
+                + '+ add new</span></h2>');
 }
 
 /**
@@ -548,6 +560,15 @@ function initUIListeners() {
             $('#button-vote-negative').click();
             $('#button-vote-positive').click();
         }
+    });
+
+    /*
+     * Toggle chat commands
+     */
+    $("#plugbot-btn-chatcmds").on("click", function () {
+        chatCommands = !chat Commands;
+        $(this).css("color", chatCommands ? "#3FFF00" : "#ED1C24");
+        jaaulde.utils.cookies.set(COOKIE_CHATCMD, chatCommands);
     });
 
      /*
@@ -1085,6 +1106,12 @@ function readCookies() {
      */
     value = jaaulde.utils.cookies.get(COOKIE_HOSTINGBOT);
     hostingBot = value != null ? value: false;
+
+    /*
+     * Read chat commands cookie (false by default)
+     */
+    value = jaaulde.utils.cookies.get(COOKIE_CHATCMD);
+    chatCommands = value != null ? value: false;
 
     /*
      * Read autoForceSkip cookie (false by default)
