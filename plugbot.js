@@ -366,7 +366,7 @@ function initAPIListeners() {
         // }
 
         if (chatCommands) {
-            if (API.getUser(obj.fromID) == API.getSelf()) {
+            if (API.getUser(obj.fromID).permission >= 3) {
                 ret = obj.message.search(cmd_check);
                 if (ret != -1) {
                     numb = parseInt(obj.message.substring(7,8));
