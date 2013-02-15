@@ -765,8 +765,6 @@ function djAdvanced(obj) {
             }, delay);
         }
 
-        if ($('#'))
-
     }
 
     /*
