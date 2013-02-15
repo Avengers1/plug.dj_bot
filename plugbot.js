@@ -212,10 +212,12 @@ var timeoutId = null;
 var songTimeoutId = null;
 var autoSkipActivate = null;
 var timeout = null;
+var alert_check = null;
 clearTimeout(timeoutId);
 clearTimeout(songTimeoutId);
 clearTimeout(autoSkipActivate);
 clearTimeout(timeout);
+clearTimeout(alert_check);
 
 function printObject(o) {
   var out = '';
@@ -718,6 +720,12 @@ function djAdvanced(obj) {
     }
 
     if (autoMsg) {
+            alert_check = setTimeout(function() {
+                if ($('#dialog-box').children('#dialog-alert').length != 0) {
+                    $('#dialog-box').children('#dialog-alert').children().last().click();
+                }
+            }, 10000);
+            
         if (djAdvanceCnt % 8 == 0) {
             // send msg to chat
             safeIt = genNb;
@@ -756,6 +764,8 @@ function djAdvanced(obj) {
                 
             }, delay);
         }
+
+        if ($('#'))
 
     }
 
