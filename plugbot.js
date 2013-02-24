@@ -370,13 +370,21 @@ function initAPIListeners() {
             if (API.getUser(obj.fromID).permission >= 2) {
                 ret = obj.message.search(cmd_check);
                 if (ret != -1) {
-                    numb = parseInt(obj.message.substring(7,8));
-                    var booth = API.getDJs();
-                    if (numb <= booth.length - 1) {
-                        API.sendChat('/em ' + obj.from + ' is checking ' + booth[numb].username + '... Points: ' + (booth[numb].djPoints + booth[numb].listenerPoints) + '(djPts-' + booth[numb].djPoints + ' | listenerPts-' + booth[numb].listenerPoints + ') Fans: ' + booth[numb].fans + ' CuratorPts: ' + booth[numb].curatorPoints);
+                    if (obj.message.substring(7,9) == "me") {
+                        var me = API.getUser(obj.fromID);
+                        API.sendChat('/em ' + obj.from + ' is checking himself... Points: ' + (me.djPoints + me.listenerPoints) + '(djPts-' + me.djPoints + ' | listenerPts-' + me.listenerPoints + ') Fans: ' + me.fans + ' CuratorPts: ' + me.curatorPoints);
+                        delete me;
+                        me = null;
                     }
-                    delete booth;
-                    booth = null;
+                    else {
+                        numb = parseInt(obj.message.substring(7,8));
+                        var booth = API.getDJs();
+                        if (numb <= booth.length - 1) {
+                            API.sendChat('/em ' + obj.from + ' is checking ' + booth[numb].username + '... Points: ' + (booth[numb].djPoints + booth[numb].listenerPoints) + '(djPts-' + booth[numb].djPoints + ' | listenerPts-' + booth[numb].listenerPoints + ') Fans: ' + booth[numb].fans + ' CuratorPts: ' + booth[numb].curatorPoints);
+                        }
+                        delete booth;
+                        booth = null;
+                    }
                 }
             }
 
