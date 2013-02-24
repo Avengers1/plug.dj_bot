@@ -335,6 +335,10 @@ function initAPIListeners() {
         }
     });
 
+    API.addEventListener(API.USER_SKIP, function (obj) {
+        clearTimeout(songTimeoutId);
+    });
+
     API.addEventListener(API.CHAT, function (obj) {
         /*
         obj.type
