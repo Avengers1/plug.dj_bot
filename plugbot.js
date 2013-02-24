@@ -309,7 +309,7 @@ function initAPIListeners() {
                 API.sendChat('Welcome Ji' + '\xAE' + 'in');
             }
             else { */
-                API.sendChat('/em ' + ': ' + 'Welcome ' + user.username + ' !');
+                API.sendChat('Welcome @' + user.username + ' !');
             //}
         }
 
@@ -323,16 +323,13 @@ function initAPIListeners() {
      * Called upon a user exiting the room.
      */
     API.addEventListener(API.USER_LEAVE, function (user) {
+        /*
         if (hostingBot) {
-            /*
-            var pom = 'Ji' + '\xAE' + 'in';
-            if (user.username == pom) {
-                API.sendChat('Ji' + '\xAE' + 'in has left the room!');
-            }
-            else { */
-                API.sendChat('/em ' + ': ' + user.username + ' has left the room!');
-            //}
-        }
+
+        
+            API.sendChat('/em ' + ': ' + user.username + ' has left the room!');
+
+        } */
         if (userList) {
             populateUserlist();
         }
@@ -656,10 +653,10 @@ function checkScore() {
  *        This contains the current DJ's data.
  */
 function djAdvanced(obj) {
+    clearTimeout(songTimeoutId);
 
     if (autoForceSkip) {
         autoForSkipFlag = false;
-        clearTimeout(songTimeoutId);
         clearTimeout(autoSkipActivate);
         delay = (Math.floor(obj.media.duration/5) > 60) ? 60 : Math.floor(obj.media.duration/5);
         autoSkipActivate = setTimeout(function() {
@@ -703,11 +700,11 @@ function djAdvanced(obj) {
 
 
     }
-    if (autoForceSkip) {
+    if (hostingBot) {
         var duration = obj.media.duration;
         if (duration > 480) {
             songTimeoutId = setTimeout(function() {
-                API.sendChat('/em ' + ': ' + prevDj + 'has been skipped due to reaching song length limit of 8 minutes!');
+                API.sendChat('/em ' + ': ' + prevDj + 'has been skipped due to reaching song length limit!');
                 API.moderateForceSkip();
             }, 480000);
         }
