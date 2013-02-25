@@ -706,12 +706,13 @@ function djAdvanced(obj) {
     }
     if (hostingBot) {
         var duration = obj.media.duration;
-        if (duration > 480) {
+        if (duration > 485) {
             songTimeoutId = setTimeout(function() {
                 API.sendChat('/em ' + ': ' + prevDj + 'has been skipped due to reaching song length limit!');
                 API.moderateForceSkip();
             }, 480000);
         }
+        delete duration;
     }
     /*
      * If they want the video to be hidden, be sure to re-hide it.
@@ -794,6 +795,7 @@ function djAdvanced(obj) {
  *
  */
 function queueUpdate() {
+    clearTimeout(songTimeoutId);
     /*
      * If auto-queueing has been enabled, and we are currently
      * not in the waitlist, then try to join the list.
