@@ -310,7 +310,8 @@ function initAPIListeners() {
             }
             else { */
             if (user.id == "50aeb062c3b97a2cb4c2a0a2") {
-                API.sendChat('Hey beauty !!! @' + user.username);
+                API.sendChat('@' + user.username);
+                API.sendChat('/em Hey beauty !!!');
             }
             else {
                 API.sendChat('Welcome @' + user.username + ' !');
