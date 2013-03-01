@@ -313,6 +313,10 @@ function initAPIListeners() {
                 API.sendChat('@' + user.username);
                 API.sendChat('/em Welcome beauty !!!');
             }
+            else if (user.id == "50fda7f6c3b97a48cb78b3dc") {
+                API.sendChat('@' + user.username);
+                API.sendChat('/em Welcome bro !!!');
+            }
             else {
                 API.sendChat('Welcome @' + user.username + ' !');
             }
