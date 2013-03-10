@@ -383,7 +383,7 @@ function initAPIListeners() {
                 if (ret != -1) {
                     if (obj.message.substring(7,9) == "me") {
                         var me = API.getUser(obj.fromID);
-                        API.sendChat('/em ' + obj.from + ' is checking himself... Points: ' + (me.djPoints + me.listenerPoints) + '(djPts-' + me.djPoints + ' | listenerPts-' + me.listenerPoints + ') Fans: ' + me.fans + ' CuratorPts: ' + me.curatorPoints);
+                        API.sendChat('/em ' + obj.from + ' is checking himself... Points: ' + (me.djPoints + me.listenerPoints + me.curatorPoints) + '(djPts-' + me.djPoints + ' | listenerPts-' + me.listenerPoints + ' | CuratorPts-' + me.curatorPoints + ') Fans: ' + me.fans);
                         delete me;
                         me = null;
                     }
@@ -391,7 +391,7 @@ function initAPIListeners() {
                         numb = parseInt(obj.message.substring(7,8));
                         var booth = API.getDJs();
                         if (numb <= booth.length - 1) {
-                            API.sendChat('/em ' + obj.from + ' is checking ' + booth[numb].username + '... Points: ' + (booth[numb].djPoints + booth[numb].listenerPoints) + '(djPts-' + booth[numb].djPoints + ' | listenerPts-' + booth[numb].listenerPoints + ') Fans: ' + booth[numb].fans + ' CuratorPts: ' + booth[numb].curatorPoints);
+                            API.sendChat('/em ' + obj.from + ' is checking ' + booth[numb].username + '... Points: ' + (booth[numb].djPoints + booth[numb].listenerPoints + booth[numb].curatorPoints) + '(djPts-' + booth[numb].djPoints + ' | listenerPts-' + booth[numb].listenerPoints + ' | CuratorPts-' + booth[numb].curatorPoints +') Fans: ' + booth[numb].fans);
                         }
                         delete booth;
                         booth = null;
@@ -468,7 +468,7 @@ function displayUI() {
     var cCurateNotes = curateNotes ? "#3FFF00" : "#ED1C24";
     var cDjStats = djStats ? "#3FFF00" : "#ED1C24";
     var cScoreNotes = cScoreNotes ? "#3FFF00" : "#ED1C24";
-    var cChatCommands = cChatCommands ? "#3FFF00" : "#ED1C24";
+    var cChatCommands = chatCommands ? "#3FFF00" : "#ED1C24";
     $('#plugbot-ui').append( '<p id="plugbot-btn-woot" style="color:' + cWoot + '">auto-woot</p>'
                 + '<p id="plugbot-btn-queue" style="color:' + cQueue + '">auto-queue</p>'
                 + '<p id="plugbot-btn-hidevideo" style="color:' + cHideVideo + '">hide video</p>'
