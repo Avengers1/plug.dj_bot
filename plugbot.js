@@ -378,7 +378,7 @@ function initAPIListeners() {
         // }
 
         if (chatCommands) {
-            if (API.getUser(obj.fromID).permission >= 1) {
+            //if (API.getUser(obj.fromID).permission >= 1) {
                 ret = obj.message.search(cmd_check);
                 if (ret != -1) {
                     if (obj.message.substring(7,9) == "me") {
@@ -397,7 +397,7 @@ function initAPIListeners() {
                         booth = null;
                     }
                 }
-            }
+            //}
 
         }
 
