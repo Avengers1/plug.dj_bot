@@ -381,7 +381,7 @@ function initAPIListeners() {
             //if (API.getUser(obj.fromID).permission >= 1) {
                 ret = obj.message.search(cmd_check);
                 if (ret != -1) {
-                    if (obj.message.substring(7,9) == "me") {
+                    if (obj.message.substring(7,9) == 'me') {
                         var me = API.getUser(obj.fromID);
                         API.sendChat('/em ' + obj.from + ' is checking himself... Points: ' + (me.djPoints + me.listenerPoints + me.curatorPoints) + '(djPts-' + me.djPoints + ' | listenerPts-' + me.listenerPoints + ' | CuratorPts-' + me.curatorPoints + ') Fans: ' + me.fans);
                         delete me;
@@ -403,10 +403,11 @@ function initAPIListeners() {
                     }
                 }
 
-                ret = obj.message.search("/cancel tout");
+                ret = obj.message.search('/cancel tout');
                 if (ret != -1) {
                     if (API.getUser(obj.fromID).permission >= 1) {
                         clearTimeout(songTimeoutId);
+                        API.sendChat('/em Timeout has been canceled!');
                     }
                 }
             //}
