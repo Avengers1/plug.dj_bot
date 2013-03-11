@@ -402,6 +402,13 @@ function initAPIListeners() {
                         }
                     }
                 }
+
+                ret = obj.message.search("/cancel tout");
+                if (ret != -1) {
+                    if (API.getUser(obj.fromID).permission >= 1) {
+                        clearTimeout(songTimeoutId);
+                    }
+                }
             //}
 
         }
@@ -719,6 +726,7 @@ function djAdvanced(obj) {
 
 
     }
+    
     if (hostingBot) {
         var duration = obj.media.duration;
         if (duration > 485) {
