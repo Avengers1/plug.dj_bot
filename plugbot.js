@@ -735,6 +735,7 @@ function djAdvanced(obj) {
                 API.sendChat('/em ' + ': ' + prevDj + 'has been skipped due to reaching song length limit!');
                 API.moderateForceSkip();
             }, 480000);
+            API.sendChat('/em ' + obj.dj.username + ' will be skipped after 8 minutes due to exceeding length limit!');
         }
         delete duration;
     }
