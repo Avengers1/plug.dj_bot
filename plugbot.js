@@ -388,7 +388,7 @@ function initAPIListeners() {
                         me = null;
                     }
                     else {
-                        if (if (API.getUser(obj.fromID).permission >= 1)) {
+                        if (API.getUser(obj.fromID).permission >= 1) {
                             numb = parseInt(obj.message.substring(7,8));
                             var booth = API.getDJs();
                             if (numb <= booth.length - 1) {
