@@ -398,16 +398,18 @@ function initAPIListeners() {
                             booth = null;
                         }
                         else {
-                            API.sendChat('@' + obj.username + ' you´re not allowed to check others - Only staffed ppl can do so! Use /check me if you want to check your stats');
+                            API.sendChat('@' + obj.from + ' you´re not allowed to check others - Only staffed ppl can do so! Use /check me if you want to check your stats');
                         }
                     }
                 }
 
-                ret = obj.message.search('/cancel tout');
+                ret = obj.message.search('/cancel');
                 if (ret != -1) {
-                    if (API.getUser(obj.fromID).permission >= 1) {
-                        clearTimeout(songTimeoutId);
-                        API.sendChat('/em Timeout has been canceled!');
+                    if (obj.message.substring(8, 12) == "tout") {
+                        if (API.getUser(obj.fromID).permission >= 1) {
+                            clearTimeout(songTimeoutId);
+                            API.sendChat('/em Timeout has been canceled!');
+                        }
                     }
                 }
             //}
