@@ -388,13 +388,18 @@ function initAPIListeners() {
                         me = null;
                     }
                     else {
-                        numb = parseInt(obj.message.substring(7,8));
-                        var booth = API.getDJs();
-                        if (numb <= booth.length - 1) {
-                            API.sendChat('/em ' + obj.from + ' is checking ' + booth[numb].username + '... Points: ' + (booth[numb].djPoints + booth[numb].listenerPoints + booth[numb].curatorPoints) + '(djPts-' + booth[numb].djPoints + ' | listenerPts-' + booth[numb].listenerPoints + ' | CuratorPts-' + booth[numb].curatorPoints +') Fans: ' + booth[numb].fans);
+                        if (if (API.getUser(obj.fromID).permission >= 1)) {
+                            numb = parseInt(obj.message.substring(7,8));
+                            var booth = API.getDJs();
+                            if (numb <= booth.length - 1) {
+                                API.sendChat('/em ' + obj.from + ' is checking ' + booth[numb].username + '... Points: ' + (booth[numb].djPoints + booth[numb].listenerPoints + booth[numb].curatorPoints) + '(djPts-' + booth[numb].djPoints + ' | listenerPts-' + booth[numb].listenerPoints + ' | CuratorPts-' + booth[numb].curatorPoints +') Fans: ' + booth[numb].fans);
+                            }
+                            delete booth;
+                            booth = null;
                         }
-                        delete booth;
-                        booth = null;
+                        else {
+                            API.sendChat('@' + obj.username + ' you´re not allowed to check others - Only staffed ppl can do so! Use /check me if you want to check your stats');
+                        }
                     }
                 }
             //}
