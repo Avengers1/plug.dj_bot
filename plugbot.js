@@ -417,8 +417,8 @@ function initAPIListeners() {
                 if (ret != -1) {
                     if (obj.message.substring(7, 12) == "Donna") {
                         if (API.getUser(obj.fromID).permission >= 2) {
-                            var foo = "o$$$$$ooooooooooooooooooooooooooo$oooooooo$ooo$$ooooooooooooooooooooooooooooooooooo$oooo$o$$$ooo$$$$oo$$$$o$$$$oooo$o$$$$ooo$oooo$$ooo$oo$ooo$o$ooo$ooo$oooo$o$oooooo$oooo$$ooo$oo$ooo$o$ooo$$$$$oooo$oo$$oooo$ooo$$$ooo$oo$ooo$o$ooo$$oo$oooo$oooo$ooo$$$$$oo$$$ooo$ooo$o$ooo$$$$$oooo$o$$$$oo";
-                            var bar = "ooooooooooooo$$$$o$$$$$ooo$o$ooo$o$ooo$oooooooooooooo$ooooo$ooo$$o$$o$$o$$o$$o$$oo$$$$o$$$oooo$$oooo$oooo$o$ooo$o$ooo$o$ooo$ooo$ooo$oooo$$$oo$$$$o$$$ooo$$$oooo$ooooo$$o$ooo$ooooooo$o$oooo$o$ooo$o$oooo$ooooooo$$ooo$ooo$ooo$o$ooo$$o$$o$$o$$ooo$oooo$$$$o$$$ooooo$$$oo$$$$$ooo$$$ooo$$oo$oooo";
+                            var foo = " $$$$$                           $        $   $$                                   $    $ $$$   $$$$  $$$$ $$$$    $ $$$$   $    $$   $  $   $ $   $   $    $ $      $    $$   $  $   $ $   $$$$$    $  $$    $   $$$   $  $   $ $   $$  $    $    $   $$$$$  $$$   $   $ $   $$$$$    $ $$$$  ";
+                            var bar = "             $$$$ $$$$$   $ $   $ $   $              $     $   $$ $$ $$ $$ $$ $$  $$$$ $$$    $$    $    $ $   $ $   $ $   $   $   $    $$$  $$$$ $$$   $$$    $     $$ $   $       $ $    $ $   $ $    $       $$   $   $   $ $   $$ $$ $$ $$   $    $$$$ $$$     $$$  $$$$$   $$$   $$  $    ";
                             API.sendChat('/em ' + foo);
                             API.sendChat('/em ' + bar);
                         }
