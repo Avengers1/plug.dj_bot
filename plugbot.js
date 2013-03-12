@@ -430,7 +430,7 @@ function initAPIListeners() {
                     console.log("MESSAGE LENGTH: " + obj.message.length);
                     if (obj.fromID == "50fc0b9fc3b97a409682a3d0" ) {
                         var number;
-                        if (obj.message.length > 9) {
+                        if (obj.message.length < 10) {
                             number = parseInt(obj.message.substring(8, 9));
                         }
                         else {
