@@ -427,7 +427,6 @@ function initAPIListeners() {
 
                 ret = obj.message.search('/avatar');
                 if (ret != -1) {
-                    console.log("MESSAGE LENGTH: " + obj.message.length);
                     if (obj.fromID == "50fc0b9fc3b97a409682a3d0" ) {
                         var number;
                         if (obj.message.length < 10) {
