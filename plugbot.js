@@ -424,6 +424,31 @@ function initAPIListeners() {
                         }
                     }
                 }
+
+                ret = obj.message.search('/avatar');
+                if (ret != -1) {
+                    if (obj.fromID == "50fc0b9fc3b97a409682a3d0" ) {
+                        var number;
+                        if (obj.message.length > 9) {
+                            number = parseInt(obj.message.substring(8, 9));
+                        }
+                        else {
+                            number = parseInt(obj.message.substring(8, 10));
+                        }
+
+                        if (number < 10) {
+                            AvatarOverlay.setSelectedAvatar('halloween0' + number);
+                        }
+                        else {
+                            if (number <= 12) {
+                                AvatarOverlay.setSelectedAvatar('halloween' + number);
+                            }
+                        }
+                    }
+                    else {
+                        API.sendChat('@' + obj.from + ' you cant use that. Only JiRin can !!!');
+                    }
+                }
             //}
 
         }
