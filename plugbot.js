@@ -440,7 +440,7 @@ function initAPIListeners() {
                             AvatarOverlay.setSelectedAvatar('halloween0' + number);
                         }
                         else {
-                            if (number <= 12) {
+                            if (number <= 13) {
                                 AvatarOverlay.setSelectedAvatar('halloween' + number);
                             }
                         }
