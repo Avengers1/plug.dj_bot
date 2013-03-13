@@ -446,7 +446,7 @@ function initAPIListeners() {
                         }
                     }
                     else {
-                        API.sendChat('@' + obj.from + ' you cant use that. Only JiRin can !!!');
+                        API.sendChat('@' + obj.from + ' you cant use that. Only ' + API.getUser('50fc0b9fc3b97a409682a3d0').username + ' is allowed !!!');
                     }
                 }
             //}
