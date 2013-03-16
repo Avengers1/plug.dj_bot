@@ -477,7 +477,8 @@ function initAPIListeners() {
                     if (ret != -1) {
                         var id_to_watch = "";
                         if (obj.message.substring(7, 11) == "&#34;") {
-                            var ind = indexof("&#34;", 8);
+                            console.log("First quot found .... ");
+                            var ind = indexof("&#34;", 11);
                             if (ind != -1) {
                                 var name = obj.message.substring(12, ind - 1);
                                 var users = API.getUsers();
