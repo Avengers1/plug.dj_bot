@@ -540,6 +540,7 @@ function initAPIListeners() {
                                                             if (vote == 0 && stored_vote != vote) {
                                                                 watch_list[0].mehs++;
                                                                 watch_list[0].woots--;
+                                                            }
                                                             if (vote == -1 && stored_vote != vote) {
                                                                 watch_list[0].woots++;
                                                                 watch_list[0].mehs--;
