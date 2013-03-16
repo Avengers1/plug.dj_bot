@@ -537,13 +537,15 @@ function initAPIListeners() {
                                                     else {
                                                         vote = API.getUser(watch_list[0].id).vote;
                                                         if (vote != 0) {
-                                                            if (vote == 0 && stored_vote != vote) {
+                                                            if (vote == -1 && stored_vote != vote) {
                                                                 watch_list[0].mehs++;
                                                                 watch_list[0].woots--;
+                                                                stored_vote = -1;
                                                             }
-                                                            if (vote == -1 && stored_vote != vote) {
+                                                            if (vote == 1 && stored_vote != vote) {
                                                                 watch_list[0].woots++;
                                                                 watch_list[0].mehs--;
+                                                                stored_vote = 1;
                                                             }
                                                         }
                                                     }
