@@ -112,6 +112,9 @@ this.language = language;
 var chatLog = [];
 var ret;
 var numb;
+var number_of_songs_played = 0;
+var watch_iter = 0;
+var unvoted = true;
 
 /*
  * Cookie constants
@@ -182,10 +185,8 @@ var msgArrayNeutral = new Array(
     'What about voting ...'
 );
 
-/*
- * commands
- */
-var cmd_check = "/check";
+var watch_list = new Array();
+var watching = false;
 
 /*
  * LCG
@@ -213,11 +214,13 @@ var songTimeoutId = null;
 var autoSkipActivate = null;
 var timeout = null;
 var alert_check = null;
+var watch_timer = null;
 clearTimeout(timeoutId);
 clearTimeout(songTimeoutId);
 clearTimeout(autoSkipActivate);
 clearTimeout(timeout);
 clearTimeout(alert_check);
+clearInterval(watch_timer);
 
 function printObject(o) {
   var out = '';
@@ -379,7 +382,7 @@ function initAPIListeners() {
 
         if (chatCommands) {
             //if (API.getUser(obj.fromID).permission >= 1) {
-                ret = obj.message.search(cmd_check);
+                ret = obj.message.search("/check");
                 if (ret != -1) {
                     if (obj.message.substring(7,9) == 'me') {
                         var me = API.getUser(obj.fromID);
@@ -411,16 +414,29 @@ function initAPIListeners() {
                             API.sendChat('/em Timeout has been canceled!');
                         }
                     }
+                    if (obj.message.substring(8,13) == "watch") {
+                        if (API.getUser(obj.fromID).permission >= API.getUser(watch_list[0].id).permission) {
+                            clearInterval(watch_timer);
+                            watching = false;
+                            API.sendChat("/em Watching has been canceled!");
+                        }
+                        else {
+                            API.sendChat("/em You dont have enough permission for that command!");
+                        }
+                    }
                 }
 
-                ret  = obj.message.search('/ascii');
+                ret  = obj.message.search('/sexxy');
                 if (ret != -1) {
                     if (obj.message.substring(7, 12) == "Donna") {
-                        if (API.getUser(obj.fromID).permission >= 2) {
+                        if (obj.fromID == "50fc0b9fc3b97a409682a3d0") {
                             var foo = "_$$$$$___________________________$________$___$$___________________________________$____$_$$$___$$$$__$$$$_$$$$____$_$$$$___$____$$___$__$___$_$___$___$____$_$______$____$$___$__$___$_$___$$$$$____$__$$____$___$$$___$__$___$_$___$$__$____$____$___$$$$$__$$$___$___$_$___$$$$$____$_$$$$__";
                             var bar = "_____________$$$$_$$$$$___$_$___$_$___$______________$_____$___$$_$$_$$_$$_$$_$$__$$$$_$$$____$$____$____$_$___$_$___$_$___$___$___$____$$$__$$$$_$$$___$$$____$_____$$_$___$_______$_$____$_$___$_$____$_______$$___$___$___$_$___$$_$$_$$_$$___$____$$$$_$$$_____$$$__$$$$$___$$$___$$__$____";
                             API.sendChat('/em ' + foo);
                             API.sendChat('/em ' + bar);
+                        }
+                        else {
+                        API.sendChat('@' + obj.from + ' you cant use that. Only ' + API.getUser('50fc0b9fc3b97a409682a3d0').username + ' can!!!');
                         }
                     }
                 }
@@ -446,9 +462,116 @@ function initAPIListeners() {
                         }
                     }
                     else {
-                        API.sendChat('@' + obj.from + ' you cant use that. Only ' + API.getUser('50fc0b9fc3b97a409682a3d0').username + ' is allowed !!!');
+                        API.sendChat('@' + obj.from + ' you cant use that. Only ' + API.getUser('50fc0b9fc3b97a409682a3d0').username + ' can!!!');
                     }
                 }
+
+                if (API.getUser(obj.fromID).permission >= 1) {
+                    ret = obj.message.search('/watch');
+                    if (ret != -1) {
+                        var id_to_watch = "";
+                        if (obj.message[7] == '"') {
+                            var ind = indexof('"', 8);
+                            if (ind != -1) {
+                                var name = obj.message.substring(8, ind - 1);
+                                var users = API.getUsers();
+                                for (var k = 0; k < users.length; k++) {
+                                    if (users[k].username == name) {
+                                        if (users[k].permission <= API.getUser(obj.fromID).permission) {
+                                            id_to_watch = users[k].id;
+                                        }
+                                        else {
+                                            API.sendChat("/em user found, but you dont have enough permission for this!");
+                                        }
+                                    }
+                                }
+                                if (id_to_watch != "") {
+                                    watch_list.push({
+                                        "id" : id,
+                                        "start" : new Date.getTime(),
+                                        "votes" : 0,
+                                        "unvoted" : 0,
+                                        "woots" : 0,
+                                        "mehs" : 0
+                                    });
+                                    watching = true;
+                                    watch_iter = number_of_songs_played - 1;
+                                    watch_timer = setTimeout(function() {
+                                        var vote = API.getUser(watch_list[0].id).vote;
+                                        if (vote != 0) {
+                                            // voted
+                                            if (watch_iter < number_of_songs_played) {
+                                                switch (vote) {
+                                                    case -1:
+                                                        watch_list[0].mehs++;
+                                                        break;
+                                                    case 1:
+                                                        watch_list[0].woots++;
+                                                        break;
+                                                }
+                                                watch_list[0].votes++;
+                                                watch_iter++;
+                                            }
+                                            else {
+                                                switch(API.getUser(watch_list[0].id).vote) {
+                                                    case -1:
+                                                        watch_list[0].mehs++;
+                                                        watch_list[0].woots--;
+                                                        break;
+                                                    case 1:
+                                                        watch_list[0].woots++;
+                                                        watch_list[0].mehs--;
+                                                }
+                                            }
+                                            unvoted = false;
+                                        }
+                                        else {
+                                            unvoted = true;
+                                        }
+                                    }, 5000);
+
+                                }
+                            }
+                        }
+                    }
+
+                    ret = obj.message.search("/checkWatched");
+                    if (ret != -1) {
+                        if (API.getUser(obj.fromID).permission >= 1) {
+                            numb = parseInt(obj.message.substring(14,15));
+                            if (numb == 0) {
+                                    if (watching) {
+                                        var current_time = new Date.getTime();
+                                        var time_difference = Math.floor((current_time - watch_list[0].start)/1000);
+                                        var hours = Math.floor(time_difference/3600);
+                                        var minutes = Math.floor(time_difference/60);
+                                        var seconds = Math.floor(time_difference%60);
+                                        var time_str = "";
+                                        if (hours != 0) {
+                                            time_str += hours + "h";
+                                        }
+                                        if (minutes != 0) {
+                                            if (hours != 0) { time_str += ":"; }
+                                            time_str += minutes + "m";
+                                        }
+                                        if (seconds != 0) {
+                                            if (hours != 0 || minutes != 0) {
+                                                time_str += ":";
+                                            }
+                                            time_str += seconds + "s";
+                                        }
+                                        var msg = "/em BIG BROTHER´s watching you for " + time_str + " " + API.getUser(watch_list[0].id).username + ": votes-" + watch_list[0].votes
+                                                + ",unvoted-" + watch_list[0].unvoted + ",woot-" + watch_list[0].woots + ",meh-" + watch_list[0].mehs;
+                                        API.sendChat(msg);
+                                    }
+                                    else {
+                                        API.sendChat("/em Nobody is watched!");
+                                    }
+                            }
+                        }
+                    }
+                }
+
             //}
 
         }
@@ -719,6 +842,17 @@ function checkScore() {
  *        This contains the current DJ's data.
  */
 function djAdvanced(obj) {
+
+    if (chatCommands) {
+        number_of_songs_played++;
+        if (checking) {
+            if (unvoted) {
+                watch_list[0].unvoted++;
+            }
+            watch_iter++;
+        }
+    }
+
     clearTimeout(songTimeoutId);
 
     if (autoForceSkip) {
