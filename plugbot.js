@@ -477,7 +477,8 @@ function initAPIListeners() {
                     if (ret != -1) {
                         var id_to_watch = "";
                         if (obj.message.substring(7, 10) == "&#34;") {
-                            var ind = indexof("&#34;", 10);
+                            var ind = indexof("&#34;", 8);
+                            console.log("index " + ind);
                             if (ind != -1) {
                                 var name = obj.message.substring(11, ind - 1);
                                 var users = API.getUsers();
@@ -487,7 +488,7 @@ function initAPIListeners() {
                                             id_to_watch = users[k].id;
                                         }
                                         else {
-                                            API.sendChat("/em user found, but you dont have enough permission for this!");
+                                            API.sendChat("/em User found, but you dont have enough permission for this!");
                                         }
                                     }
                                 }
