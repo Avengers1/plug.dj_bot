@@ -470,8 +470,8 @@ function initAPIListeners() {
                     ret = obj.message.search('/watch');
                     if (ret != -1) {
                         var id_to_watch = "";
-                        if (obj.message[7] == '"') {
-                            var ind = indexof('"', 8);
+                        if (obj.message[7] == '\"') {
+                            var ind = indexof('\"', 8);
                             if (ind != -1) {
                                 var name = obj.message.substring(8, ind - 1);
                                 var users = API.getUsers();
@@ -486,50 +486,52 @@ function initAPIListeners() {
                                     }
                                 }
                                 if (id_to_watch != "") {
-                                    watch_list.push({
-                                        "id" : id,
-                                        "start" : new Date.getTime(),
-                                        "votes" : 0,
-                                        "unvoted" : 0,
-                                        "woots" : 0,
-                                        "mehs" : 0
-                                    });
-                                    watching = true;
-                                    API.sendChat("/em Watching ...");
-                                    watch_iter = number_of_songs_played - 1;
-                                    watch_timer = setTimeout(function() {
-                                        var vote = API.getUser(watch_list[0].id).vote;
-                                        if (vote != 0) {
-                                            // voted
-                                            if (watch_iter < number_of_songs_played) {
-                                                switch (vote) {
-                                                    case -1:
-                                                        watch_list[0].mehs++;
-                                                        break;
-                                                    case 1:
-                                                        watch_list[0].woots++;
-                                                        break;
+                                    if (watch_list[0].id != id_to_watch) {
+                                        watch_list.push({
+                                            "id" : id,
+                                            "start" : new Date.getTime(),
+                                            "votes" : 0,
+                                            "unvoted" : 0,
+                                            "woots" : 0,
+                                            "mehs" : 0
+                                        });
+                                        watching = true;
+                                        API.sendChat("/em Watching ...");
+                                        watch_iter = number_of_songs_played - 1;
+                                        watch_timer = setTimeout(function() {
+                                            var vote = API.getUser(watch_list[0].id).vote;
+                                            if (vote != 0) {
+                                                // voted
+                                                if (watch_iter < number_of_songs_played) {
+                                                    switch (vote) {
+                                                        case -1:
+                                                            watch_list[0].mehs++;
+                                                            break;
+                                                        case 1:
+                                                            watch_list[0].woots++;
+                                                            break;
+                                                    }
+                                                    watch_list[0].votes++;
+                                                    watch_iter++;
                                                 }
-                                                watch_list[0].votes++;
-                                                watch_iter++;
+                                                else {
+                                                    switch(API.getUser(watch_list[0].id).vote) {
+                                                        case -1:
+                                                            watch_list[0].mehs++;
+                                                            watch_list[0].woots--;
+                                                            break;
+                                                        case 1:
+                                                            watch_list[0].woots++;
+                                                            watch_list[0].mehs--;
+                                                    }
+                                                }
+                                                unvoted = false;
                                             }
                                             else {
-                                                switch(API.getUser(watch_list[0].id).vote) {
-                                                    case -1:
-                                                        watch_list[0].mehs++;
-                                                        watch_list[0].woots--;
-                                                        break;
-                                                    case 1:
-                                                        watch_list[0].woots++;
-                                                        watch_list[0].mehs--;
-                                                }
+                                                unvoted = true;
                                             }
-                                            unvoted = false;
-                                        }
-                                        else {
-                                            unvoted = true;
-                                        }
-                                    }, 5000);
+                                        }, 5000);
+                                    }
 
                                 }
                             }
