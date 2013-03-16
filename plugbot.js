@@ -477,7 +477,7 @@ function initAPIListeners() {
                     if (ret != -1) {
                         var id_to_watch = "";
                         console.log(obj.message.substring(7, 10);
-                        console.log(obj.meesage.substring(7, 10) == "&#34;");
+                        console.log("&#34;");
                         if (obj.message.substring(7, 10) == "\&\#34\;") {
 
                             if (ind != -1) {
