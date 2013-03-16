@@ -524,13 +524,12 @@ function initAPIListeners() {
                                                     // voted
                                                     if (watch_iter < number_of_songs_played) {
                                                         if (vote == -1) {
-                                                                watch_list[0].mehs++;
-                                                                stored_vote = -1;
-                                                            }
-                                                            else {
-                                                                watch_list[0].woots++;
-                                                                stored_vote = 1;
-                                                            }
+                                                            watch_list[0].mehs++;
+                                                            stored_vote = -1;
+                                                        }
+                                                        else {
+                                                            watch_list[0].woots++;
+                                                            stored_vote = 1;
                                                         }
                                                         watch_list[0].votes++;
                                                         watch_iter++;
