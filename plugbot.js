@@ -567,7 +567,8 @@ function initAPIListeners() {
                             numb = parseInt(obj.message.substring(14,15));
                             if (numb == 0) {
                                     if (watching) {
-                                        var current_time = new Date.getTime();
+                                        var dat = new Date;
+                                        var current_time = dat.getTime();
                                         var time_difference = Math.floor((current_time - watch_list[0].start)/1000);
                                         var hours = Math.floor(time_difference/3600);
                                         var minutes = Math.floor(time_difference/60);
