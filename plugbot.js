@@ -462,7 +462,7 @@ function initAPIListeners() {
                             if (number > 13 && number <= 22) {
                                 AvatarOverlay.setSelectedAvatar('bud0' + number);
                             }
-                            if (number > 22 && <= 24) {
+                            if (number > 22 && number <= 24) {
                                 AvatarOverlay.setSelectedAvatar('bud' + number);
                             }
                         }
