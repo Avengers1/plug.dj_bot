@@ -502,7 +502,7 @@ function initAPIListeners() {
                                     if (id_to_watch != "") {
                                         if (watch_list[0].id != id_to_watch) {
                                             watch_list[0] = {
-                                                "id" : id,
+                                                "id" : id_to_watch,
                                                 "start" : new Date.getTime(),
                                                 "votes" : 0,
                                                 "unvoted" : 0,
