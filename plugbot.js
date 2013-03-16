@@ -115,6 +115,7 @@ var numb;
 var number_of_songs_played = 0;
 var watch_iter = 0;
 var unvoted = true;
+var error = false;
 
 /*
  * Cookie constants
@@ -495,6 +496,7 @@ function initAPIListeners() {
                                                 id_to_watch = users[k].id;
                                             }
                                             else {
+                                                error = true;
                                                 API.sendChat("/em User found, but you dont have enough permission for this!");
                                             }
                                         }
@@ -554,7 +556,9 @@ function initAPIListeners() {
 
                                     }
                                     else {
-                                        API.sendChat("/em This user is not here! If you can see him on the floor, he´s probably stucked!");
+                                        if (!error) {
+                                            API.sendChat("/em This user is not here! If you can see him on the floor, he´s probably stucked!");
+                                        }
                                     }
                                 }
                             }
