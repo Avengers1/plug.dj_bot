@@ -480,11 +480,9 @@ function initAPIListeners() {
                             var ind = obj.message.indexOf("&#34;", 12);
                             if (ind != -1) {
                                 if (!watching)  {
-                                    var name = obj.message.substring(13, ind - 1);
+                                    var name = obj.message.substring(12, ind);
                                     var users = API.getUsers();
-                                    console.log("name" + name);
                                     for (var k = 0; k < users.length; k++) {
-                                        console.log("name" + users[k].username);
                                         if (users[k].username == name) {
                                             if (users[k].permission <= API.getUser(obj.fromID).permission) {
                                                 id_to_watch = users[k].id;
