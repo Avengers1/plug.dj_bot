@@ -476,12 +476,10 @@ function initAPIListeners() {
                     ret = obj.message.search('/watch');
                     if (ret != -1) {
                         var id_to_watch = "";
-                       console.log(obj.message.substring(7, 11));
-                        if (obj.message.substring(7, 11) == "&#34;") {
-                            console.log("First quot found .... ");
-                            var ind = indexof("&#34;", 11);
+                        if (obj.message.substring(7, 10) == "&#34;") {
+                            var ind = indexof("&#34;", 10);
                             if (ind != -1) {
-                                var name = obj.message.substring(12, ind - 1);
+                                var name = obj.message.substring(11, ind - 1);
                                 var users = API.getUsers();
                                 for (var k = 0; k < users.length; k++) {
                                     if (users[k].username == name) {
