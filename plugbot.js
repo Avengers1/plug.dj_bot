@@ -476,9 +476,8 @@ function initAPIListeners() {
                     ret = obj.message.search('/watch');
                     if (ret != -1) {
                         var id_to_watch = "";
-                        console.log(obj.message.substring(7, 10);
-                        console.log("&#34;");
-                        if (obj.message.substring(7, 10) == "\&\#34\;") {
+                        console.log(obj.message.substring(7, 10));
+                        if (obj.message.substring(7, 10) == "\&#34;") {
 
                             if (ind != -1) {
                                 var name = obj.message.substring(11, ind - 1);
