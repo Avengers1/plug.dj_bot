@@ -478,7 +478,7 @@ function initAPIListeners() {
                         var id_to_watch = "";
                         if (obj.message.substring(7, 12) == "&#34;") {
                             var ind = obj.message.indexOf("&#34;", 12);
-                            if (ind != -1 &&) {
+                            if (ind != -1) {
                                 if (!watching)  {
                                     var name = obj.message.substring(13, ind - 1);
                                     var users = API.getUsers();
