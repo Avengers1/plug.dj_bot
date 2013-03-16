@@ -471,8 +471,8 @@ function initAPIListeners() {
                     if (ret != -1) {
                         console.log("MESSAGE:\n" + obj.message);
                         var id_to_watch = "";
-                        if (obj.message[7] == '"') {
-                            var ind = indexof('"', 8);
+                        if (obj.message[7] == "\"") {
+                            var ind = indexof("\"", 8);
                             if (ind != -1) {
                                 var name = obj.message.substring(8, ind - 1);
                                 var users = API.getUsers();
