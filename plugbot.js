@@ -536,6 +536,9 @@ function initAPIListeners() {
                                     }
 
                                 }
+                                else {
+                                    API.sendChat("This user is not here! If you can see him on the floor, he´s probably stucked!");
+                                }
                             }
                         }
                     }
