@@ -848,7 +848,7 @@ function djAdvanced(obj) {
 
     if (chatCommands) {
         number_of_songs_played++;
-        if (checking) {
+        if (watching) {
             if (unvoted) {
                 watch_list[0].unvoted++;
             }
