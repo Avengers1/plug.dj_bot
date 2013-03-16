@@ -476,7 +476,9 @@ function initAPIListeners() {
                     ret = obj.message.search('/watch');
                     if (ret != -1) {
                         var id_to_watch = "";
-                        console.log(obj.message);
+                        for (var u = 0; u < obj.message.length; u++) {
+                            console.log(obj.message[u]);
+                        }
                         if (obj.message.substring(7, 11) == "&#34;") {
                             console.log("First quot found .... ");
                             var ind = indexof("&#34;", 11);
