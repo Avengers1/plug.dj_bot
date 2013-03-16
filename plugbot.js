@@ -477,72 +477,78 @@ function initAPIListeners() {
                     if (ret != -1) {
                         var id_to_watch = "";
                         if (obj.message.substring(7, 12) == "&#34;") {
-                            console.log("FIRST QUOTES");
                             var ind = obj.message.indexOf("&#34;", 12);
-                            if (ind != -1) {
-                                var name = obj.message.substring(13, ind - 1);
-                                var users = API.getUsers();
-                                for (var k = 0; k < users.length; k++) {
-                                    if (users[k].username == name) {
-                                        if (users[k].permission <= API.getUser(obj.fromID).permission) {
-                                            id_to_watch = users[k].id;
-                                        }
-                                        else {
-                                            API.sendChat("/em User found, but you dont have enough permission for this!");
-                                        }
-                                    }
-                                }
-                                if (id_to_watch != "") {
-                                    if (watch_list[0].id != id_to_watch) {
-                                        watch_list.push({
-                                            "id" : id,
-                                            "start" : new Date.getTime(),
-                                            "votes" : 0,
-                                            "unvoted" : 0,
-                                            "woots" : 0,
-                                            "mehs" : 0
-                                        });
-                                        watching = true;
-                                        API.sendChat("/em Watching ...");
-                                        watch_iter = number_of_songs_played - 1;
-                                        watch_timer = setTimeout(function() {
-                                            var vote = API.getUser(watch_list[0].id).vote;
-                                            if (vote != 0) {
-                                                // voted
-                                                if (watch_iter < number_of_songs_played) {
-                                                    switch (vote) {
-                                                        case -1:
-                                                            watch_list[0].mehs++;
-                                                            break;
-                                                        case 1:
-                                                            watch_list[0].woots++;
-                                                            break;
-                                                    }
-                                                    watch_list[0].votes++;
-                                                    watch_iter++;
-                                                }
-                                                else {
-                                                    switch(API.getUser(watch_list[0].id).vote) {
-                                                        case -1:
-                                                            watch_list[0].mehs++;
-                                                            watch_list[0].woots--;
-                                                            break;
-                                                        case 1:
-                                                            watch_list[0].woots++;
-                                                            watch_list[0].mehs--;
-                                                    }
-                                                }
-                                                unvoted = false;
+                            if (ind != -1 &&) {
+                                if (!watching)  {
+                                    var name = obj.message.substring(13, ind - 1);
+                                    var users = API.getUsers();
+                                    console.log("name" + name);
+                                    for (var k = 0; k < users.length; k++) {
+                                        console.log("name" + users[k].username);
+                                        if (users[k].username == name) {
+                                            if (users[k].permission <= API.getUser(obj.fromID).permission) {
+                                                id_to_watch = users[k].id;
                                             }
                                             else {
-                                                unvoted = true;
+                                                API.sendChat("/em User found, but you dont have enough permission for this!");
                                             }
-                                        }, 5000);
+                                        }
                                     }
+                                    if (id_to_watch != "") {
+                                        if (watch_list[0].id != id_to_watch) {
+                                            watch_list.push({
+                                                "id" : id,
+                                                "start" : new Date.getTime(),
+                                                "votes" : 0,
+                                                "unvoted" : 0,
+                                                "woots" : 0,
+                                                "mehs" : 0
+                                            });
+                                            watching = true;
+                                            API.sendChat("/em Watching ...");
+                                            watch_iter = number_of_songs_played - 1;
+                                            watch_timer = setTimeout(function() {
+                                                var vote = API.getUser(watch_list[0].id).vote;
+                                                if (vote != 0) {
+                                                    // voted
+                                                    if (watch_iter < number_of_songs_played) {
+                                                        switch (vote) {
+                                                            case -1:
+                                                                watch_list[0].mehs++;
+                                                                break;
+                                                            case 1:
+                                                                watch_list[0].woots++;
+                                                                break;
+                                                        }
+                                                        watch_list[0].votes++;
+                                                        watch_iter++;
+                                                    }
+                                                    else {
+                                                        switch(API.getUser(watch_list[0].id).vote) {
+                                                            case -1:
+                                                                watch_list[0].mehs++;
+                                                                watch_list[0].woots--;
+                                                                break;
+                                                            case 1:
+                                                                watch_list[0].woots++;
+                                                                watch_list[0].mehs--;
+                                                        }
+                                                    }
+                                                    unvoted = false;
+                                                }
+                                                else {
+                                                    unvoted = true;
+                                                }
+                                            }, 5000);
+                                        }
+                                        else {
+                                            API.sendChat("/em Somebody is already watched!");
+                                        }
 
-                                }
-                                else {
-                                    API.sendChat("/em This user is not here! If you can see him on the floor, he´s probably stucked!");
+                                    }
+                                    else {
+                                        API.sendChat("/em This user is not here! If you can see him on the floor, he´s probably stucked!");
+                                    }
                                 }
                             }
                         }
