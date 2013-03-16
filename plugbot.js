@@ -470,9 +470,9 @@ function initAPIListeners() {
                     ret = obj.message.search('/watch');
                     if (ret != -1) {
                         var id_to_watch = "";
-                        if (obj.message[7] == '\"') {
+                        if (obj.message[7] == '"') {
                             console.log("1st DOUBLEQUOTE");
-                            var ind = indexof('\"', 8);
+                            var ind = indexof('"', 8);
                             if (ind != -1) {
                                 var name = obj.message.substring(8, ind - 1);
                                 console.log("2nd DOUBLEQUOTE FOUND - name:" + name);
