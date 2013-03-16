@@ -495,6 +495,7 @@ function initAPIListeners() {
                                         "mehs" : 0
                                     });
                                     watching = true;
+                                    API.sendChat("/em Watching ...");
                                     watch_iter = number_of_songs_played - 1;
                                     watch_timer = setTimeout(function() {
                                         var vote = API.getUser(watch_list[0].id).vote;
