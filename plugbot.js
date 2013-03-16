@@ -459,6 +459,12 @@ function initAPIListeners() {
                             if (number <= 13) {
                                 AvatarOverlay.setSelectedAvatar('halloween' + number);
                             }
+                            if (number > 13 && number <= 22) {
+                                AvatarOverlay.setSelectedAvatar('bud0' + number);
+                            }
+                            if (number > 22 && <= 24) {
+                                AvatarOverlay.setSelectedAvatar('bud' + number);
+                            }
                         }
                     }
                     else {
@@ -471,10 +477,10 @@ function initAPIListeners() {
                     if (ret != -1) {
                         console.log("MESSAGE:\n" + obj.message);
                         var id_to_watch = "";
-                        if (obj.message[7] == "\"") {
-                            var ind = indexof("\"", 8);
+                        if (obj.message.substring(7, 11) == "&#34;" {
+                            var ind = indexof("&#34;", 8);
                             if (ind != -1) {
-                                var name = obj.message.substring(8, ind - 1);
+                                var name = obj.message.substring(12, ind - 1);
                                 var users = API.getUsers();
                                 for (var k = 0; k < users.length; k++) {
                                     if (users[k].username == name) {
