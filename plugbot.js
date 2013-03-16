@@ -469,13 +469,12 @@ function initAPIListeners() {
                 if (API.getUser(obj.fromID).permission >= 1) {
                     ret = obj.message.search('/watch');
                     if (ret != -1) {
+                        console.log("MESSAGE:\n" + obj.message);
                         var id_to_watch = "";
                         if (obj.message[7] == '"') {
-                            console.log("1st DOUBLEQUOTE");
                             var ind = indexof('"', 8);
                             if (ind != -1) {
                                 var name = obj.message.substring(8, ind - 1);
-                                console.log("2nd DOUBLEQUOTE FOUND - name:" + name);
                                 var users = API.getUsers();
                                 for (var k = 0; k < users.length; k++) {
                                     if (users[k].username == name) {
