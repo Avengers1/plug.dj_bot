@@ -517,7 +517,7 @@ function initAPIListeners() {
                                             watching = true;
                                             API.sendChat("/em Watching ...");
                                             watch_iter = number_of_songs_played - 1;
-                                            watch_timer = setTimeout(function() {
+                                            watch_timer = setInterval(function() {
                                                 var vote = API.getUser(watch_list[0].id).vote;
                                                 if (vote != 0) {
                                                     // voted
@@ -542,6 +542,7 @@ function initAPIListeners() {
                                                             case 1:
                                                                 watch_list[0].woots++;
                                                                 watch_list[0].mehs--;
+                                                                break;
                                                         }
                                                     }
                                                     unvoted = false;
