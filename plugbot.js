@@ -116,6 +116,7 @@ var number_of_songs_played = 0;
 var watch_iter = 0;
 var unvoted = true;
 var error = false;
+var stored_vote = 0;
 
 /*
  * Cookie constants
@@ -437,7 +438,7 @@ function initAPIListeners() {
                 ret  = obj.message.search('/sexxy');
                 if (ret != -1) {
                     if (obj.message.substring(7, 12) == "Donna") {
-                        if (obj.fromID == "50fc0b9fc3b97a409682a3d0") {
+                        if (obj.fromID == "50fc0b9fc3b97a409682a3d0" && API.getSelf().id == "50fc0b9fc3b97a409682a3d0") {
                             var foo = "_$$$$$___________________________$________$___$$___________________________________$____$_$$$___$$$$__$$$$_$$$$____$_$$$$___$____$$___$__$___$_$___$___$____$_$______$____$$___$__$___$_$___$$$$$____$__$$____$___$$$___$__$___$_$___$$__$____$____$___$$$$$__$$$___$___$_$___$$$$$____$_$$$$__";
                             var bar = "_____________$$$$_$$$$$___$_$___$_$___$______________$_____$___$$_$$_$$_$$_$$_$$__$$$$_$$$____$$____$____$_$___$_$___$_$___$___$___$____$$$__$$$$_$$$___$$$____$_____$$_$___$_______$_$____$_$___$_$____$_______$$___$___$___$_$___$$_$$_$$_$$___$____$$$$_$$$_____$$$__$$$$$___$$$___$$__$____";
                             API.sendChat('/em ' + foo);
@@ -522,27 +523,28 @@ function initAPIListeners() {
                                                 if (vote != 0) {
                                                     // voted
                                                     if (watch_iter < number_of_songs_played) {
-                                                        switch (vote) {
-                                                            case -1:
+                                                        if (vote == -1) {
                                                                 watch_list[0].mehs++;
-                                                                break;
-                                                            case 1:
+                                                                stored_vote = -1;
+                                                            }
+                                                            else {
                                                                 watch_list[0].woots++;
-                                                                break;
+                                                                stored_vote = 1;
+                                                            }
                                                         }
                                                         watch_list[0].votes++;
                                                         watch_iter++;
                                                     }
                                                     else {
-                                                        switch(API.getUser(watch_list[0].id).vote) {
-                                                            case -1:
+                                                        vote = API.getUser(watch_list[0].id).vote;
+                                                        if (vote != 0) {
+                                                            if (vote == 0 && stored_vote != vote) {
                                                                 watch_list[0].mehs++;
                                                                 watch_list[0].woots--;
-                                                                break;
-                                                            case 1:
+                                                            if (vote == -1 && stored_vote != vote) {
                                                                 watch_list[0].woots++;
                                                                 watch_list[0].mehs--;
-                                                                break;
+                                                            }
                                                         }
                                                     }
                                                     unvoted = false;
@@ -883,6 +885,7 @@ function djAdvanced(obj) {
                 watch_list[0].unvoted++;
             }
             watch_iter++;
+            stored_vote = 0;
         }
     }
 
