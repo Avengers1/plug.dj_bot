@@ -498,6 +498,7 @@ function initAPIListeners() {
                                             else {
                                                 error = true;
                                                 API.sendChat("/em User found, but you dont have enough permission for this!");
+                                                id_to_watch = "";
                                             }
                                         }
                                     }
