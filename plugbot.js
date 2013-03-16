@@ -185,7 +185,14 @@ var msgArrayNeutral = new Array(
     'What about voting ...'
 );
 
-var watch_list = new Array();
+var watch_list = new Array( {
+    "id" : "",
+    "start" : 0,
+    "votes" : 0,
+    "unvoted" : 0,
+    "woots" : 0,
+    "mehs" : 0
+});
 var watching = false;
 
 /*
@@ -494,14 +501,14 @@ function initAPIListeners() {
                                     }
                                     if (id_to_watch != "") {
                                         if (watch_list[0].id != id_to_watch) {
-                                            watch_list.push({
+                                            watch_list[0] = {
                                                 "id" : id,
                                                 "start" : new Date.getTime(),
                                                 "votes" : 0,
                                                 "unvoted" : 0,
                                                 "woots" : 0,
                                                 "mehs" : 0
-                                            });
+                                            };
                                             watching = true;
                                             API.sendChat("/em Watching ...");
                                             watch_iter = number_of_songs_played - 1;
