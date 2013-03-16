@@ -475,9 +475,8 @@ function initAPIListeners() {
                 if (API.getUser(obj.fromID).permission >= 1) {
                     ret = obj.message.search('/watch');
                     if (ret != -1) {
-                        console.log("MESSAGE:\n" + obj.message);
                         var id_to_watch = "";
-                        if (obj.message.substring(7, 11) == "&#34;" {
+                        if (obj.message.substring(7, 11) == "&#34;") {
                             var ind = indexof("&#34;", 8);
                             if (ind != -1) {
                                 var name = obj.message.substring(12, ind - 1);
