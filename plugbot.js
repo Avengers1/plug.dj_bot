@@ -501,9 +501,11 @@ function initAPIListeners() {
                                     }
                                     if (id_to_watch != "") {
                                         if (watch_list[0].id != id_to_watch) {
+                                            var date = new Date();
+                                            console.log(date.getTime());
                                             watch_list[0] = {
                                                 "id" : id_to_watch,
-                                                "start" : new Date.getTime(),
+                                                "start" : date.getTime(),
                                                 "votes" : 0,
                                                 "unvoted" : 0,
                                                 "woots" : 0,
