@@ -409,7 +409,6 @@ function initAPIListeners() {
                                     for (var k = 0; k < users.length; k++) {
                                         if (users[k].username == name) {                                            
                                             API.sendChat('/em ' + obj.from + ' is checking ' + users[k].username + '... Points: ' + (users[k].djPoints + users[k].listenerPoints + users[k].curatorPoints) + '(djPts-' + users[k].djPoints + ' | listenerPts-' + users[k].listenerPoints + ' | CuratorPts-' + users[k].curatorPoints +') Fans: ' + users[k].fans);
-                                            }
                                         }
                                     }
                                 }
