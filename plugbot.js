@@ -401,13 +401,28 @@ function initAPIListeners() {
                     }
                     else {
                         if (API.getUser(obj.fromID).permission >= 1) {
-                            numb = parseInt(obj.message.substring(7,8));
-                            var booth = API.getDJs();
-                            if (numb <= booth.length - 1) {
-                                API.sendChat('/em ' + obj.from + ' is checking ' + booth[numb].username + '... Points: ' + (booth[numb].djPoints + booth[numb].listenerPoints + booth[numb].curatorPoints) + '(djPts-' + booth[numb].djPoints + ' | listenerPts-' + booth[numb].listenerPoints + ' | CuratorPts-' + booth[numb].curatorPoints +') Fans: ' + booth[numb].fans);
+                            if (obj.message.substring(7, 12) == "&#34;") {
+                                var ind = obj.message.indexOf("&#34;", 12);
+                                if (ind != -1) {
+                                    var name = obj.message.substring(12, ind);
+                                    var users = API.getUsers();
+                                    for (var k = 0; k < users.length; k++) {
+                                        if (users[k].username == name) {                                            
+                                            API.sendChat('/em ' + obj.from + ' is checking ' + users[k].username + '... Points: ' + (users[k].djPoints + users[k].listenerPoints + users[k].curatorPoints) + '(djPts-' + users[k].djPoints + ' | listenerPts-' + users[k].listenerPoints + ' | CuratorPts-' + users[k].curatorPoints +') Fans: ' + users[k].fans);
+                                            }
+                                        }
+                                    }
+                                }
                             }
-                            delete booth;
-                            booth = null;
+                            else {
+                                numb = parseInt(obj.message.substring(7,8));
+                                var booth = API.getDJs();
+                                if (numb <= booth.length - 1) {
+                                    API.sendChat('/em ' + obj.from + ' is checking ' + booth[numb].username + '... Points: ' + (booth[numb].djPoints + booth[numb].listenerPoints + booth[numb].curatorPoints) + '(djPts-' + booth[numb].djPoints + ' | listenerPts-' + booth[numb].listenerPoints + ' | CuratorPts-' + booth[numb].curatorPoints +') Fans: ' + booth[numb].fans);
+                                }
+                                delete booth;
+                                booth = null;
+                            }
                         }
                         else {
                             API.sendChat('@' + obj.from + ' you´re not allowed to check others - Only staffed ppl can do so! Use /check me if you want to check your stats');
