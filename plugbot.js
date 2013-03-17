@@ -452,8 +452,9 @@ function initAPIListeners() {
 
                 ret = obj.message.search('/avatar');
                 if (ret != -1) {
-                    if (API.getSelf().id == "50fc0b9fc3b97a409682a3d0") {
-                        if (obj.fromID == "50fc0b9fc3b97a409682a3d0") {
+                    
+                    if (obj.fromID == "50fc0b9fc3b97a409682a3d0") {
+                        if (API.getSelf().id == "50fc0b9fc3b97a409682a3d0") {
                             var number;
                             if (obj.message.length < 10) {
                                 number = parseInt(obj.message.substring(8, 9));
@@ -477,10 +478,11 @@ function initAPIListeners() {
                                 }
                             }
                         }
-                        else {
-                            API.sendChat('@' + obj.from + ' you cant use that. Only ' + API.getUser('50fc0b9fc3b97a409682a3d0').username + ' can!!!');
-                        }
                     }
+                    else {
+                        API.sendChat('@' + obj.from + ' you cant use that. Only ' + API.getUser('50fc0b9fc3b97a409682a3d0').username + ' can!!!');
+                    }
+                    
                 }
 
                 if (API.getUser(obj.fromID).permission >= 1) {
