@@ -883,7 +883,7 @@ function djAdvanced(obj) {
     if (chatCommands) {
         number_of_songs_played++;
         if (watching) {
-            if (unvoted) {
+            if (unvoted && API.getDJs()[0].id != watch_list[0].id && API.getUser(watch_list[0]).vote == 0) {
                 watch_list[0].unvoted++;
             }
             watch_iter++;
