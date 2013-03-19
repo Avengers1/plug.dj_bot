@@ -647,9 +647,9 @@ function initAPIListeners() {
                                 async: this.async,
                                 dataType: 'json',
                                 contentType: 'application/json'
+                            }).done(function() {
+                                API.sendChat("/em The booth has been locked!");
                             });
-
-                            API.sendChat("/em The booth has been locked!");
                         }
                     }
 
@@ -674,8 +674,9 @@ function initAPIListeners() {
                                 async: this.async,
                                 dataType: 'json',
                                 contentType: 'application/json'
+                            }).done(function() {
+                                API.sendChat("/em The booth has been unlocked!");
                             });
-                            API.sendChat("/em The booth has been unlocked!");
                         }
                     }
                 }
