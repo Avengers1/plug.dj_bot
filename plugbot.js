@@ -630,7 +630,7 @@ function initAPIListeners() {
                     if (ret != -1 && obj.message[0] == "/") {
                         if (API.getUser(obj.fromID).permission >= 3) {
                             $.ajax({
-                                url: "http://www.plug.dj/gateway/room.update_options",
+                                url: "http://www.plug.dj/_/gateway/room.update_options",
                                 type: 'POST',
                                 data: JSON.stringify({
                                 service: "room.update_options",
@@ -655,7 +655,7 @@ function initAPIListeners() {
                     if (ret != -1 && obj.message[0] == "/") {
                         if (API.getUser(obj.fromID).permission >= 3) {
                             $.ajax({
-                                url: "http://www.plug.dj/gateway/room.update_options",
+                                url: "http://www.plug.dj/_/gateway/room.update_options",
                                 type: 'POST',
                                 data: JSON.stringify({
                                 service: "room.update_options",
