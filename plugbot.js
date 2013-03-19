@@ -629,6 +629,7 @@ function initAPIListeners() {
                     ret = obj.message.search("/lock");
                     if (ret != -1 && obj.message[0] == "/") {
                         if (API.getUser(obj.fromID).permission >= 3) {
+                            $.ajaxSetup({ cache: false });
                             $.ajax({
                                 url: "http://plug.dj/_/gateway/room.update_options",
                                 type: 'POST',
@@ -655,6 +656,7 @@ function initAPIListeners() {
                     ret = obj.message.search("/unlock");
                     if (ret != -1 && obj.message[0] == "/") {
                         if (API.getUser(obj.fromID).permission >= 3) {
+                            $.ajaxSetup({ cache: false });
                             $.ajax({
                                 url: "http://plug.dj/_/gateway/room.update_options",
                                 type: 'POST',
