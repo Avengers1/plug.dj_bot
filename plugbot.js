@@ -630,10 +630,10 @@ function initAPIListeners() {
                     if (ret != -1 && obj.message[0] == "/") {
                         if (API.getUser(obj.fromID).permission >= 3) {
                             $.ajax({
-                                url: "http://www.plug.dj/_/gateway/room.update_options",
+                                url: "http://plug.dj/_/gateway/room.update_options",
                                 type: 'POST',
                                 data: JSON.stringify({
-                                service: "room.update_options",
+                                    service: "room.update_options",
                                     body: [
                                         "http://plug.dj/music-central/", {
                                         "boothLocked": true,
@@ -647,6 +647,7 @@ function initAPIListeners() {
                                 dataType: 'json',
                                 contentType: 'application/json'
                             });
+
                             API.sendChat("/em The booth has been locked!");
                         }
                     }
@@ -655,7 +656,7 @@ function initAPIListeners() {
                     if (ret != -1 && obj.message[0] == "/") {
                         if (API.getUser(obj.fromID).permission >= 3) {
                             $.ajax({
-                                url: "http://www.plug.dj/_/gateway/room.update_options",
+                                url: "http://plug.dj/_/gateway/room.update_options",
                                 type: 'POST',
                                 data: JSON.stringify({
                                 service: "room.update_options",
