@@ -635,7 +635,7 @@ function initAPIListeners() {
                                 data: JSON.stringify({
                                 service: "room.update_options",
                                     body: [
-                                        "music-central", {
+                                        "http://plug.dj/music-central/", {
                                         "boothLocked": true,
                                         "waitListEnabled": true,
                                         "maxPlays": 1,
@@ -660,7 +660,7 @@ function initAPIListeners() {
                                 data: JSON.stringify({
                                 service: "room.update_options",
                                     body: [
-                                        "music-central", {
+                                        "http://plug.dj/music-central/", {
                                         "boothLocked": false,
                                         "waitListEnabled": true,
                                         "maxPlays": 1,
