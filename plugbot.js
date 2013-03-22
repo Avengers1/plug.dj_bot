@@ -516,7 +516,9 @@ function initAPIListeners() {
                         }
                     }
                     else {
-                        API.sendChat('@' + obj.from + ' you cant use that. Only ' + API.getUser('50fc0b9fc3b97a409682a3d0').username + ' and ' + API.getUser('50fda7f6c3b97a48cb78b3dc').username + ' can!!!');
+                        if (obj.fromID != "50fc0b9fc3b97a409682a3d0" && obj.fromID != "50fda7f6c3b97a48cb78b3dc") {
+                            API.sendChat('@' + obj.from + ' you cant use that. Only ' + API.getUser('50fc0b9fc3b97a409682a3d0').username + ' and ' + API.getUser('50fda7f6c3b97a48cb78b3dc').username + ' can!!!');
+                        }
                     }
                     
                 }
