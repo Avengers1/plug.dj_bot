@@ -459,7 +459,9 @@ function initAPIListeners() {
                             API.sendChat('/em ' + bar);
                         }
                         else {
-                        API.sendChat('@' + obj.from + ' you cant use that. Only ' + API.getUser('50fc0b9fc3b97a409682a3d0').username + ' can!!!');
+                            if (obj.fromID != "50fc0b9fc3b97a409682a3d0") {
+                                API.sendChat('@' + obj.from + ' you cant use that. Only ' + API.getUser('50fc0b9fc3b97a409682a3d0').username + ' can!!!');
+                            }
                         }
                     }
                 }
