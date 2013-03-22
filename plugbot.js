@@ -722,8 +722,9 @@ function initAPIListeners() {
                                     API.sendChat("/em " + name + " is active!");
                                 }
                                 else {
-                                    API.sendChat("/em" + name + " is not here!");
+                                    API.sendChat("/em " + name + " is not here!");
                                 }
+                                active = false;
                             }
                         }
                     }
