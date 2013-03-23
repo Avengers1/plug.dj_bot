@@ -299,6 +299,9 @@ function initAPIListeners() {
         if (userList) {
             populateUserlist();
         }
+        if (obj.user.id == watch_list[0].id) {
+            watch_list[0].vote = obj.vote;
+        }
     });
 
     API.addEventListener(API.CURATE_UPDATE, function (obj) {
@@ -555,16 +558,19 @@ function initAPIListeners() {
                                             watch_list[0] = {
                                                 "id" : id_to_watch,
                                                 "start" : date.getTime(),
+                                                "start_round" : number_of_songs_played,
                                                 "votes" : 0,
                                                 "unvoted" : 0,
                                                 "woots" : 0,
-                                                "mehs" : 0
+                                                "mehs" : 0,
+                                                "vote" : 0,
+                                                "round" : number_of_songs_played
                                             };
                                             watching = true;
                                             API.sendChat("/em Watching ...");
                                             watch_iter = number_of_songs_played - 1;
                                             watch_timer = setInterval(function() {
-                                                var vote = API.getUser(watch_list[0].id).vote;
+                                                var vote = watch_list[0].vote;
                                                 if (vote != 0) {
                                                     // voted
                                                     if (watch_iter < number_of_songs_played) {
@@ -580,7 +586,6 @@ function initAPIListeners() {
                                                         watch_iter++;
                                                     }
                                                     else {
-                                                        vote = API.getUser(watch_list[0].id).vote;
                                                         if (vote != 0) {
                                                             if (vote == -1 && stored_vote == 1) {
                                                                 watch_list[0].mehs++;
@@ -714,6 +719,7 @@ function initAPIListeners() {
                             var ind = obj.message.indexOf("&#34;", 13);
                             if (ind != -1) {
                                 var name = obj.message.substring(12, ind);
+                                console.log("USERNAME ACTIVE: " + name);
                                 var users = API.getUsers();
                                 for (var k = 0; k < users.length; k++) {
                                     if (users[k].username == name) {
@@ -1004,19 +1010,13 @@ function checkScore() {
 function djAdvanced(obj) {
 
     if (chatCommands) {
-        if (obj == null) {
-            console.log("DJ leaving the booth");
-            if (watching) {
-            console.log("DJ going on the booth");
+        number_of_songs_played++;
+        if (watching) {
             if (unvoted && API.getDJs()[0].id != watch_list[0].id && API.getUser(watch_list[0].id).vote == 0) {
                 watch_list[0].unvoted++;
                 watch_iter++;
                 stored_vote = 0;
             }
-        }
-        }
-        else {
-            number_of_songs_played++;
         }
     }
 
