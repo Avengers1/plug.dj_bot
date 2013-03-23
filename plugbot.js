@@ -582,12 +582,12 @@ function initAPIListeners() {
                                                     else {
                                                         vote = API.getUser(watch_list[0].id).vote;
                                                         if (vote != 0) {
-                                                            if (vote == -1 && stored_vote != vote) {
+                                                            if (vote == -1 && stored_vote == 1) {
                                                                 watch_list[0].mehs++;
                                                                 watch_list[0].woots--;
                                                                 stored_vote = -1;
                                                             }
-                                                            if (vote == 1 && stored_vote != vote) {
+                                                            if (vote == 1 && stored_vote == -1) {
                                                                 watch_list[0].woots++;
                                                                 watch_list[0].mehs--;
                                                                 stored_vote = 1;
@@ -1004,13 +1004,17 @@ function checkScore() {
 function djAdvanced(obj) {
 
     if (chatCommands) {
-        number_of_songs_played++;
+        if (obj != null) {
+            console.log("DJ leaving the booth");
+            number_of_songs_played++;
+        }
         if (watching) {
-            if (unvoted && API.getDJs()[0].id != watch_list[0].id && API.getUser(watch_list[0]).vote == 0) {
+            console.log("DJ going on the booth");
+            if (unvoted && API.getDJs()[0].id != watch_list[0].id && API.getUser(watch_list[0].id).vote == 0) {
                 watch_list[0].unvoted++;
+                watch_iter++;
+                stored_vote = 0;
             }
-            watch_iter++;
-            stored_vote = 0;
         }
     }
 
