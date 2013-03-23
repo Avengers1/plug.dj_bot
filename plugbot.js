@@ -718,7 +718,7 @@ function initAPIListeners() {
                         if (obj.message.substring(8, 13) == "&#34;") {
                             var ind = obj.message.indexOf("&#34;", 13);
                             if (ind != -1) {
-                                var name = obj.message.substring(12, ind);
+                                var name = obj.message.substring(13, ind);
                                 console.log("USERNAME ACTIVE: " + name);
                                 var users = API.getUsers();
                                 for (var k = 0; k < users.length; k++) {
