@@ -1004,17 +1004,19 @@ function checkScore() {
 function djAdvanced(obj) {
 
     if (chatCommands) {
-        if (obj != null) {
+        if (obj == null) {
             console.log("DJ leaving the booth");
-            number_of_songs_played++;
-        }
-        if (watching) {
+            if (watching) {
             console.log("DJ going on the booth");
             if (unvoted && API.getDJs()[0].id != watch_list[0].id && API.getUser(watch_list[0].id).vote == 0) {
                 watch_list[0].unvoted++;
                 watch_iter++;
                 stored_vote = 0;
             }
+        }
+        }
+        else {
+            number_of_songs_played++;
         }
     }
 
