@@ -239,15 +239,6 @@ function printObject(o) {
   console.log("object proprerty: " + out);
 }
 
-function checkSixside() {
-    var users = API.getUsers();
-    for (var i = 0; i < users.length; i++) {
-        if (users[i].username == "Sixside"){
-            console.log("ID:" + users[i].id);
-        }
-    }
-}
-
 
 /**
  * Initialise all of the Plug.dj API listeners which we use
