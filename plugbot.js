@@ -735,21 +735,6 @@ function initAPIListeners() {
                             }
                         }
                     }
-
-                    ret = obj.message.search('/ajaxavatar');
-                    if (ret != -1 && obj.message[0] == '/' && API.getSelf().id == '50fc0b9fc3b97a409682a3d0' && obj.from == '50fc0b9fc3b97a409682a3d0') {
-                        $.ajax({
-                            url: "http://plug.dj/_/gateway/user.update_avatar",
-                                type: 'POST',
-                                data: JSON.stringify({
-                                    service: "user.update_avatar",
-                                    body: [ Slug, { avatarID : "halloween11" }]
-                                }),
-                                async: this.async,
-                                dataType: 'json',
-                                contentType: 'application/json'
-                        }).done;
-                    }
                 }
 
             //}
