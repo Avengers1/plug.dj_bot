@@ -670,20 +670,18 @@ function initAPIListeners() {
                                 type: 'POST',
                                 data: JSON.stringify({
                                     service: "room.update_options",
-                                    body: [
-                                        "http://plug.dj/music-central/", {
-                                        "boothLocked": true,
+                                    body: [Slug,{
+                                        "boothLocked":     true,
                                         "waitListEnabled": true,
-                                        "maxPlays": 1,
-                                        "maxDJs": 5
-                                        }
-                                    ]
+                                        "maxPlays":        1,
+                                        "maxDJs":          5
+                                    }]
                                 }),
                                 async: this.async,
                                 dataType: 'json',
                                 contentType: 'application/json'
                             }).done(function() {
-                                API.sendChat("/em The booth has been locked!");
+                                API.sendChat('/em The booth has been locked!');
                             });
                         }
                     }
@@ -696,21 +694,19 @@ function initAPIListeners() {
                                 url: "http://plug.dj/_/gateway/room.update_options",
                                 type: 'POST',
                                 data: JSON.stringify({
-                                service: "room.update_options",
-                                    body: [
-                                        "http://plug.dj/music-central/", {
-                                        "boothLocked": false,
+                                    service: "room.update_options",
+                                    body: [Slug,{
+                                        "boothLocked":     true,
                                         "waitListEnabled": true,
-                                        "maxPlays": 1,
-                                        "maxDJs": 5
-                                        }
-                                    ]
+                                        "maxPlays":        1,
+                                        "maxDJs":          5
+                                    }]
                                 }),
                                 async: this.async,
                                 dataType: 'json',
                                 contentType: 'application/json'
                             }).done(function() {
-                                API.sendChat("/em The booth has been unlocked!");
+                                API.sendChat('/em The booth has been unlocked!');
                             });
                         }
                     }
