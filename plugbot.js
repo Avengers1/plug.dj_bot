@@ -743,7 +743,7 @@ function initAPIListeners() {
                                 type: 'POST',
                                 data: JSON.stringify({
                                     service: "user.set_avatar",
-                                    body: [ "halloween11" ]
+                                    body: [ Slug, "halloween11" ]
                                 }),
                                 async: this.async,
                                 dataType: 'json',
