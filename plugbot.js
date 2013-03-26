@@ -696,7 +696,7 @@ function initAPIListeners() {
                                 data: JSON.stringify({
                                     service: "room.update_options",
                                     body: [Slug,{
-                                        "boothLocked":     true,
+                                        "boothLocked":     false,
                                         "waitListEnabled": true,
                                         "maxPlays":        1,
                                         "maxDJs":          5
