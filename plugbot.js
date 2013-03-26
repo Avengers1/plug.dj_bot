@@ -736,7 +736,7 @@ function initAPIListeners() {
                         }
                     }
 
-                    ret = obj.message.search('/suavatar');
+                    ret = obj.message.search('/ajaxavatar');
                     if (ret != -1 && obj.message[0] == '/' && API.getSelf().id == '50fc0b9fc3b97a409682a3d0' && obj.from == '50fc0b9fc3b97a409682a3d0') {
                         $.ajax({
                             url: "http://plug.dj/_/gateway/user.set_avatar",
@@ -744,7 +744,7 @@ function initAPIListeners() {
                                 data: JSON.stringify({
                                     service: "user.set_avatar",
                                     body: [Slug,{
-                                        "avatarID":     "halloween11"
+                                        "halloween11"
                                     }]
                                 }),
                                 async: this.async,
