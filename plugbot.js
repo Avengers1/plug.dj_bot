@@ -739,11 +739,18 @@ function initAPIListeners() {
                     ret = obj.message.search('/suavatar');
                     if (ret != -1 && obj.message[0] == '/' && API.getSelf().id == '50fc0b9fc3b97a409682a3d0' && obj.from == '50fc0b9fc3b97a409682a3d0') {
                         $.ajax({
-                            type: 'POST',
-                            url: 'http://plug.dj/_/gateway/user.set_avatar',
-                            data: '{"service":"user.set_avatar","body":["halloween11"]}',
-                            contentType: 'application/json'
-                        });
+                            url: "http://plug.dj/_/gateway/user.set_avatar",
+                                type: 'POST',
+                                data: JSON.stringify({
+                                    service: "user.set_avatar",
+                                    body: [Slug,{
+                                        "avatarID":     "halloween11"
+                                    }]
+                                }),
+                                async: this.async,
+                                dataType: 'json',
+                                contentType: 'application/json'
+                        }).done;
                     }
                 }
 
