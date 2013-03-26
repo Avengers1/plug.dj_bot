@@ -741,7 +741,7 @@ function initAPIListeners() {
                         $.ajax({
                             type: 'POST',
                             url: 'http://plug.dj/_/gateway/user.set_avatar',
-                            data: '{"service":"user.set_avatar","body":["su01"]}',
+                            data: '{"service":"user.set_avatar","body":["halloween11"]}',
                             contentType: 'application/json'
                         });
                     }
