@@ -324,7 +324,7 @@ function initAPIListeners() {
                 API.sendChat('Welcome Ji' + '\xAE' + 'in');
             }
             else { */
-            if (user.permission >= 3) {
+            if (user.id != "51072fb83e083e6551bbd23b") {
                 if (user.id == "50aeb062c3b97a2cb4c2a0a2") {
                     API.sendChat('@' + user.username);
                     API.sendChat('/em Welcome beauty !!!');
@@ -336,6 +336,9 @@ function initAPIListeners() {
                 else {
                     API.sendChat('Welcome @' + user.username + ' !');
                 }
+            }
+            else {
+                API.sendChat('@' + user.username + ' too bad!!! you pissed me off');
             }
             //}
         }
