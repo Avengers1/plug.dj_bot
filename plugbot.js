@@ -324,16 +324,18 @@ function initAPIListeners() {
                 API.sendChat('Welcome Ji' + '\xAE' + 'in');
             }
             else { */
-            if (user.id == "50aeb062c3b97a2cb4c2a0a2") {
-                API.sendChat('@' + user.username);
-                API.sendChat('/em Welcome beauty !!!');
-            }
-            else if (user.id == "50fda7f6c3b97a48cb78b3dc") {
-                API.sendChat('@' + user.username);
-                API.sendChat('/em Welcome bro !!!');
-            }
-            else {
-                API.sendChat('Welcome @' + user.username + ' !');
+            if (user.permission >= 3) {
+                if (user.id == "50aeb062c3b97a2cb4c2a0a2") {
+                    API.sendChat('@' + user.username);
+                    API.sendChat('/em Welcome beauty !!!');
+                }
+                else if (user.id == "50fda7f6c3b97a48cb78b3dc") {
+                    API.sendChat('@' + user.username);
+                    API.sendChat('/em Welcome bro !!!');
+                }
+                else {
+                    API.sendChat('Welcome @' + user.username + ' !');
+                }
             }
             //}
         }
