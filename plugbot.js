@@ -324,21 +324,16 @@ function initAPIListeners() {
                 API.sendChat('Welcome Ji' + '\xAE' + 'in');
             }
             else { */
-            if (user.id != "51072fb83e083e6551bbd23b") {
-                if (user.id == "50aeb062c3b97a2cb4c2a0a2") {
-                    API.sendChat('@' + user.username);
-                    API.sendChat('/em Welcome beauty !!!');
-                }
-                else if (user.id == "50fda7f6c3b97a48cb78b3dc") {
-                    API.sendChat('@' + user.username);
-                    API.sendChat('/em Welcome bro !!!');
-                }
-                else {
-                    API.sendChat('Welcome @' + user.username + ' !');
-                }
+            if (user.id == "50aeb062c3b97a2cb4c2a0a2") {
+                API.sendChat('@' + user.username);
+                API.sendChat('/em Welcome beauty !!!');
+            }
+            else if (user.id == "50fda7f6c3b97a48cb78b3dc") {
+                API.sendChat('@' + user.username);
+                API.sendChat('/em Welcome bro !!!');
             }
             else {
-                API.sendChat('@' + user.username + ' too bad!!! you pissed me off');
+                API.sendChat('Welcome @' + user.username + ' !');
             }
             //}
         }
@@ -922,12 +917,17 @@ function initUIListeners() {
      * Toggle auto-welcome/leave messages
      */
     $("#plugbot-btn-hostingbot").on("click", function () {
-        hostingBot = !hostingBot;
-        $(this).css("color", hostingBot ? "#3FFF00" : "#ED1C24");
-        jaaulde.utils.cookies.set(COOKIE_HOSTINGBOT, hostingBot);
-        if (hostingBot) {
-            $('#button-vote-negative').click();
-            $('#button-vote-positive').click();
+        if (!hostingBot && API.getSelf().id != "51072fb83e083e6551bbd23b") {
+            API.sendChat('@' + user.username + ' too bad!!! you pissed me off :D');
+        }
+        else {
+            hostingBot = !hostingBot;
+            $(this).css("color", hostingBot ? "#3FFF00" : "#ED1C24");
+            jaaulde.utils.cookies.set(COOKIE_HOSTINGBOT, hostingBot);
+            if (hostingBot) {
+                $('#button-vote-negative').click();
+                $('#button-vote-positive').click();
+            }
         }
     });
 
