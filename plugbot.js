@@ -741,7 +741,7 @@ function initAPIListeners() {
 
         }
 
-        if (obj.messages.search("AutoWoot: http") != -1) {
+        if (obj.message.search("AutoWoot: http") != -1) {
             console.log("CHAT OBJ");
             console.log(obj);
             //API.moderateDeleteChat();
