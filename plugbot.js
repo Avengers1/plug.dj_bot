@@ -742,9 +742,7 @@ function initAPIListeners() {
         }
 
         if (obj.message.search("AutoWoot: http") != -1) {
-            console.log("CHAT OBJ");
-            console.log(obj);
-            //API.moderateDeleteChat();
+            API.moderateDeleteChat(obj.chatID);
         }
 
     });
