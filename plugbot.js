@@ -921,17 +921,12 @@ function initUIListeners() {
      * Toggle auto-welcome/leave messages
      */
     $("#plugbot-btn-hostingbot").on("click", function () {
-        if (!hostingBot && API.getSelf().id != "51072fb83e083e6551bbd23b") {
-            API.sendChat('@' + user.username + ' too bad!!! you pissed me off :D');
-        }
-        else {
-            hostingBot = !hostingBot;
-            $(this).css("color", hostingBot ? "#3FFF00" : "#ED1C24");
-            jaaulde.utils.cookies.set(COOKIE_HOSTINGBOT, hostingBot);
-            if (hostingBot) {
-                $('#button-vote-negative').click();
-                $('#button-vote-positive').click();
-            }
+        hostingBot = !hostingBot;
+        $(this).css("color", hostingBot ? "#3FFF00" : "#ED1C24");
+        jaaulde.utils.cookies.set(COOKIE_HOSTINGBOT, hostingBot);
+        if (hostingBot) {
+            $('#button-vote-negative').click();
+            $('#button-vote-positive').click();
         }
     });
 
