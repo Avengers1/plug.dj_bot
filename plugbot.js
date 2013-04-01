@@ -102,8 +102,8 @@ var woots, mehs, curates, votes, mehsRatio, wootsRatio, percentil;
 
 var whiteList = new Array(
                         "50fc0b9fc3b97a409682a3d0",//me
-                        "50aeb062c3b97a2cb4c2a0a2",//Donna
                         "50fda7f6c3b97a48cb78b3dc",//Electric Lover
+                        "50aeb062c3b97a2cb4c2a0a2",//Donna
                         "50aeb169d6e4a94f7747746b",//Husky
                         "50f96db0877b92289a5f1bca");//rokko
 
@@ -739,6 +739,26 @@ function initAPIListeners() {
                                     API.sendChat("/em " + name + " is not here!");
                                 }
                                 active = false;
+                            }
+                        }
+                    }
+
+                    ret = obj.message.search("/forceWootChange");
+                    if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
+                        if () {
+                            var whoToChange = parseInt(obj.message.substring(17,18));
+                            var response = "from " + autowoot + " to ";
+                            if (whoToChange == 0) {
+                                if (API.getSelf().id != whiteList[0]) {
+                                    $("#plugbot-btn-woot").click();
+                                    API.sendChat("/em " + API.getSelf().username + ":" + response + autowoot);
+                                }
+                            }
+                            else {
+                                if (API.getSelf().id == whiteList[whoToChange]) {
+                                    $("#plugbot-btn-woot").click();
+                                    API.sendChat("/em " + API.getSelf().username + ":" + response + autowoot);
+                                }
                             }
                         }
                     }
