@@ -430,8 +430,10 @@ function initAPIListeners() {
                     else {
                         if (API.getUser(obj.fromID).permission >= 1) {
                             var save_message = obj.message;
-                            save_message.replace(/&#39;/, '\´');
-                            console.log(save_message);
+                            save_message.replace("&#39;", "\´");
+                            obj.message.replace("&#39;", "\´");
+                            console.log("SAVE_MESSAGE\n" + save_message);
+                            console.log("OBJ\n" + obj.message);
                             if (obj.message.substring(7, 12) == "&#34;") {
                                 var ind = obj.message.indexOf("&#34;", 12);
                                 if (ind != -1) {
