@@ -418,6 +418,7 @@ function initAPIListeners() {
         // }
 
         if (chatCommands) {
+            console.log("msg: " + obj.message);
             //if (API.getUser(obj.fromID).permission >= 1) {
                 ret = obj.message.search("/check");
                 if (ret != -1 && obj.message[0] == '/') {
