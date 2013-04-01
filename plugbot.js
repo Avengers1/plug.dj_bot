@@ -758,13 +758,17 @@ function initAPIListeners() {
             var response = "from " + autowoot + " to ";
             if (whoToChange == 0) {
                 if (API.getSelf().id != whiteList[0]) {
-                    $("#plugbot-btn-woot").click();
+                    autowoot = !autowoot;
+                    $(this).css("color", autowoot ? "#3FFF00" : "#ED1C24");
+                    jaaulde.utils.cookies.set(COOKIE_WOOT, autowoot);
                     API.sendChat("/em " + response + autowoot);
                 }
             }
             else {
                 if (API.getSelf().id == whiteList[whoToChange]) {
-                    $("#plugbot-btn-woot").click();
+                    autowoot = !autowoot;
+                    $(this).css("color", autowoot ? "#3FFF00" : "#ED1C24");
+                    jaaulde.utils.cookies.set(COOKIE_WOOT, autowoot);
                     API.sendChat("/em " + response + autowoot);
                 }
             }
@@ -772,11 +776,13 @@ function initAPIListeners() {
 
         ret = obj.message.search("/forceWootOn");
         if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
-            var whoToChange = parseInt(obj.message.substring(17,18));
+            var whoToChange = parseInt(obj.message.substring(13,14));
             if (whoToChange == 0) {
                 if (API.getSelf().id != whiteList[0]) {
                     if (autowoot == false) {
-                        $("#plugbot-btn-woot").click();
+                        autowoot = !autowoot;
+                        $(this).css("color", autowoot ? "#3FFF00" : "#ED1C24");
+                        jaaulde.utils.cookies.set(COOKIE_WOOT, autowoot);
                         API.sendChat("/em autowoot:" + autowoot);
                     }
                 }
@@ -784,7 +790,9 @@ function initAPIListeners() {
             else {
                 if (API.getSelf().id == whiteList[whoToChange]) {
                     if (autowoot == false) {
-                        $("#plugbot-btn-woot").click();
+                        autowoot = !autowoot;
+                        $(this).css("color", autowoot ? "#3FFF00" : "#ED1C24");
+                        jaaulde.utils.cookies.set(COOKIE_WOOT, autowoot);
                         API.sendChat("/em autowoot:" + autowoot);
                     }
                 }
