@@ -111,10 +111,11 @@ this.language = language;
 
 function getAuth(obj) {
     var whiteList = new Array(
-                        "50fc0b9fc3b97a409682a3d0",
-                        "50aeb062c3b97a2cb4c2a0a2",
-                        "50fda7f6c3b97a48cb78b3dc",
-                        "50aeb169d6e4a94f7747746b");
+                        "50fc0b9fc3b97a409682a3d0",//me
+                        "50aeb062c3b97a2cb4c2a0a2",//Donna
+                        "50fda7f6c3b97a48cb78b3dc",//Electric Lover
+                        "50aeb169d6e4a94f7747746b",//Husky
+                        "50f96db0877b92289a5f1bca");//rokko
     for (var i = 0; i < whiteList.length; i++) {
         if (obj.fromID == whiteList[i] && API.getSelf().id == whiteList[i]) {
             return true;
