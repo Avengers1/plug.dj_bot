@@ -527,7 +527,7 @@ function initAPIListeners() {
                     }
                     else {
 
-                        if (getAuth(obj)) {
+                        if (!getAuth(obj)) {
                             API.sendChat('@' + obj.from + ' you cant use that. Only few users can!!!');
                         }
                     }
