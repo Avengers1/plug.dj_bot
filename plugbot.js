@@ -846,7 +846,7 @@ function initAPIListeners() {
                     res += "curate notes";
                 }
                 if (res.length != 0) {
-                    API.sendChat("/em " + res + "has been forced to turn off");
+                    API.sendChat("/em " + res + " has been forced to turn off");
                 }
             }
         }
