@@ -619,6 +619,7 @@ function initAPIListeners() {
                                     else {
                                         if (!error) {
                                             API.sendChat("/em This user is not here! If you can see him on the floor, he´s probably stucked!");
+                                            watching = false;
                                         }
                                     }
                                 }
@@ -652,8 +653,9 @@ function initAPIListeners() {
                                             }
                                             time_str += seconds + "s";
                                         }
+                                        var unvoted_score = (watch_list[0].unvoted == 0) ? 0 : watch_list[0].unvoted - 1;
                                         var msg = "/em BIG BROTHER´s watching you for " + time_str + " " + API.getUser(watch_list[0].id).username + ": votes-" + watch_list[0].votes
-                                                + ",unvoted-" + watch_list[0].unvoted + ",woot-" + watch_list[0].woots + ",meh-" + watch_list[0].mehs;
+                                                + ",unvoted-" + unvoted_score + ",woot-" + watch_list[0].woots + ",meh-" + watch_list[0].mehs;
                                         API.sendChat(msg);
                                     }
                                     else {
