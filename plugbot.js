@@ -437,7 +437,6 @@ function initAPIListeners() {
                                 if (ind != -1) {
                                     var name = obj.message.substring(12, ind);
                                     name = name.replace(/&#34;/g, "\"");
-                                    console.log(name);
                                     var users = API.getUsers();
                                     for (var k = 0; k < users.length; k++) {
                                         if (users[k].username == name) {                                            
