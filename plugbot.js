@@ -105,7 +105,8 @@ var whiteList = new Array(
                         "50fda7f6c3b97a48cb78b3dc",//Electric Lover
                         "50aeb062c3b97a2cb4c2a0a2",//Donna
                         "50aeb169d6e4a94f7747746b",//Husky
-                        "50f96db0877b92289a5f1bca");//rokko
+                        "50f96db0877b92289a5f1bca",//rokko
+                        "50b2c894877b9268ceab44f9");//Vixen
 
 function chatMsg(type, from, fromId, msg,language)
 {
