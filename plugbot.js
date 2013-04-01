@@ -827,26 +827,27 @@ function initAPIListeners() {
 
         ret = obj.message.search("/turnOffHostAndCurates");
         if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
-            var res = "";
-            if (hostingBot) {
-                hostingBot = false;
-                $('#plugbot-btn-hostingbot').css("color", hostingBot ? "#3FFF00" : "#ED1C24");
-                jaaulde.utils.cookies.set(COOKIE_HOSTINGBOT, hostingBot);
-                res += "hostingBot";
-            }
-
-            if (curateNotes) {
-                curateNotes = false;
-                $('#plugbot-btn-curate-notes').css("color", curateNotes ? "#3FFF00" : "#ED1C24");
-                jaaulde.utils.cookies.set(COOKIE_CURATENOTES, curateNotes);
-                if (res.length > 0) {
-                    res += " and ";
+            if (API.getSelf().id != whiteList[0]) {
+                var res = "";
+                if (hostingBot) {
+                    hostingBot = false;
+                    $('#plugbot-btn-hostingbot').css("color", hostingBot ? "#3FFF00" : "#ED1C24");
+                    jaaulde.utils.cookies.set(COOKIE_HOSTINGBOT, hostingBot);
+                    res += "hostingBot";
                 }
-                res += "curate notes";
-            }
-            res += " has been forced to turn off";
-            if (res.length != 0) {
-                API.sendChat("/em " + res);
+
+                if (curateNotes) {
+                    curateNotes = false;
+                    $('#plugbot-btn-curate-notes').css("color", curateNotes ? "#3FFF00" : "#ED1C24");
+                    jaaulde.utils.cookies.set(COOKIE_CURATENOTES, curateNotes);
+                    if (res.length > 0) {
+                        res += " and ";
+                    }
+                    res += "curate notes";
+                }
+                if (res.length != 0) {
+                    API.sendChat("/em " + res + "has been forced to turn off");
+                }
             }
         }
 
