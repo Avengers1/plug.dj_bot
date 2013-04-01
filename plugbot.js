@@ -434,7 +434,7 @@ function initAPIListeners() {
                             obj.message = obj.message.replace(/&#39;/g, "\'");
                             obj.message = obj.message.replace(/&amp;/g, "&");
                             if (obj.message.substring(7, 12) == "&#34;") {
-                                var ind = obj.message.indexOf("&#34;", 12);
+                                var ind = obj.message.lastIndexOf("&#34;", 12);
                                 if (ind != -1) {
                                     var name = obj.message.substring(12, ind);
                                     name = name.replace(/&#34;/g, "\"");
@@ -543,10 +543,11 @@ function initAPIListeners() {
                     if (ret != -1 && obj.message[0] == '/') {
                         var id_to_watch = "";
                         if (obj.message.substring(7, 12) == "&#34;") {
-                            var ind = obj.message.indexOf("&#34;", 12);
+                            var ind = obj.message.lastIndexOf("&#34;");
                             if (ind != -1) {
                                 if (!watching)  {
                                     var name = obj.message.substring(12, ind);
+                                    name = name.replace(/&#34;/g, "\"");
                                     var users = API.getUsers();
                                     for (var k = 0; k < users.length; k++) {
                                         if (users[k].username == name) {
