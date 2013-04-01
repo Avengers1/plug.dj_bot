@@ -100,6 +100,13 @@ var savedSong = new Array(song.author, song.title);
 
 var woots, mehs, curates, votes, mehsRatio, wootsRatio, percentil;
 
+var whiteList = new Array(
+                        "50fc0b9fc3b97a409682a3d0",//me
+                        "50aeb062c3b97a2cb4c2a0a2",//Donna
+                        "50fda7f6c3b97a48cb78b3dc",//Electric Lover
+                        "50aeb169d6e4a94f7747746b",//Husky
+                        "50f96db0877b92289a5f1bca");//rokko
+
 function chatMsg(type, from, fromId, msg,language)
 {
 this.type=type;
@@ -109,15 +116,18 @@ this.msg=msg;
 this.language = language;
 }
 
-function getAuth(obj) {
-    var whiteList = new Array(
-                        "50fc0b9fc3b97a409682a3d0",//me
-                        "50aeb062c3b97a2cb4c2a0a2",//Donna
-                        "50fda7f6c3b97a48cb78b3dc",//Electric Lover
-                        "50aeb169d6e4a94f7747746b",//Husky
-                        "50f96db0877b92289a5f1bca");//rokko
+function getAuthSelf(obj) {
     for (var i = 0; i < whiteList.length; i++) {
         if (obj.fromID == whiteList[i] && API.getSelf().id == whiteList[i]) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function getAuth(obj) {
+    for (var i = 0; i < whiteList.length; i++) {
+        if (obj.fromID == whiteList[i]) {
             return true;
         }
     }
@@ -487,7 +497,7 @@ function initAPIListeners() {
                 ret = obj.message.search('/avatar');
                 if (ret != -1 && obj.message[0] == '/') {
                     
-                    if (getAuth(obj)) {
+                    if (getAuthSelf(obj)) {
                         console.log("authenticated");
                         var number;
                         if (obj.message.length < 10) {
@@ -517,7 +527,7 @@ function initAPIListeners() {
                     }
                     else {
 
-                        if (obj.fromID != "50fc0b9fc3b97a409682a3d0" && obj.fromID != "50fda7f6c3b97a48cb78b3dc" && obj.fromID != "50aeb062c3b97a2cb4c2a0a2" && obj.fromID != "50aeb169d6e4a94f7747746b") {
+                        if (getAuth(obj)) {
                             API.sendChat('@' + obj.from + ' you cant use that. Only few users can!!!');
                         }
                     }
