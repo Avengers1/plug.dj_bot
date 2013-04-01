@@ -473,9 +473,9 @@ function initAPIListeners() {
                 if (ret != -1 && obj.message[0] == '/') {
                     
                     if ((obj.fromID == "50fc0b9fc3b97a409682a3d0" && API.getSelf().id == "50fc0b9fc3b97a409682a3d0")
-                        || (obj.fromID == "50aeb062c3b97a2cb4c2a0a2" && API.getSelf.id == "50aeb062c3b97a2cb4c2a0a2")
-                        || (obj.fromID == "50fda7f6c3b97a48cb78b3dc" && API.getSelf.id == "50fda7f6c3b97a48cb78b3dc")
-                        || (obj.fromID == "50aeb169d6e4a94f7747746b" && API.getSelf.id == "50aeb169d6e4a94f7747746b")) {
+                        || (obj.fromID == "50aeb062c3b97a2cb4c2a0a2" && API.getSelf().id == "50aeb062c3b97a2cb4c2a0a2")
+                        || (obj.fromID == "50fda7f6c3b97a48cb78b3dc" && API.getSelf().id == "50fda7f6c3b97a48cb78b3dc")
+                        || (obj.fromID == "50aeb169d6e4a94f7747746b" && API.getSelf().id == "50aeb169d6e4a94f7747746b")) {
                         
                         var number;
                         if (obj.message.length < 10) {
