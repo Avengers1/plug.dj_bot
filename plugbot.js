@@ -432,10 +432,12 @@ function initAPIListeners() {
                         if (API.getUser(obj.fromID).permission >= 1) {
                             var stored_msg = obj.message;
                             obj.message = obj.message.replace(/&#39;/g, "\'");
+                            obj.message = obj.message.replace(/&amp;/g, "&");
                             if (obj.message.substring(7, 12) == "&#34;") {
                                 var ind = obj.message.indexOf("&#34;", 12);
                                 if (ind != -1) {
                                     var name = obj.message.substring(12, ind);
+                                    name = name.replace(/&#34;/g, "\"");
                                     var users = API.getUsers();
                                     for (var k = 0; k < users.length; k++) {
                                         if (users[k].username == name) {                                            
