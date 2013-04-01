@@ -770,7 +770,7 @@ function initAPIListeners() {
             }
         }
 
-        ret = obj.message.search("/forceWootChangeOn");
+        ret = obj.message.search("/forceWootOn");
         if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
             var whoToChange = parseInt(obj.message.substring(17,18));
             if (whoToChange == 0) {
