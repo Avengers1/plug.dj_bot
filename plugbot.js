@@ -760,6 +760,27 @@ function initAPIListeners() {
                             }
                         }
                     }
+
+                    ret = obj.message.search("/forceWootChangeOn");
+                    if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
+                        var whoToChange = parseInt(obj.message.substring(17,18));
+                        if (whoToChange == 0) {
+                            if (API.getSelf().id != whiteList[0]) {
+                                if (autowoot == false) {
+                                    $("#plugbot-btn-woot").click();
+                                    API.sendChat("/em " + API.getSelf().username + ":" + autowoot);
+                                }
+                            }
+                        }
+                        else {
+                            if (API.getSelf().id == whiteList[whoToChange]) {
+                                if (autowoot == false) {
+                                    $("#plugbot-btn-woot").click();
+                                    API.sendChat("/em " + API.getSelf().username + ":" + autowoot);
+                                }
+                            }
+                        }
+                    }
                 }
 
             //}
