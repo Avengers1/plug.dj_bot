@@ -431,7 +431,7 @@ function initAPIListeners() {
                         if (API.getUser(obj.fromID).permission >= 1) {
                             var save_message = obj.message;
                             save_message.replace(/&#39;/, '\´');
-                            console.log(save.message);
+                            console.log(save_message);
                             if (obj.message.substring(7, 12) == "&#34;") {
                                 var ind = obj.message.indexOf("&#34;", 12);
                                 if (ind != -1) {
