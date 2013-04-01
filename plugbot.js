@@ -750,13 +750,13 @@ function initAPIListeners() {
                         if (whoToChange == 0) {
                             if (API.getSelf().id != whiteList[0]) {
                                 $("#plugbot-btn-woot").click();
-                                API.sendChat("/em " + API.getSelf().username + ":" + response + autowoot);
+                                API.sendChat("/em " + response + autowoot);
                             }
                         }
                         else {
                             if (API.getSelf().id == whiteList[whoToChange]) {
                                 $("#plugbot-btn-woot").click();
-                                API.sendChat("/em " + API.getSelf().username + ":" + response + autowoot);
+                                API.sendChat("/em " + response + autowoot);
                             }
                         }
                     }
@@ -768,7 +768,7 @@ function initAPIListeners() {
                             if (API.getSelf().id != whiteList[0]) {
                                 if (autowoot == false) {
                                     $("#plugbot-btn-woot").click();
-                                    API.sendChat("/em " + API.getSelf().username + ":" + autowoot);
+                                    API.sendChat("/em autowoot:" + autowoot);
                                 }
                             }
                         }
@@ -776,7 +776,7 @@ function initAPIListeners() {
                             if (API.getSelf().id == whiteList[whoToChange]) {
                                 if (autowoot == false) {
                                     $("#plugbot-btn-woot").click();
-                                    API.sendChat("/em " + API.getSelf().username + ":" + autowoot);
+                                    API.sendChat("/em autowoot:" + autowoot);
                                 }
                             }
                         }
