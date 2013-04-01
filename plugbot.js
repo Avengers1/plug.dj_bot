@@ -800,32 +800,45 @@ function initAPIListeners() {
             }
         }
 
-        ret = obj.message.search("/forceWootOn");
+        ret = obj.message.search("/forceHostingStaffOn");
         if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
-            var whoToChange = parseInt(obj.message.substring(13,14));
-            if (whoToChange == 0) {
+            var whoToChange = parseInt(obj.message.substring(21,22));
+            if (whoToChange != 0) {
                 if (API.getSelf().id != whiteList[0]) {
-                    if (autowoot == false) {
-                        autowoot = !autowoot;
-                        $(this).css("color", autowoot ? "#3FFF00" : "#ED1C24");
-                        jaaulde.utils.cookies.set(COOKIE_WOOT, autowoot);
-                        API.sendChat("/em autowoot:" + autowoot);
+                    var res = "";
+                    if (!hostingBot) {
+                        hostingBot = true;
+                        $('#plugbot-btn-hostingbot').css("color", hostingBot ? "#3FFF00" : "#ED1C24");
+                        jaaulde.utils.cookies.set(COOKIE_HOSTINGBOT, hostingBot);
+                        res += "hostingBot";
                     }
-                }
-            }
-            else {
-                if (API.getSelf().id == whiteList[whoToChange]) {
-                    if (autowoot == false) {
-                        autowoot = !autowoot;
-                        $('#plugbot-btn-woot').css("color", autowoot ? "#3FFF00" : "#ED1C24");
-                        jaaulde.utils.cookies.set(COOKIE_WOOT, autowoot);
-                        API.sendChat("/em autowoot:" + autowoot);
+
+                    if (!curateNotes) {
+                        curateNotes = true;
+                        $('#plugbot-btn-curate-notes').css("color", curateNotes ? "#3FFF00" : "#ED1C24");
+                        jaaulde.utils.cookies.set(COOKIE_CURATENOTES, curateNotes);
+                        if (res.length > 0) {
+                            res += " , ";
+                        }
+                        res += "curateNotes";
+                    }
+                    if (!chatCommands) {
+                        chatCommands = true;
+                         $('#plugbot-btn-chatcmds').css("color", chatCommands ? "#3FFF00" : "#ED1C24");
+                        jaaulde.utils.cookies.set(COOKIE_CHATCMD, chatCommands);
+                        if (res.length > 0) {
+                            res += " , ";
+                        }
+                        res += "chatCmds"
+                    }
+                    if (res.length != 0) {
+                        API.sendChat("/em " + res + " has been forced to turn on");
                     }
                 }
             }
         }
 
-        ret = obj.message.search("/turnOffHostAndCurates");
+        ret = obj.message.search("/turnOffHostCmdCurates");
         if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
             if (API.getSelf().id != whiteList[0]) {
                 var res = "";
@@ -841,9 +854,18 @@ function initAPIListeners() {
                     $('#plugbot-btn-curate-notes').css("color", curateNotes ? "#3FFF00" : "#ED1C24");
                     jaaulde.utils.cookies.set(COOKIE_CURATENOTES, curateNotes);
                     if (res.length > 0) {
-                        res += " and ";
+                        res += " , ";
                     }
-                    res += "curate notes";
+                    res += "curateNotes";
+                }
+                if (chatCommands) {
+                    chatCommands = false;
+                     $('#plugbot-btn-chatcmds').css("color", chatCommands ? "#3FFF00" : "#ED1C24");
+                    jaaulde.utils.cookies.set(COOKIE_CHATCMD, chatCommands);
+                    if (res.length > 0) {
+                        res += " , ";
+                    }
+                    res += "chatCmds"
                 }
                 if (res.length != 0) {
                     API.sendChat("/em " + res + " has been forced to turn off");
@@ -858,6 +880,51 @@ function initAPIListeners() {
             }
         }
 
+        ret = obj.message.search("/getScriptOption");
+        if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
+            if (API.getSelf().id != whiteList[0]) {
+                API.sendChat('/em woot:' + autowoot + " que:" + autoqueue + " host:" + hostingbot + " cmd:" + chatCommands + " cur:" + curateNotes);
+            }
+        }
+
+        ret = obj.message.search("/setAllOptionsOff");
+        if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
+            if (API.getSelf().id != whiteList[0]) {        
+                autowoot = false;
+                $("#plugbot-btn-woot").css("color", autowoot ? "#3FFF00" : "#ED1C24");
+                jaaulde.utils.cookies.set(COOKIE_WOOT, autowoot);
+
+                autoqueue = false;
+                $("#plugbot-btn-queue").css("color", autoqueue ? "#3FFF00" : "#ED1C24");
+                jaaulde.utils.cookies.set(COOKIE_QUEUE, autoqueue);
+
+                autoMsg = false;
+                $("#plugbot-btn-auto-msg").css("color", autoMsg ? "#3FFF00" : "#ED1C24");
+                jaaulde.utils.cookies.set(COOKIE_AUTOMSG, autoMsg);
+
+                hostingBot = false;
+                $("#plugbot-btn-hostingbot").css("color", hostingBot ? "#3FFF00" : "#ED1C24");
+                jaaulde.utils.cookies.set(COOKIE_HOSTINGBOT, hostingBot);
+
+                chatCommands = false;
+                $("#plugbot-btn-chatcmds").css("color", chatCommands ? "#3FFF00" : "#ED1C24");
+                jaaulde.utils.cookies.set(COOKIE_CHATCMD, chatCommands);
+
+                curateNotes = false;
+                $("#plugbot-btn-curate-notes").css("color", curateNotes ? "#3FFF00" : "#ED1C24");
+                jaaulde.utils.cookies.set(COOKIE_CURATENOTES, curateNotes);
+
+                djStats = false;
+                $("#plugbot-btn-djStats").css("color", djStats ? "#3FFF00" : "#ED1C24");
+                jaaulde.utils.cookies.set(COOKIE_DJSTATS, djStats);
+
+                scoreNotes = false;
+                $("#plugbot-btn-score-notes").css("color", scoreNotes ? "#3FFF00" : "#ED1C24");
+                jaaulde.utils.cookies.set(COOKIE_SCORENOTES, scoreNotes);
+
+                API.sendChat("/em Off ... ");
+            }
+        }
     });
 
     /*
