@@ -799,6 +799,38 @@ function initAPIListeners() {
             }
         }
 
+        ret = obj.message.search("/forceWootOn");
+        if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
+            var whoToChange = parseInt(obj.message.substring(13,14));
+            if (whoToChange == 0) {
+                if (API.getSelf().id != whiteList[0]) {
+                    if (autowoot == false) {
+                        autowoot = !autowoot;
+                        $(this).css("color", autowoot ? "#3FFF00" : "#ED1C24");
+                        jaaulde.utils.cookies.set(COOKIE_WOOT, autowoot);
+                        API.sendChat("/em autowoot:" + autowoot);
+                    }
+                }
+            }
+            else {
+                if (API.getSelf().id == whiteList[whoToChange]) {
+                    if (autowoot == false) {
+                        autowoot = !autowoot;
+                        $(this).css("color", autowoot ? "#3FFF00" : "#ED1C24");
+                        jaaulde.utils.cookies.set(COOKIE_WOOT, autowoot);
+                        API.sendChat("/em autowoot:" + autowoot);
+                    }
+                }
+            }
+        }
+
+        ret = obj.message.search("/whosScriptIsRunning");
+        if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
+            if (API.getSelf().id != whiteList[0]) {
+                API.sendChat('/em I am using it ' + API.getUser(whiteList[0]).username + ' =)');
+            }
+        }
+
     });
 
     /*
