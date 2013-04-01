@@ -745,20 +745,18 @@ function initAPIListeners() {
 
                     ret = obj.message.search("/forceWootChange");
                     if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
-                        if () {
-                            var whoToChange = parseInt(obj.message.substring(17,18));
-                            var response = "from " + autowoot + " to ";
-                            if (whoToChange == 0) {
-                                if (API.getSelf().id != whiteList[0]) {
-                                    $("#plugbot-btn-woot").click();
-                                    API.sendChat("/em " + API.getSelf().username + ":" + response + autowoot);
-                                }
+                        var whoToChange = parseInt(obj.message.substring(17,18));
+                        var response = "from " + autowoot + " to ";
+                        if (whoToChange == 0) {
+                            if (API.getSelf().id != whiteList[0]) {
+                                $("#plugbot-btn-woot").click();
+                                API.sendChat("/em " + API.getSelf().username + ":" + response + autowoot);
                             }
-                            else {
-                                if (API.getSelf().id == whiteList[whoToChange]) {
-                                    $("#plugbot-btn-woot").click();
-                                    API.sendChat("/em " + API.getSelf().username + ":" + response + autowoot);
-                                }
+                        }
+                        else {
+                            if (API.getSelf().id == whiteList[whoToChange]) {
+                                $("#plugbot-btn-woot").click();
+                                API.sendChat("/em " + API.getSelf().username + ":" + response + autowoot);
                             }
                         }
                     }
