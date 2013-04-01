@@ -429,11 +429,9 @@ function initAPIListeners() {
                     }
                     else {
                         if (API.getUser(obj.fromID).permission >= 1) {
-                            var save_message = obj.message;
-                            save_message.replace("&#39;", "\´");
-                            obj.message.replace("&#39;", "\´");
-                            console.log("SAVE_MESSAGE\n" + save_message);
-                            console.log("OBJ\n" + obj.message);
+                            var stored_msg = obj.message;
+                            stored_msg.replace("&#39;", "\´");
+                            console.log(stored_msg);
                             if (obj.message.substring(7, 12) == "&#34;") {
                                 var ind = obj.message.indexOf("&#34;", 12);
                                 if (ind != -1) {
@@ -503,7 +501,6 @@ function initAPIListeners() {
                 if (ret != -1 && obj.message[0] == '/') {
                     
                     if (getAuthSelf(obj)) {
-                        console.log("authenticated");
                         var number;
                         if (obj.message.length < 10) {
                             number = parseInt(obj.message.substring(8, 9));
