@@ -418,7 +418,8 @@ function initAPIListeners() {
         // }
 
         if (chatCommands) {
-            console.log("msg: " + obj.message);
+            obj.message = obj.message.replace(/&#39;/g, "\'");
+            obj.message = obj.message.replace(/&amp;/g, "&");
             //if (API.getUser(obj.fromID).permission >= 1) {
                 ret = obj.message.search("/check");
                 if (ret != -1 && obj.message[0] == '/') {
@@ -431,8 +432,6 @@ function initAPIListeners() {
                     else {
                         if (API.getUser(obj.fromID).permission >= 1) {
                             var stored_msg = obj.message;
-                            obj.message = obj.message.replace(/&#39;/g, "\'");
-                            obj.message = obj.message.replace(/&amp;/g, "&");
                             if (obj.message.substring(7, 12) == "&#34;") {
                                 var ind = obj.message.lastIndexOf("&#34;", 12);
                                 if (ind != -1) {
@@ -564,7 +563,6 @@ function initAPIListeners() {
                                     if (id_to_watch != "") {
                                         if (watch_list[0].id != id_to_watch) {
                                             var date = new Date();
-                                            console.log(date.getTime());
                                             watch_list[0] = {
                                                 "id" : id_to_watch,
                                                 "start" : date.getTime(),
@@ -724,10 +722,10 @@ function initAPIListeners() {
                     if (ret != -1 && obj.message[0] == '/' && API.getUser(obj.fromID).permission >= 1) {
                         var active = false;
                         if (obj.message.substring(8, 13) == "&#34;") {
-                            var ind = obj.message.indexOf("&#34;", 13);
+                            var ind = obj.message.lastIndexOf("&#34;");
                             if (ind != -1) {
                                 var name = obj.message.substring(13, ind);
-                                console.log("USERNAME ACTIVE: " + name);
+                                name = name.replace(/&#34;/g, "\"");
                                 var users = API.getUsers();
                                 for (var k = 0; k < users.length; k++) {
                                     if (users[k].username == name) {
