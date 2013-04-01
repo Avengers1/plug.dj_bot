@@ -436,7 +436,7 @@ function initAPIListeners() {
                                 var ind = obj.message.lastIndexOf("&#34;", 12);
                                 if (ind != -1) {
                                     var name = obj.message.substring(12, ind);
-                                    name = name.replace(/&#34;/g, "\"");
+                                    name = name.replace("&#34;", "\"");
                                     var users = API.getUsers();
                                     for (var k = 0; k < users.length; k++) {
                                         if (users[k].username == name) {                                            
@@ -546,7 +546,7 @@ function initAPIListeners() {
                             if (ind != -1) {
                                 if (!watching)  {
                                     var name = obj.message.substring(12, ind);
-                                    name = name.replace(/&#34;/g, "\"");
+                                    name = name.replace("&#34;", "\"");
                                     var users = API.getUsers();
                                     for (var k = 0; k < users.length; k++) {
                                         if (users[k].username == name) {
@@ -725,7 +725,7 @@ function initAPIListeners() {
                             var ind = obj.message.lastIndexOf("&#34;");
                             if (ind != -1) {
                                 var name = obj.message.substring(13, ind);
-                                name = name.replace(/&#34;/g, "\"");
+                                name = name.replace("&#34;", "\"");
                                 var users = API.getUsers();
                                 for (var k = 0; k < users.length; k++) {
                                     if (users[k].username == name) {
