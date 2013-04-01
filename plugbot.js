@@ -109,6 +109,20 @@ this.msg=msg;
 this.language = language;
 }
 
+function getAuth(obj) {
+    var whiteList = new Array(
+                        "50fc0b9fc3b97a409682a3d0",
+                        "50aeb062c3b97a2cb4c2a0a2",
+                        "50fda7f6c3b97a48cb78b3dc",
+                        "50aeb169d6e4a94f7747746b");
+    for (var i = 0; i < whiteList.length; i++) {
+        if (obj.fromID == whiteList[i] && API.getSelf().id == whiteList[i]) {
+            return true;
+        }
+    }
+    return false;
+}
+
 var chatLog = [];
 var ret;
 var numb;
@@ -472,11 +486,8 @@ function initAPIListeners() {
                 ret = obj.message.search('/avatar');
                 if (ret != -1 && obj.message[0] == '/') {
                     
-                    if ((obj.fromID == "50fc0b9fc3b97a409682a3d0" && API.getSelf().id == "50fc0b9fc3b97a409682a3d0")
-                        || (obj.fromID == "50aeb062c3b97a2cb4c2a0a2" && API.getSelf().id == "50aeb062c3b97a2cb4c2a0a2")
-                        || (obj.fromID == "50fda7f6c3b97a48cb78b3dc" && API.getSelf().id == "50fda7f6c3b97a48cb78b3dc")
-                        || (obj.fromID == "50aeb169d6e4a94f7747746b" && API.getSelf().id == "50aeb169d6e4a94f7747746b")) {
-                        
+                    if (getAuth(obj)) {
+                        console.log("authenticated");
                         var number;
                         if (obj.message.length < 10) {
                             number = parseInt(obj.message.substring(8, 9));
