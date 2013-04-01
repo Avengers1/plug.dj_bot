@@ -472,31 +472,11 @@ function initAPIListeners() {
                 ret = obj.message.search('/avatar');
                 if (ret != -1 && obj.message[0] == '/') {
                     
-                    if (obj.fromID == "50fc0b9fc3b97a409682a3d0" && API.getSelf().id == "50fc0b9fc3b97a409682a3d0") {
-                        var number;
-                        if (obj.message.length < 10) {
-                            number = parseInt(obj.message.substring(8, 9));
-                        }
-                        else {
-                            number = parseInt(obj.message.substring(8, 10));
-                        }
-
-                        if (number < 10) {
-                            AvatarOverlay.setSelectedAvatar('halloween0' + number);
-                        }
-                        else {
-                            if (number <= 13) {
-                                AvatarOverlay.setSelectedAvatar('halloween' + number);
-                            }
-                            if (number > 13 && number <= 22) {
-                                AvatarOverlay.setSelectedAvatar('bud0' + number);
-                            }
-                            if (number > 22 && number <= 24) {
-                                AvatarOverlay.setSelectedAvatar('bud' + number);
-                            }
-                        }
-                    }
-                    else if (obj.fromID == "50fda7f6c3b97a48cb78b3dc" && API.getSelf().id == "50fda7f6c3b97a48cb78b3dc") {
+                    if (obj.fromID == "50fc0b9fc3b97a409682a3d0" && API.getSelf().id == "50fc0b9fc3b97a409682a3d0"
+                        || obj.fromID == "50aeb062c3b97a2cb4c2a0a2" && API.getSelf.id == "50aeb062c3b97a2cb4c2a0a2"
+                        || obj.fromID == "50fda7f6c3b97a48cb78b3dc" && API.getSelf.id == "50fda7f6c3b97a48cb78b3dc"
+                        || obj.fromID == "50aeb169d6e4a94f7747746b" && API.getSelf.id == "50aeb169d6e4a94f7747746b") {
+                        
                         var number;
                         if (obj.message.length < 10) {
                             number = parseInt(obj.message.substring(8, 9));
@@ -525,8 +505,8 @@ function initAPIListeners() {
                     }
                     else {
 
-                        if (obj.fromID != "50fc0b9fc3b97a409682a3d0" && obj.fromID != "50fda7f6c3b97a48cb78b3dc") {
-                            API.sendChat('@' + obj.from + ' you cant use that. Only ' + API.getUser('50fc0b9fc3b97a409682a3d0').username + ' and ' + API.getUser('50fda7f6c3b97a48cb78b3dc').username + ' can!!!');
+                        if (obj.fromID != "50fc0b9fc3b97a409682a3d0" && obj.fromID != "50fda7f6c3b97a48cb78b3dc" && obj.fromID != "50aeb062c3b97a2cb4c2a0a2" && obj.fromID != "50aeb169d6e4a94f7747746b") {
+                            API.sendChat('@' + obj.from + ' you cant use that. Only few users can!!!');
                         }
                     }
                     
