@@ -433,7 +433,7 @@ function initAPIListeners() {
                         if (API.getUser(obj.fromID).permission >= 1) {
                             var stored_msg = obj.message;
                             if (obj.message.substring(7, 12) == "&#34;") {
-                                var ind = obj.message.lastIndexOf("&#34;", 12);
+                                var ind = obj.message.lastIndexOf("&#34;");
                                 if (ind != -1) {
                                     var name = obj.message.substring(12, ind);
                                     name = name.replace("&#34;", "\"");
