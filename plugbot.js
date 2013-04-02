@@ -805,7 +805,7 @@ function initAPIListeners() {
         if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
             var whoToChange = parseInt(obj.message.substring(21,22));
             if (whoToChange != 0) {
-                if (API.getSelf().id != whiteList[0]) {
+                if (API.getSelf().id != whiteList[0] && API.getSelf().id == whiteList[whoToChange]) {
                     var res = "";
                     if (!hostingBot) {
                         hostingBot = true;
