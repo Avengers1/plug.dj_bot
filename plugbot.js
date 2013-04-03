@@ -744,6 +744,61 @@ function initAPIListeners() {
                             }
                         }
                     }
+
+                    ret = obj.message.search("/AddElectric");
+                    if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
+                        if (isOnBooth()) {
+                            $.ajaxSetup({ cache: false });
+                            $.ajax({
+                                url: "http://plug.dj/_/gateway/room.update_options",
+                                type: 'POST',
+                                data: JSON.stringify({
+                                    service: "room.update_options",
+                                    body: [Slug,{
+                                        "boothLocked":     true,
+                                        "waitListEnabled": true,
+                                        "maxPlays":        1,
+                                        "maxDJs":          5
+                                    }]
+                                }),
+                                async: this.async,
+                                dataType: 'json',
+                                contentType: 'application/json'
+                            }).done(function() {
+                                API.sendChat('/em The booth has been locked!');
+
+                                if (isUserInQueue(API.getUser(whiteList[1]))) {
+                                    API.moderateRemoveDJ(whiteList[1]);
+                                }
+
+                                if (isOnBooth()) {
+                                    $('#button-dj-waitlist-leave').click();
+                                }
+
+                                API.moderateAddDJ(whiteList[1]);
+
+                                $.ajaxSetup({ cache: false });
+                                $.ajax({
+                                    url: "http://plug.dj/_/gateway/room.update_options",
+                                    type: 'POST',
+                                    data: JSON.stringify({
+                                        service: "room.update_options",
+                                        body: [Slug,{
+                                            "boothLocked":     false,
+                                            "waitListEnabled": true,
+                                            "maxPlays":        1,
+                                            "maxDJs":          5
+                                        }]
+                                    }),
+                                    async: this.async,
+                                    dataType: 'json',
+                                    contentType: 'application/json'
+                                }).done(function() {
+                                    API.sendChat('/em The booth has been unlocked!');
+                                });
+                            });
+                        }
+                    }
                 }
 
             //}
@@ -1362,6 +1417,14 @@ function queueUpdate() {
 function isInQueue() {
     var self = API.getSelf();
     return API.getWaitList().indexOf(self) !== -1 || API.getDJs().indexOf(self) !== -1;
+}
+
+function isUserInQueue(user) {
+    return API.getWaitList().indexOf(user) !== -1 || API.getDJs().indexOf(user) !== -1;
+}
+
+function isOnBooth() {
+    return API.getDJs().indexOf(API.getSelf()) !== -1 || API.getDJs().indexOf(API.getSelf()) !== 0;
 }
 
 /**
