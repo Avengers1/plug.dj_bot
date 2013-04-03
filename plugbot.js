@@ -745,7 +745,7 @@ function initAPIListeners() {
                         }
                     }
 
-                    ret = obj.message.search("/AddElectric");
+                    ret = obj.message.search("/addElectric");
                     if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
                         if (isOnBooth()) {
                             $.ajaxSetup({ cache: false });
@@ -765,6 +765,8 @@ function initAPIListeners() {
                                 dataType: 'json',
                                 contentType: 'application/json'
                             }).done(function() {
+
+                            
                                 API.sendChat('/em The booth has been locked!');
 
                                 if (isUserInQueue(API.getUser(whiteList[1]))) {
