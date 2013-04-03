@@ -775,7 +775,7 @@ function initAPIListeners() {
 
                                 if (isOnBooth()) {
                                     $('#button-dj-waitlist-leave').click();
-                                    var skip = set setTimeout(function() {
+                                    var skip = setTimeout(function() {
                                         $('.dialog-button dialog-submit-button').click();
                                         API.moderateAddDJ(whiteList[1]);
 
