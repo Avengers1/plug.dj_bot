@@ -466,7 +466,7 @@ function initAPIListeners() {
                 ret = obj.message.search('/cancel');
                 if (ret != -1 && obj.message[0] == '/') {
                     if (obj.message.substring(8, 12) == "tout") {
-                        if (API.getUser(obj.fromID).permission >= 1) {
+                        if (API.getUser(obj.fromID).permission >= 2) {
                             clearTimeout(songTimeoutId);
                             API.sendChat('/em Timeout has been canceled!');
                         }
