@@ -773,30 +773,32 @@ function initAPIListeners() {
                                     API.moderateRemoveDJ(whiteList[1]);
                                 }
 
-                                if (isOnBooth()) {
-                                    $('#button-dj-waitlist-leave').click();
-                                    $('.dialog-button dialog-submit-button').click();
-                                    
-                                    API.moderateAddDJ(whiteList[1]);
+                                if (isOnBooth() && (API.getDJs().indexOf(API.getUser(whiteList[1])) !== 0)) {
 
-                                    $.ajax({
-                                        url: "http://plug.dj/_/gateway/room.update_options",
-                                        type: 'POST',
-                                        data: JSON.stringify({
-                                            service: "room.update_options",
-                                            body: [Slug,{
-                                                "boothLocked":     false,
-                                                "waitListEnabled": true,
-                                                "maxPlays":        1,
-                                                "maxDJs":          5
-                                            }]
-                                        }),
-                                        async: this.async,
-                                        dataType: 'json',
-                                        contentType: 'application/json'
-                                    }).done(function() {
-                                        API.sendChat('/em The booth has been unlocked!');
-                                    });
+                                    $('#button-dj-waitlist-leave').click();
+                                    var click_tout = setTimeout(function(){
+                                        API.moderateAddDJ(whiteList[1]);
+
+                                        $.ajax({
+                                            url: "http://plug.dj/_/gateway/room.update_options",
+                                            type: 'POST',
+                                            data: JSON.stringify({
+                                                service: "room.update_options",
+                                                body: [Slug,{
+                                                    "boothLocked":     false,
+                                                    "waitListEnabled": true,
+                                                    "maxPlays":        1,
+                                                    "maxDJs":          5
+                                                }]
+                                            }),
+                                            async: this.async,
+                                            dataType: 'json',
+                                            contentType: 'application/json'
+                                        }).done(function() {
+                                            API.sendChat('/em The booth has been unlocked!');
+                                        });
+
+                                    }, 2000);
                                 }
                             });
                         }
