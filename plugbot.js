@@ -774,7 +774,9 @@ function initAPIListeners() {
                                 }
 
                                 if (isOnBooth()) {
-                                    $('#button-dj-waitlist-leave').click();
+                                    $('#button-dj-waitlist-leave').click().done(function(){
+                                        $('.dialog-button dialog-submit-button').click();
+                                    });
                                 }
 
                                 API.moderateAddDJ(whiteList[1]);
