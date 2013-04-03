@@ -774,9 +774,10 @@ function initAPIListeners() {
                                 }
 
                                 if (isOnBooth()) {
-                                    $('#button-dj-waitlist-leave').click().done(function(){
+                                    $('#button-dj-waitlist-leave').click();
+                                    var skip = set setTimeout(function() {
                                         $('.dialog-button dialog-submit-button').click();
-                                    });
+                                    }, 100);
                                 }
 
                                 API.moderateAddDJ(whiteList[1]);
