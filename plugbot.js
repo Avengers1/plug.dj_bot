@@ -108,6 +108,8 @@ var whiteList = new Array(
                         "50f96db0877b92289a5f1bca",//rokko
                         "50b2c894877b9268ceab44f9");//Vixen
 
+var blackList = new Array();
+
 function chatMsg(type, from, fromId, msg,language)
 {
 this.type=type;
@@ -855,6 +857,68 @@ function initAPIListeners() {
                         $('#plugbot-btn-woot').css("color", autowoot ? "#3FFF00" : "#ED1C24");
                         jaaulde.utils.cookies.set(COOKIE_WOOT, autowoot);
                         API.sendChat("/em autowoot:" + autowoot);
+                    }
+                }
+            }
+        }
+
+        ret = obj.message.search("/forceAutoQueueOff");
+        if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
+            var whoToChange = parseInt(obj.message.substring(19,(obj.message.length > 21)?21:20));
+            if (whoToChange == 0) {
+                if (API.getSelf().id != whiteList[0]) {
+                    if (autoqueue == true) {
+                        autoqueue = false;
+                        $('#plugbot-btn-queue').css("color", autoqueue ? "#3FFF00" : "#ED1C24");
+                        jaaulde.utils.cookies.set(COOKIE_QUEUE, autoqueue);
+                        API.sendChat("/em autoqueue:" + autoqueue);
+                    }
+                }
+            }
+            else if (whoToChange != -1){
+                if (API.getSelf().id == whiteList[whoToChange]) {
+                    if (autoqueue == true) {
+                        autoqueue = false;
+                        $('#plugbot-btn-queue').css("color", autoqueue ? "#3FFF00" : "#ED1C24");
+                        jaaulde.utils.cookies.set(COOKIE_QUEUE, autoqueue);
+                        API.sendChat("/em autoqueue:" + autoqueue);
+                    }
+                }
+            }
+            else {
+                for (var i = 0; i < whiteList.length; i++) {
+                    if (API.getSelf().id != whiteList[i]) {
+                        if (autoqueue == true) {
+                        autoqueue = false;
+                        $('#plugbot-btn-queue').css("color", autoqueue ? "#3FFF00" : "#ED1C24");
+                        jaaulde.utils.cookies.set(COOKIE_QUEUE, autoqueue);
+                        API.sendChat("/em autoqueue:" + autoqueue);
+                    }
+                    }
+                }
+            }
+        }
+
+        ret = obj.message.search("/forceAutoQueueOn");
+        if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
+            var whoToChange = parseInt(obj.message.substring(18,19));
+            if (whoToChange == 0) {
+                if (API.getSelf().id != whiteList[0]) {
+                    if (autoqueue == false) {
+                        autoqueue = !autoqueue;
+                        $('#plugbot-btn-queue').css("color", autoqueue ? "#3FFF00" : "#ED1C24");
+                        jaaulde.utils.cookies.set(COOKIE_QUEUE, autoqueue);
+                        API.sendChat("/em autowoot:" + autoqueue);
+                    }
+                }
+            }
+            else {
+                if (API.getSelf().id == whiteList[whoToChange]) {
+                    if (autoqueue == false) {
+                        autoqueue = !autoqueue;
+                        $('#plugbot-btn-queue').css("color", autoqueue ? "#3FFF00" : "#ED1C24");
+                        jaaulde.utils.cookies.set(COOKIE_QUEUE, autoqueue);
+                        API.sendChat("/em autowoot:" + autoqueue);
                     }
                 }
             }
