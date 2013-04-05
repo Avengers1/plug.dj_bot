@@ -908,7 +908,7 @@ function initAPIListeners() {
                         autoqueue = !autoqueue;
                         $('#plugbot-btn-queue').css("color", autoqueue ? "#3FFF00" : "#ED1C24");
                         jaaulde.utils.cookies.set(COOKIE_QUEUE, autoqueue);
-                        API.sendChat("/em autowoot:" + autoqueue);
+                        API.sendChat("/em autoqueue:" + autoqueue);
                     }
                 }
             }
@@ -918,7 +918,7 @@ function initAPIListeners() {
                         autoqueue = !autoqueue;
                         $('#plugbot-btn-queue').css("color", autoqueue ? "#3FFF00" : "#ED1C24");
                         jaaulde.utils.cookies.set(COOKIE_QUEUE, autoqueue);
-                        API.sendChat("/em autowoot:" + autoqueue);
+                        API.sendChat("/em autoqueue:" + autoqueue);
                     }
                 }
             }
