@@ -106,7 +106,12 @@ var whiteList = new Array(
                         "50aeb062c3b97a2cb4c2a0a2",//Donna
                         "50aeb169d6e4a94f7747746b",//Husky
                         "50f96db0877b92289a5f1bca",//rokko
-                        "50b2c894877b9268ceab44f9");//Vixen
+                        "50b2c894877b9268ceab44f9"//Vixen
+                    );
+
+var commonUsersList = new Array(
+                        "50aeb3b696fba52c3ca0c5dc" //Celtic
+                    );
 
 var blackList = new Array();
 
@@ -1379,8 +1384,8 @@ function djAdvanced(obj) {
         var duration = obj.media.duration;
         if (duration > 485) {
             songTimeoutId = setTimeout(function() {
-                API.sendChat('/em ' + ': ' + prevDj + 'has been skipped due to reaching song length limit!');
                 API.moderateForceSkip();
+                API.sendChat('/em ' + ': ' + prevDj + 'has been skipped due to reaching song length limit!');
             }, 480000);
             API.sendChat('/em ' + obj.dj.username + ' will be skipped after 8 minutes due to exceeding length limit!');
         }
@@ -1467,7 +1472,6 @@ function djAdvanced(obj) {
  *
  */
 function queueUpdate() {
-    clearTimeout(songTimeoutId);
     /*
      * If auto-queueing has been enabled, and we are currently
      * not in the waitlist, then try to join the list.
