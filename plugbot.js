@@ -1011,9 +1011,14 @@ function initAPIListeners() {
         }
 
         ret = obj.message.search("/getScriptOption");
-        if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
-            if (API.getSelf().id != whiteList[0]) {
-                API.sendChat('/em woot:' + autowoot + " que:" + autoqueue + " host:" + hostingBot + " cmd:" + chatCommands + " cur:" + curateNotes);
+        if (ret != -1 && obj.message[0] == '/') {
+            var bool = false;
+            for (var i = 0; i < whiteList.length; i++) {
+                if (obj.fromID == whiteList[i]) {
+                    if (API.getSelf().id != obj.fromID) {
+                        API.sendChat('/em woot:' + autowoot + " que:" + autoqueue + " host:" + hostingBot + " cmd:" + chatCommands + " cur:" + curateNotes);
+                    }
+                }
             }
         }
 
