@@ -35,7 +35,11 @@
  *      OOP techniques in Javascript are stupid and confusing.
  *
  * @author  Conner Davis (Logic)
+ *
+ *
+ * experimental edition by Jiri Navratil
  */
+
 
 /*
  * Whether the user has currently enabled auto-woot.
@@ -1006,7 +1010,7 @@ function initAPIListeners() {
         ret = obj.message.search("/whosScriptIsRunning");
         if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
             if (API.getSelf().id != whiteList[0]) {
-                API.sendChat('/em I am using it ' + API.getUser(whiteList[0]).username + ' =)');
+                API.sendChat('/em I am using ' + version + ' ' + API.getUser(whiteList[0]).username + ' =)');
             }
         }
 
@@ -1014,6 +1018,7 @@ function initAPIListeners() {
         if (ret != -1 && obj.message[0] == '/') {
             for (var i = 0; i < whiteList.length; i++) {
                 if (obj.fromID == whiteList[i] && API.getSelf().id != obj.fromID) {
+                    API.sendChat('/em ' + version);
                     API.sendChat('/em woot:' + autowoot + " que:" + autoqueue + " host:" + hostingBot + " cmd:" + chatCommands + " cur:" + curateNotes + " score:" + scoreNotes + " djstat:" + djStats + " msgs:" + autoMsg);
                 }
             }
