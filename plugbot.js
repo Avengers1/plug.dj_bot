@@ -1021,8 +1021,7 @@ function initAPIListeners() {
         if (ret != -1 && obj.message[0] == '/') {
             for (var i = 0; i < whiteList.length; i++) {
                 if (obj.fromID == whiteList[i] && API.getSelf().id != obj.fromID) {
-                    API.sendChat('/em ' + version);
-                    API.sendChat('/em woot:' + autowoot + " que:" + autoqueue + " host:" + hostingBot + " cmd:" + chatCommands + " cur:" + curateNotes + " score:" + scoreNotes + " djstat:" + djStats + " msgs:" + autoMsg);
+                    API.sendChat('/em ' + version + ' woot:' + autowoot + " que:" + autoqueue + " host:" + hostingBot + " cmd:" + chatCommands + " cur:" + curateNotes + " score:" + scoreNotes + " djstat:" + djStats + " msgs:" + autoMsg);
                 }
             }
         }
