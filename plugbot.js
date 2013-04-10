@@ -434,6 +434,8 @@ function initAPIListeners() {
         if (chatCommands) {
             obj.message = obj.message.replace(/&#39;/g, "\'");
             obj.message = obj.message.replace(/&amp;/g, "&");
+            obj.message = obj.message.replace(/&lt;/g, "<");
+            obj.message = obj.message.replace(/&gt;/g, ">");
             //if (API.getUser(obj.fromID).permission >= 1) {
                 
                 ret = obj.message.search("/check");
