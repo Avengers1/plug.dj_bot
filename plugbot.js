@@ -448,7 +448,6 @@ function initAPIListeners() {
                     }
                     else {
                         if (API.getUser(obj.fromID).permission >= 1) {
-                            console.log(obj.message);
                             var stored_msg = obj.message;
                             if (obj.message.substring(7, 12) == "&#34;") {
                                 var ind = obj.message.lastIndexOf("&#34;");
