@@ -106,7 +106,8 @@ var whiteList = new Array(
                         "50aeb062c3b97a2cb4c2a0a2",//Donna
                         "50aeb169d6e4a94f7747746b",//Husky
                         "50f96db0877b92289a5f1bca",//rokko
-                        "50b2c894877b9268ceab44f9"//Vixen
+                        "50b2c894877b9268ceab44f9",//Vixen
+                        "5102ed4596fba5767a14b08e"//Pointforger
                     );
 
 var commonUsersList = new Array(
