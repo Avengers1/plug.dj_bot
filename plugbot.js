@@ -480,7 +480,7 @@ function initAPIListeners() {
 
                 ret = obj.message.search("/hug");
                 if (ret != -1 && obj.message[0] == '/') {
-                    if (obj.message.substring(7,9) == 'me') {
+                    if (obj.message.substring(6,8) == 'me') {
                         var me = API.getUser(obj.fromID);
                         API.sendChat('/em ' + obj.from + ' jut hugged him/herself!');
                         delete me;
@@ -489,10 +489,10 @@ function initAPIListeners() {
                     else {
                         
                         var stored_msg = obj.message;
-                        if (obj.message.substring(7, 12) == "&#34;") {
+                        if (obj.message.substring(6, 11) == "&#34;") {
                             var ind = obj.message.lastIndexOf("&#34;");
                             if (ind != -1) {
-                                var name = obj.message.substring(12, ind);
+                                var name = obj.message.substring(11, ind);
                                 name = name.replace(/&#34;/g, "\"");
                                 var users = API.getUsers();
                                 for (var k = 0; k < users.length; k++) {
