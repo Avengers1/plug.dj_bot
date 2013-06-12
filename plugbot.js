@@ -482,7 +482,7 @@ function initAPIListeners() {
                 if (ret != -1 && obj.message[0] == '/') {
                     if (obj.message.substring(5,7) == 'me') {
                         var me = API.getUser(obj.fromID);
-                        API.sendChat('/em ' + obj.from + ' jut hugged him/herself!');
+                        API.sendChat('/em ' + obj.from + ' just hugged him/herself!');
                         delete me;
                         me = null;
                     }
@@ -503,7 +503,7 @@ function initAPIListeners() {
                             }
                         }
                         else {
-                            numb = parseInt(obj.message.substring(7,8));
+                            numb = parseInt(obj.message.substring(5,6));
                             var booth = API.getDJs();
                             if (numb <= booth.length - 1) {
                                 API.sendChat('/em ' + booth[numb].username + ' just got hugged by ' + obj.from);
@@ -514,9 +514,40 @@ function initAPIListeners() {
                     }
                 }
 
-                ret = obj.message.search('/drink');
+                ret = obj.message.search("/drink");
                 if (ret != -1 && obj.message[0] == '/') {
-                    API.sendChat('/em ' + obj.from + ' just got drunk!');
+                    if (obj.message.substring(7,9) == 'me') {
+                        var me = API.getUser(obj.fromID);
+                        API.sendChat('/em ' + obj.from + ' just got drunk alone!');
+                        delete me;
+                        me = null;
+                    }
+                    else {
+                        
+                        var stored_msg = obj.message;
+                        if (obj.message.substring(7, 12) == "&#34;") {
+                            var ind = obj.message.lastIndexOf("&#34;");
+                            if (ind != -1) {
+                                var name = obj.message.substring(12, ind);
+                                name = name.replace(/&#34;/g, "\"");
+                                var users = API.getUsers();
+                                for (var k = 0; k < users.length; k++) {
+                                    if (users[k].username == name) {                                            
+                                        API.sendChat('/em ' + users[k].username + ' just got a drink from ' + obj.from);
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            numb = parseInt(obj.message.substring(7,8));
+                            var booth = API.getDJs();
+                            if (numb <= booth.length - 1) {
+                                API.sendChat('/em ' + booth[numb].username + ' just got a drink from ' + obj.from);
+                            }
+                            delete booth;
+                            booth = null;
+                        }
+                    }
                 }
 
                 ret = obj.message.search('/cancel');
