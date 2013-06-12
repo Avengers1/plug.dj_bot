@@ -40,7 +40,7 @@
  * experimental edition by Jiri Navratil
  */
 
-var version = "v0.8.2";
+var version = "v0.9.0";
 
 /*
  * Whether the user has currently enabled auto-woot.
@@ -476,6 +476,47 @@ function initAPIListeners() {
                             API.sendChat('@' + obj.from + ' you´re not allowed to check others - Only staffed ppl can do so! Use /check me if you want to check your stats');
                         }
                     }
+                }
+
+                ret = obj.message.search("/hug");
+                if (ret != -1 && obj.message[0] == '/') {
+                    if (obj.message.substring(7,9) == 'me') {
+                        var me = API.getUser(obj.fromID);
+                        API.sendChat('/em ' + obj.from + ' jut hugged him/herself!');
+                        delete me;
+                        me = null;
+                    }
+                    else {
+                        
+                        var stored_msg = obj.message;
+                        if (obj.message.substring(7, 12) == "&#34;") {
+                            var ind = obj.message.lastIndexOf("&#34;");
+                            if (ind != -1) {
+                                var name = obj.message.substring(12, ind);
+                                name = name.replace(/&#34;/g, "\"");
+                                var users = API.getUsers();
+                                for (var k = 0; k < users.length; k++) {
+                                    if (users[k].username == name) {                                            
+                                        API.sendChat('/em ' + users[k].username + ' just got hugged by ' + obj.from);
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            numb = parseInt(obj.message.substring(7,8));
+                            var booth = API.getDJs();
+                            if (numb <= booth.length - 1) {
+                                API.sendChat('/em ' + booth[numb].username + ' just got hugged by ' + obj.from);
+                            }
+                            delete booth;
+                            booth = null;
+                        }
+                    }
+                }
+
+                ret = obj.message.search('/drink');
+                if (ret != -1 && obj.message[0] == '/') {
+                    API.sendChat('/em ' + obj.from + ' just got drunk!');
                 }
 
                 ret = obj.message.search('/cancel');
