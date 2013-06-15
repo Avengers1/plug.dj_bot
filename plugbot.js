@@ -109,6 +109,7 @@ var whiteList = new Array(
                         "50fc0b9fc3b97a409682a3d0",//me
                         "50fda7f6c3b97a48cb78b3dc",//Electric Lover
                         "50aeb062c3b97a2cb4c2a0a2",//Donna
+                        "51b3a9113e083e308688b0b4",//Main Stage
                         "50aeb169d6e4a94f7747746b",//Husky
                         "50f96db0877b92289a5f1bca",//rokko
                         "50b2c894877b9268ceab44f9",//Vixen
