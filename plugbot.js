@@ -111,16 +111,14 @@ var whiteList = new Array(
                         "50fda7f6c3b97a48cb78b3dc",//Electric Lover
                         "51b3a9113e083e308688b0b4",//Main Stage
                         "50aeb169d6e4a94f7747746b",//Husky
+                        "50aeb3b696fba52c3ca0c5dc" //Celtic
                         "50f96db0877b92289a5f1bca",//rokko
                         "50b2c894877b9268ceab44f9",//Vixen
                         "5102ed4596fba5767a14b08e"//Pointforger
                     );
 
 
-var commonUsersList = new Array(
-                        "50aeb3b696fba52c3ca0c5dc" //Celtic
-                    );
-
+var commonUsersList = new Array();
 var blackList = new Array();
 
 function chatMsg(type, from, fromId, msg,language)
