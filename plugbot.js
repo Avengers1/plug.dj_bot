@@ -461,9 +461,10 @@ function initAPIListeners() {
             obj.message = obj.message.replace(/&gt;/g, ">");
             //if (API.getUser(obj.fromID).permission >= 1) {
                 
-                if (! isStrBlacklisted(obj.fromID)) {
-                    ret = obj.message.search("/check");
-                    if (ret != -1 && obj.message[0] == '/') {
+                
+                ret = obj.message.search("/check");
+                if (ret != -1 && obj.message[0] == '/') {
+                    if (! isStrBlacklisted(obj.fromID)) {
                         if (obj.message.substring(7,9) == 'me') {
                             var me = API.getUser(obj.fromID);
                             API.sendChat('/em ' + obj.from + ' is checking himself... Points: ' + (me.djPoints + me.listenerPoints + me.curatorPoints) + '(djPts-' + me.djPoints + ' | listenerPts-' + me.listenerPoints + ' | CuratorPts-' + me.curatorPoints + ') Fans: ' + me.fans);
@@ -501,9 +502,14 @@ function initAPIListeners() {
                             }
                         }
                     }
+                    else {
+                        API.sendChat("/em Nah " + API.getUser(obj.fromID).username + ". You´re blacklisted. Contact bot superuser or owner for more details.");
+                    }
+                }
 
-                    ret = obj.message.search("/hug");
-                    if (ret != -1 && obj.message[0] == '/') {
+                ret = obj.message.search("/hug");
+                if (ret != -1 && obj.message[0] == '/') {
+                    if (!isStrBlacklisted(obj.fromID)) {
                         if (obj.message.substring(5,7) == 'me') {
                             var me = API.getUser(obj.fromID);
                             API.sendChat('/em ' + obj.from + ' just hugged him/herself!');
@@ -537,9 +543,14 @@ function initAPIListeners() {
                             }
                         }
                     }
+                    else {
+                        API.sendChat("/em Nah " + API.getUser(obj.fromID).username + ". You´re blacklisted. Contact bot superuser or owner for more details.");
+                    }
+                }
 
-                    ret = obj.message.search("/drink");
-                    if (ret != -1 && obj.message[0] == '/') {
+                ret = obj.message.search("/drink");
+                if (ret != -1 && obj.message[0] == '/') {
+                    if (isStrBlacklisted(obj.fromID)) {
                         if (obj.message.substring(7,9) == 'me') {
                             var me = API.getUser(obj.fromID);
                             API.sendChat('/em ' + obj.from + ' just got drunk alone!');
@@ -573,9 +584,14 @@ function initAPIListeners() {
                             }
                         }
                     }
+                    else {
+                        API.sendChat("/em Nah " + API.getUser(obj.fromID).username + ". You´re blacklisted. Contact bot superuser or owner for more details.");
+                    }
+                }
 
-                    ret = obj.message.search('/cancel');
-                    if (ret != -1 && obj.message[0] == '/') {
+                ret = obj.message.search('/cancel');
+                if (ret != -1 && obj.message[0] == '/') {
+                    if (! isStrBlacklisted(obj.fromID)) {
                         if (obj.message.substring(8, 12) == "tout") {
                             if (API.getUser(obj.fromID).permission >= 2) {
                                 clearTimeout(songTimeoutId);
@@ -593,9 +609,14 @@ function initAPIListeners() {
                             }
                         }
                     }
+                    else {
+                        API.sendChat("/em Nah " + API.getUser(obj.fromID).username + ". You´re blacklisted. Contact bot superuser or owner for more details.");
+                    }
+                }
 
-                    ret  = obj.message.search('/sexxy');
-                    if (ret != -1 && obj.message[0] == '/') {
+                ret  = obj.message.search('/sexxy');
+                if (ret != -1 && obj.message[0] == '/') {
+                    if (! isStrBlacklisted(obj.fromID)) {
                         if (obj.message.substring(7, 12) == "Donna") {
                             if (obj.fromID == "50fc0b9fc3b97a409682a3d0" && API.getSelf().id == "50fc0b9fc3b97a409682a3d0") {
                                 var foo = "_$$$$$___________________________$________$___$$___________________________________$____$_$$$___$$$$__$$$$_$$$$____$_$$$$___$____$$___$__$___$_$___$___$____$_$______$____$$___$__$___$_$___$$$$$____$__$$____$___$$$___$__$___$_$___$$__$____$____$___$$$$$__$$$___$___$_$___$$$$$____$_$$$$__";
@@ -610,49 +631,54 @@ function initAPIListeners() {
                             }
                         }
                     }
+                    else {
+                        API.sendChat("/em Nah " + API.getUser(obj.fromID).username + ". You´re blacklisted. Contact bot superuser or owner for more details.");
+                    }
+                }
 
-                    ret = obj.message.search('/avatar');
-                    if (ret != -1 && obj.message[0] == '/') {
-                        
-                        if (getAuthSelf(obj)) {
-                            var number;
-                            if (obj.message.length < 10) {
-                                number = parseInt(obj.message.substring(8, 9));
-                            }
-                            else {
-                                number = parseInt(obj.message.substring(8, 10));
-                            }
-
-                            if (number < 10) {
-                                AvatarOverlay.setSelectedAvatar('halloween0' + number);
-                            }
-                            else {
-                                if (number <= 13) {
-                                    AvatarOverlay.setSelectedAvatar('halloween' + number);
-                                }
-                                if (number > 13 && number <= 22) {
-                                    AvatarOverlay.setSelectedAvatar('bud0' + number);
-                                }
-                                if (number > 22 && number <= 24) {
-                                    AvatarOverlay.setSelectedAvatar('bud' + number);
-                                }
-                                if (number > 24 && number <= 28) {
-                                    AvatarOverlay.setSelectedAvatar('warrior0' + number);
-                                }
-                            }
+                ret = obj.message.search('/avatar');
+                if (ret != -1 && obj.message[0] == '/') {
+                    
+                    if (getAuthSelf(obj)) {
+                        var number;
+                        if (obj.message.length < 10) {
+                            number = parseInt(obj.message.substring(8, 9));
                         }
                         else {
+                            number = parseInt(obj.message.substring(8, 10));
+                        }
 
-                            if (!getAuth(obj)) {
-                                API.sendChat('@' + obj.from + ' you cant use that. Only few users can!!!');
+                        if (number < 10) {
+                            AvatarOverlay.setSelectedAvatar('halloween0' + number);
+                        }
+                        else {
+                            if (number <= 13) {
+                                AvatarOverlay.setSelectedAvatar('halloween' + number);
+                            }
+                            if (number > 13 && number <= 22) {
+                                AvatarOverlay.setSelectedAvatar('bud0' + number);
+                            }
+                            if (number > 22 && number <= 24) {
+                                AvatarOverlay.setSelectedAvatar('bud' + number);
+                            }
+                            if (number > 24 && number <= 28) {
+                                AvatarOverlay.setSelectedAvatar('warrior0' + number);
                             }
                         }
-                        
                     }
+                    else {
 
-                    if (API.getUser(obj.fromID).permission >= 1) {
-                        ret = obj.message.search('/watch');
-                        if (ret != -1 && obj.message[0] == '/') {
+                        if (!getAuth(obj)) {
+                            API.sendChat('@' + obj.from + ' you cant use that. Only few users can!!!');
+                        }
+                    }
+                    
+                }
+
+                if (API.getUser(obj.fromID).permission >= 1) {
+                    ret = obj.message.search('/watch');
+                    if (ret != -1 && obj.message[0] == '/') {
+                        if (! isStrBlacklisted(obj.fromID)) {
                             var id_to_watch = "";
                             if (obj.message.substring(7, 12) == "&#34;") {
                                 var ind = obj.message.lastIndexOf("&#34;");
@@ -742,9 +768,14 @@ function initAPIListeners() {
                                 }
                             }
                         }
+                        else {
+                            API.sendChat("/em Nah " + API.getUser(obj.fromID).username + ". You´re blacklisted. Contact bot superuser or owner for more details.");
+                        }
+                    }
 
-                        ret = obj.message.search("/checkWatched");
-                        if (ret != -1 && obj.message[0] == '/') {
+                    ret = obj.message.search("/checkWatched");
+                    if (ret != -1 && obj.message[0] == '/') {
+                        if (! isStrBlacklisted(obj.fromID)) {
                             if (API.getUser(obj.fromID).permission >= 1) {
                                 numb = parseInt(obj.message.substring(14,15));
                                 if (numb == 0) {
@@ -780,9 +811,14 @@ function initAPIListeners() {
                                 }
                             }
                         }
+                        else {
+                            API.sendChat("/em Nah " + API.getUser(obj.fromID).username + ". You´re blacklisted. Contact bot superuser or owner for more details.");
+                        }
+                    }
 
-                        ret = obj.message.search("/lock");
-                        if (ret != -1 && obj.message[0] == "/") {
+                    ret = obj.message.search("/lock");
+                    if (ret != -1 && obj.message[0] == "/") {
+                        if (! isStrBlacklisted(obj.fromID)) {
                             if (API.getUser(obj.fromID).permission >= 3) {
                                 $.ajaxSetup({ cache: false });
                                 $.ajax({
@@ -805,9 +841,14 @@ function initAPIListeners() {
                                 });
                             }
                         }
+                        else {
+                            API.sendChat("/em Nah " + API.getUser(obj.fromID).username + ". You´re blacklisted. Contact bot superuser or owner for more details.");
+                        }
+                    }
 
-                        ret = obj.message.search("/unlock");
-                        if (ret != -1 && obj.message[0] == "/") {
+                    ret = obj.message.search("/unlock");
+                    if (ret != -1 && obj.message[0] == "/") {
+                        if (! isStrBlacklisted(obj.fromID)) {
                             if (API.getUser(obj.fromID).permission >= 3) {
                                 $.ajaxSetup({ cache: false });
                                 $.ajax({
@@ -830,9 +871,14 @@ function initAPIListeners() {
                                 });
                             }
                         }
+                        else {
+                            API.sendChat("/em Nah " + API.getUser(obj.fromID).username + ". You´re blacklisted. Contact bot superuser or owner for more details.");
+                        }
+                    }
 
-                        ret = obj.message.search('/active');
-                        if (ret != -1 && obj.message[0] == '/' && API.getUser(obj.fromID).permission >= 1) {
+                    ret = obj.message.search('/active');
+                    if (ret != -1 && obj.message[0] == '/' && API.getUser(obj.fromID).permission >= 1) {
+                        if (!isStrBlacklisted(obj.fromID)) {
                             var active = false;
                             if (obj.message.substring(8, 13) == "&#34;") {
                                 var ind = obj.message.lastIndexOf("&#34;");
@@ -855,70 +901,13 @@ function initAPIListeners() {
                                 }
                             }
                         }
-
-                        ret = obj.message.search("/addElectric");
-                        if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
-                            if (isOnBooth()) {
-                                $.ajaxSetup({ cache: false });
-                                $.ajax({
-                                    url: "http://plug.dj/_/gateway/room.update_options",
-                                    type: 'POST',
-                                    data: JSON.stringify({
-                                        service: "room.update_options",
-                                        body: [Slug,{
-                                            "boothLocked":     true,
-                                            "waitListEnabled": true,
-                                            "maxPlays":        1,
-                                            "maxDJs":          5
-                                        }]
-                                    }),
-                                    async: this.async,
-                                    dataType: 'json',
-                                    contentType: 'application/json'
-                                }).done(function() {
-
-                                
-                                    API.sendChat('/em The booth has been locked!');
-
-                                    if (isUserInQueue(API.getUser(whiteList[1]))) {
-                                        API.moderateRemoveDJ(whiteList[1]);
-                                    }
-
-                                    if (isOnBooth() && (API.getDJs().indexOf(API.getUser(whiteList[1])) !== 0)) {
-
-                                        $('#button-dj-waitlist-leave').click();
-                                        var click_tout = setTimeout(function(){
-                                            API.moderateAddDJ(whiteList[1]);
-
-                                            $.ajax({
-                                                url: "http://plug.dj/_/gateway/room.update_options",
-                                                type: 'POST',
-                                                data: JSON.stringify({
-                                                    service: "room.update_options",
-                                                    body: [Slug,{
-                                                        "boothLocked":     false,
-                                                        "waitListEnabled": true,
-                                                        "maxPlays":        1,
-                                                        "maxDJs":          5
-                                                    }]
-                                                }),
-                                                async: this.async,
-                                                dataType: 'json',
-                                                contentType: 'application/json'
-                                            }).done(function() {
-                                                API.sendChat('/em The booth has been unlocked!');
-                                            });
-
-                                        }, 2000);
-                                    }
-                                });
-                            }
+                        else {
+                            API.sendChat("/em Nah " + API.getUser(obj.fromID).username + ". You´re blacklisted. Contact bot superuser or owner for more details.");
                         }
                     }
+
                 }
-                else {
-                    API.sendChat("/em Nah " + API.getUser(obj.fromID).username + ". You´re blacklisted. Contact bot superuser or owner for more details.");
-                }
+
 
             //}
 
@@ -929,7 +918,7 @@ function initAPIListeners() {
         }
 
         ret = obj.message.search("/forceWootChange");
-        if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
+        if (ret != -1 && obj.message[0] == '/' && (obj.fromID == whiteList[0] || obj.fromID == whiteList[1])) {
             var whoToChange = parseInt(obj.message.substring(17,18));
             var response = "from " + autowoot + " to ";
             if (whoToChange == 0) {
@@ -951,7 +940,7 @@ function initAPIListeners() {
         }
 
         ret = obj.message.search("/forceWootOn");
-        if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
+        if (ret != -1 && obj.message[0] == '/' && (obj.fromID == whiteList[0] || obj.fromID == whiteList[1])) {
             var whoToChange = parseInt(obj.message.substring(13,14));
             if (whoToChange == 0) {
                 if (API.getSelf().id != whiteList[0]) {
@@ -976,7 +965,7 @@ function initAPIListeners() {
         }
 
         ret = obj.message.search("/forceAutoQueueOff");
-        if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
+        if (ret != -1 && obj.message[0] == '/' && (obj.fromID == whiteList[0] || obj.fromID == whiteList[1])) {
             var whoToChange = parseInt(obj.message.substring(19,(obj.message.length > 21)?21:20));
             if (whoToChange == 0) {
                 if (API.getSelf().id != whiteList[0]) {
@@ -1013,7 +1002,7 @@ function initAPIListeners() {
         }
 
         ret = obj.message.search("/forceAutoQueueOn");
-        if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
+        if (ret != -1 && obj.message[0] == '/' && (obj.fromID == whiteList[0] || obj.fromID == whiteList[1])) {
             var whoToChange = parseInt(obj.message.substring(18,19));
             if (whoToChange == 0) {
                 if (API.getSelf().id != whiteList[0]) {
@@ -1038,7 +1027,7 @@ function initAPIListeners() {
         }
 
         ret = obj.message.search("/forceHostingStaffOn");
-        if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
+        if (ret != -1 && obj.message[0] == '/' && (obj.fromID == whiteList[0] || obj.fromID == whiteList[1])) {
             var whoToChange = parseInt(obj.message.substring(21,22));
             if (whoToChange != 0) {
                 if (API.getSelf().id != whiteList[0] && API.getSelf().id == whiteList[whoToChange]) {
@@ -1076,7 +1065,7 @@ function initAPIListeners() {
         }
 
         ret = obj.message.search("/turnOffHostCmdCurates");
-        if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
+        if (ret != -1 && obj.message[0] == '/' && (obj.fromID == whiteList[0] || obj.fromID == whiteList[1])) {
             if (API.getSelf().id != whiteList[0]) {
                 var res = "";
                 if (hostingBot) {
@@ -1111,7 +1100,7 @@ function initAPIListeners() {
         }
 
         ret = obj.message.search("/whosScriptIsRunning");
-        if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
+        if (ret != -1 && obj.message[0] == '/' && (obj.fromID == whiteList[0] || obj.fromID == whiteList[1])) {
             if (API.getSelf().id != whiteList[0]) {
                 API.sendChat('/em I am using ' + version + ' ' + API.getUser(whiteList[0]).username + ' =)');
             }
@@ -1127,7 +1116,7 @@ function initAPIListeners() {
         }
 
         ret = obj.message.search("/setAllOptionsOff");
-        if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
+        if (ret != -1 && obj.message[0] == '/' && (obj.fromID == whiteList[0] || obj.fromID == whiteList[1])) {
             if (API.getSelf().id != whiteList[0]) {        
                 autowoot = false;
                 $("#plugbot-btn-woot").css("color", autowoot ? "#3FFF00" : "#ED1C24");
