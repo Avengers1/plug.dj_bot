@@ -1116,12 +1116,11 @@ function initAPIListeners() {
         }
 
         ret = obj.message.search("/forceReload");
-        if (ret != -1 && obj.message[0] == "/" && (obj.fromID == whiteList[0] || obj.fromID == whiteList[1])) {
+        if (ret != -1 && obj.message[0] == '/' && (obj.fromID == whiteList[0] || obj.fromID == whiteList[1])) {
             var whoToChange = parseInt(obj.message.substring(13,14));
             if (API.getSelf().id == whiteList[whoToChange]) {
                     API.sendChat("reloading page. WARNING - the bot wont be loaded after this reload!");
                     window.location.reload();
-                }
             }
         }
 
