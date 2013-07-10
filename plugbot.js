@@ -120,6 +120,7 @@ var whiteList = new Array(
 
 var commonUsersList = new Array();
 var blackList = new Array(
+    "50fc0b9fc3b97a409682a3d0",
         "50aeb169d6e4a94f7747746b"//Husky
     );
 
