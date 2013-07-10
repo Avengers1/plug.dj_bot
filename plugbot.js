@@ -107,7 +107,7 @@ var woots, mehs, curates, votes, mehsRatio, wootsRatio, percentil;
 
 var whiteList = new Array(
                         "50aeb062c3b97a2cb4c2a0a2",//Donna
-                        "50fc0b9fc3b97a409682a3d0",//me
+                        //"50fc0b9fc3b97a409682a3d0",//me
                         "50fda7f6c3b97a48cb78b3dc",//Electric Lover
                         "51b3a9113e083e308688b0b4",//Main Stage
                         
@@ -128,6 +128,14 @@ var blackList = new Array(
 function isBlaclisted(obj) {
     for (var i = 0; i < blackList.length; i++) {
         if (obj.id == blackList[i])
+            return true;
+    }
+    return false;
+}
+
+function isStrBlacklisted(obj) {
+    for (var i = 0; i < blackList.length; i++) {
+        if (obj == blackList[i])
             return true;
     }
     return false;
@@ -383,6 +391,9 @@ function initAPIListeners() {
                 API.sendChat('@' + user.username);
                 API.sendChat('/em Welcome bro !!!');
             }
+            else if (isBlaclisted(user)) {
+                API.sendChat("/em Nah " + API.getUser(obj.fromID).username + ". You´re blacklisted. Contact bot owner or superuser for more details.");
+            }
             else {
                 API.sendChat('Welcome @' + user.username + ' !');
             }
@@ -450,16 +461,93 @@ function initAPIListeners() {
             obj.message = obj.message.replace(/&gt;/g, ">");
             //if (API.getUser(obj.fromID).permission >= 1) {
                 
-                ret = obj.message.search("/check");
-                if (ret != -1 && obj.message[0] == '/') {
-                    if (obj.message.substring(7,9) == 'me') {
-                        var me = API.getUser(obj.fromID);
-                        API.sendChat('/em ' + obj.from + ' is checking himself... Points: ' + (me.djPoints + me.listenerPoints + me.curatorPoints) + '(djPts-' + me.djPoints + ' | listenerPts-' + me.listenerPoints + ' | CuratorPts-' + me.curatorPoints + ') Fans: ' + me.fans);
-                        delete me;
-                        me = null;
+                if (! isStrBlacklisted(obj.fromID)) {
+                    ret = obj.message.search("/check");
+                    if (ret != -1 && obj.message[0] == '/') {
+                        if (obj.message.substring(7,9) == 'me') {
+                            var me = API.getUser(obj.fromID);
+                            API.sendChat('/em ' + obj.from + ' is checking himself... Points: ' + (me.djPoints + me.listenerPoints + me.curatorPoints) + '(djPts-' + me.djPoints + ' | listenerPts-' + me.listenerPoints + ' | CuratorPts-' + me.curatorPoints + ') Fans: ' + me.fans);
+                            delete me;
+                            me = null;
+                        }
+                        else {
+                            if (API.getUser(obj.fromID).permission >= 1) {
+                                var stored_msg = obj.message;
+                                if (obj.message.substring(7, 12) == "&#34;") {
+                                    var ind = obj.message.lastIndexOf("&#34;");
+                                    if (ind != -1) {
+                                        var name = obj.message.substring(12, ind);
+                                        name = name.replace(/&#34;/g, "\"");
+                                        var users = API.getUsers();
+                                        for (var k = 0; k < users.length; k++) {
+                                            if (users[k].username == name) {                                            
+                                                API.sendChat('/em ' + obj.from + ' is checking ' + users[k].username + '... Points: ' + (users[k].djPoints + users[k].listenerPoints + users[k].curatorPoints) + '(djPts-' + users[k].djPoints + ' | listenerPts-' + users[k].listenerPoints + ' | CuratorPts-' + users[k].curatorPoints +') Fans: ' + users[k].fans);
+                                            }
+                                        }
+                                    }
+                                }
+                                else {
+                                    numb = parseInt(obj.message.substring(7,8));
+                                    var booth = API.getDJs();
+                                    if (numb <= booth.length - 1) {
+                                        API.sendChat('/em ' + obj.from + ' is checking ' + booth[numb].username + '... Points: ' + (booth[numb].djPoints + booth[numb].listenerPoints + booth[numb].curatorPoints) + '(djPts-' + booth[numb].djPoints + ' | listenerPts-' + booth[numb].listenerPoints + ' | CuratorPts-' + booth[numb].curatorPoints +') Fans: ' + booth[numb].fans);
+                                    }
+                                    delete booth;
+                                    booth = null;
+                                }
+                            }
+                            else {
+                                API.sendChat('@' + obj.from + ' you´re not allowed to check others - Only staffed ppl can do so! Use /check me if you want to check your stats');
+                            }
+                        }
                     }
-                    else {
-                        if (API.getUser(obj.fromID).permission >= 1) {
+
+                    ret = obj.message.search("/hug");
+                    if (ret != -1 && obj.message[0] == '/') {
+                        if (obj.message.substring(5,7) == 'me') {
+                            var me = API.getUser(obj.fromID);
+                            API.sendChat('/em ' + obj.from + ' just hugged him/herself!');
+                            delete me;
+                            me = null;
+                        }
+                        else {
+                            
+                            var stored_msg = obj.message;
+                            if (obj.message.substring(5, 10) == "&#34;") {
+                                var ind = obj.message.lastIndexOf("&#34;");
+                                if (ind != -1) {
+                                    var name = obj.message.substring(10, ind);
+                                    name = name.replace(/&#34;/g, "\"");
+                                    var users = API.getUsers();
+                                    for (var k = 0; k < users.length; k++) {
+                                        if (users[k].username == name) {                                            
+                                            API.sendChat('/em ' + users[k].username + ' just got hugged by ' + obj.from);
+                                        }
+                                    }
+                                }
+                            }
+                            else {
+                                numb = parseInt(obj.message.substring(5,6));
+                                var booth = API.getDJs();
+                                if (numb <= booth.length - 1) {
+                                    API.sendChat('/em ' + booth[numb].username + ' just got hugged by ' + obj.from);
+                                }
+                                delete booth;
+                                booth = null;
+                            }
+                        }
+                    }
+
+                    ret = obj.message.search("/drink");
+                    if (ret != -1 && obj.message[0] == '/') {
+                        if (obj.message.substring(7,9) == 'me') {
+                            var me = API.getUser(obj.fromID);
+                            API.sendChat('/em ' + obj.from + ' just got drunk alone!');
+                            delete me;
+                            me = null;
+                        }
+                        else {
+                            
                             var stored_msg = obj.message;
                             if (obj.message.substring(7, 12) == "&#34;") {
                                 var ind = obj.message.lastIndexOf("&#34;");
@@ -469,7 +557,7 @@ function initAPIListeners() {
                                     var users = API.getUsers();
                                     for (var k = 0; k < users.length; k++) {
                                         if (users[k].username == name) {                                            
-                                            API.sendChat('/em ' + obj.from + ' is checking ' + users[k].username + '... Points: ' + (users[k].djPoints + users[k].listenerPoints + users[k].curatorPoints) + '(djPts-' + users[k].djPoints + ' | listenerPts-' + users[k].listenerPoints + ' | CuratorPts-' + users[k].curatorPoints +') Fans: ' + users[k].fans);
+                                            API.sendChat('/em ' + users[k].username + ' just got a drink from ' + obj.from);
                                         }
                                     }
                                 }
@@ -478,430 +566,358 @@ function initAPIListeners() {
                                 numb = parseInt(obj.message.substring(7,8));
                                 var booth = API.getDJs();
                                 if (numb <= booth.length - 1) {
-                                    API.sendChat('/em ' + obj.from + ' is checking ' + booth[numb].username + '... Points: ' + (booth[numb].djPoints + booth[numb].listenerPoints + booth[numb].curatorPoints) + '(djPts-' + booth[numb].djPoints + ' | listenerPts-' + booth[numb].listenerPoints + ' | CuratorPts-' + booth[numb].curatorPoints +') Fans: ' + booth[numb].fans);
+                                    API.sendChat('/em ' + booth[numb].username + ' just got a drink from ' + obj.from);
                                 }
                                 delete booth;
                                 booth = null;
                             }
                         }
-                        else {
-                            API.sendChat('@' + obj.from + ' you´re not allowed to check others - Only staffed ppl can do so! Use /check me if you want to check your stats');
-                        }
                     }
-                }
 
-                ret = obj.message.search("/hug");
-                if (ret != -1 && obj.message[0] == '/') {
-                    if (obj.message.substring(5,7) == 'me') {
-                        var me = API.getUser(obj.fromID);
-                        API.sendChat('/em ' + obj.from + ' just hugged him/herself!');
-                        delete me;
-                        me = null;
-                    }
-                    else {
-                        
-                        var stored_msg = obj.message;
-                        if (obj.message.substring(5, 10) == "&#34;") {
-                            var ind = obj.message.lastIndexOf("&#34;");
-                            if (ind != -1) {
-                                var name = obj.message.substring(10, ind);
-                                name = name.replace(/&#34;/g, "\"");
-                                var users = API.getUsers();
-                                for (var k = 0; k < users.length; k++) {
-                                    if (users[k].username == name) {                                            
-                                        API.sendChat('/em ' + users[k].username + ' just got hugged by ' + obj.from);
-                                    }
-                                }
-                            }
-                        }
-                        else {
-                            numb = parseInt(obj.message.substring(5,6));
-                            var booth = API.getDJs();
-                            if (numb <= booth.length - 1) {
-                                API.sendChat('/em ' + booth[numb].username + ' just got hugged by ' + obj.from);
-                            }
-                            delete booth;
-                            booth = null;
-                        }
-                    }
-                }
-
-                ret = obj.message.search("/drink");
-                if (ret != -1 && obj.message[0] == '/') {
-                    if (obj.message.substring(7,9) == 'me') {
-                        var me = API.getUser(obj.fromID);
-                        API.sendChat('/em ' + obj.from + ' just got drunk alone!');
-                        delete me;
-                        me = null;
-                    }
-                    else {
-                        
-                        var stored_msg = obj.message;
-                        if (obj.message.substring(7, 12) == "&#34;") {
-                            var ind = obj.message.lastIndexOf("&#34;");
-                            if (ind != -1) {
-                                var name = obj.message.substring(12, ind);
-                                name = name.replace(/&#34;/g, "\"");
-                                var users = API.getUsers();
-                                for (var k = 0; k < users.length; k++) {
-                                    if (users[k].username == name) {                                            
-                                        API.sendChat('/em ' + users[k].username + ' just got a drink from ' + obj.from);
-                                    }
-                                }
-                            }
-                        }
-                        else {
-                            numb = parseInt(obj.message.substring(7,8));
-                            var booth = API.getDJs();
-                            if (numb <= booth.length - 1) {
-                                API.sendChat('/em ' + booth[numb].username + ' just got a drink from ' + obj.from);
-                            }
-                            delete booth;
-                            booth = null;
-                        }
-                    }
-                }
-
-                ret = obj.message.search('/cancel');
-                if (ret != -1 && obj.message[0] == '/') {
-                    if (obj.message.substring(8, 12) == "tout") {
-                        if (API.getUser(obj.fromID).permission >= 2) {
-                            clearTimeout(songTimeoutId);
-                            API.sendChat('/em Timeout has been canceled!');
-                        }
-                    }
-                    if (obj.message.substring(8,13) == "watch") {
-                        if (API.getUser(obj.fromID).permission >= API.getUser(watch_list[0].id).permission) {
-                            clearInterval(watch_timer);
-                            watching = false;
-                            API.sendChat("/em Watching has been canceled!");
-                        }
-                        else {
-                            API.sendChat("/em You dont have enough permission for that command!");
-                        }
-                    }
-                }
-
-                ret  = obj.message.search('/sexxy');
-                if (ret != -1 && obj.message[0] == '/') {
-                    if (obj.message.substring(7, 12) == "Donna") {
-                        if (obj.fromID == "50fc0b9fc3b97a409682a3d0" && API.getSelf().id == "50fc0b9fc3b97a409682a3d0") {
-                            var foo = "_$$$$$___________________________$________$___$$___________________________________$____$_$$$___$$$$__$$$$_$$$$____$_$$$$___$____$$___$__$___$_$___$___$____$_$______$____$$___$__$___$_$___$$$$$____$__$$____$___$$$___$__$___$_$___$$__$____$____$___$$$$$__$$$___$___$_$___$$$$$____$_$$$$__";
-                            var bar = "_____________$$$$_$$$$$___$_$___$_$___$______________$_____$___$$_$$_$$_$$_$$_$$__$$$$_$$$____$$____$____$_$___$_$___$_$___$___$___$____$$$__$$$$_$$$___$$$____$_____$$_$___$_______$_$____$_$___$_$____$_______$$___$___$___$_$___$$_$$_$$_$$___$____$$$$_$$$_____$$$__$$$$$___$$$___$$__$____";
-                            API.sendChat('/em ' + foo);
-                            API.sendChat('/em ' + bar);
-                        }
-                        else {
-                            if (obj.fromID != "50fc0b9fc3b97a409682a3d0") {
-                                API.sendChat('@' + obj.from + ' you cant use that. Only ' + API.getUser('50fc0b9fc3b97a409682a3d0').username + ' can!!!');
-                            }
-                        }
-                    }
-                }
-
-                ret = obj.message.search('/avatar');
-                if (ret != -1 && obj.message[0] == '/') {
-                    
-                    if (getAuthSelf(obj)) {
-                        var number;
-                        if (obj.message.length < 10) {
-                            number = parseInt(obj.message.substring(8, 9));
-                        }
-                        else {
-                            number = parseInt(obj.message.substring(8, 10));
-                        }
-
-                        if (number < 10) {
-                            AvatarOverlay.setSelectedAvatar('halloween0' + number);
-                        }
-                        else {
-                            if (number <= 13) {
-                                AvatarOverlay.setSelectedAvatar('halloween' + number);
-                            }
-                            if (number > 13 && number <= 22) {
-                                AvatarOverlay.setSelectedAvatar('bud0' + number);
-                            }
-                            if (number > 22 && number <= 24) {
-                                AvatarOverlay.setSelectedAvatar('bud' + number);
-                            }
-                            if (number > 24 && number <= 28) {
-                                AvatarOverlay.setSelectedAvatar('warrior0' + number);
-                            }
-                        }
-                    }
-                    else {
-
-                        if (!getAuth(obj)) {
-                            API.sendChat('@' + obj.from + ' you cant use that. Only few users can!!!');
-                        }
-                    }
-                    
-                }
-
-                if (API.getUser(obj.fromID).permission >= 1) {
-                    ret = obj.message.search('/watch');
+                    ret = obj.message.search('/cancel');
                     if (ret != -1 && obj.message[0] == '/') {
-                        var id_to_watch = "";
-                        if (obj.message.substring(7, 12) == "&#34;") {
-                            var ind = obj.message.lastIndexOf("&#34;");
-                            if (ind != -1) {
-                                if (!watching)  {
-                                    var name = obj.message.substring(12, ind);
+                        if (obj.message.substring(8, 12) == "tout") {
+                            if (API.getUser(obj.fromID).permission >= 2) {
+                                clearTimeout(songTimeoutId);
+                                API.sendChat('/em Timeout has been canceled!');
+                            }
+                        }
+                        if (obj.message.substring(8,13) == "watch") {
+                            if (API.getUser(obj.fromID).permission >= API.getUser(watch_list[0].id).permission) {
+                                clearInterval(watch_timer);
+                                watching = false;
+                                API.sendChat("/em Watching has been canceled!");
+                            }
+                            else {
+                                API.sendChat("/em You dont have enough permission for that command!");
+                            }
+                        }
+                    }
+
+                    ret  = obj.message.search('/sexxy');
+                    if (ret != -1 && obj.message[0] == '/') {
+                        if (obj.message.substring(7, 12) == "Donna") {
+                            if (obj.fromID == "50fc0b9fc3b97a409682a3d0" && API.getSelf().id == "50fc0b9fc3b97a409682a3d0") {
+                                var foo = "_$$$$$___________________________$________$___$$___________________________________$____$_$$$___$$$$__$$$$_$$$$____$_$$$$___$____$$___$__$___$_$___$___$____$_$______$____$$___$__$___$_$___$$$$$____$__$$____$___$$$___$__$___$_$___$$__$____$____$___$$$$$__$$$___$___$_$___$$$$$____$_$$$$__";
+                                var bar = "_____________$$$$_$$$$$___$_$___$_$___$______________$_____$___$$_$$_$$_$$_$$_$$__$$$$_$$$____$$____$____$_$___$_$___$_$___$___$___$____$$$__$$$$_$$$___$$$____$_____$$_$___$_______$_$____$_$___$_$____$_______$$___$___$___$_$___$$_$$_$$_$$___$____$$$$_$$$_____$$$__$$$$$___$$$___$$__$____";
+                                API.sendChat('/em ' + foo);
+                                API.sendChat('/em ' + bar);
+                            }
+                            else {
+                                if (obj.fromID != "50fc0b9fc3b97a409682a3d0") {
+                                    API.sendChat('@' + obj.from + ' you cant use that. Only ' + API.getUser('50fc0b9fc3b97a409682a3d0').username + ' can!!!');
+                                }
+                            }
+                        }
+                    }
+
+                    ret = obj.message.search('/avatar');
+                    if (ret != -1 && obj.message[0] == '/') {
+                        
+                        if (getAuthSelf(obj)) {
+                            var number;
+                            if (obj.message.length < 10) {
+                                number = parseInt(obj.message.substring(8, 9));
+                            }
+                            else {
+                                number = parseInt(obj.message.substring(8, 10));
+                            }
+
+                            if (number < 10) {
+                                AvatarOverlay.setSelectedAvatar('halloween0' + number);
+                            }
+                            else {
+                                if (number <= 13) {
+                                    AvatarOverlay.setSelectedAvatar('halloween' + number);
+                                }
+                                if (number > 13 && number <= 22) {
+                                    AvatarOverlay.setSelectedAvatar('bud0' + number);
+                                }
+                                if (number > 22 && number <= 24) {
+                                    AvatarOverlay.setSelectedAvatar('bud' + number);
+                                }
+                                if (number > 24 && number <= 28) {
+                                    AvatarOverlay.setSelectedAvatar('warrior0' + number);
+                                }
+                            }
+                        }
+                        else {
+
+                            if (!getAuth(obj)) {
+                                API.sendChat('@' + obj.from + ' you cant use that. Only few users can!!!');
+                            }
+                        }
+                        
+                    }
+
+                    if (API.getUser(obj.fromID).permission >= 1) {
+                        ret = obj.message.search('/watch');
+                        if (ret != -1 && obj.message[0] == '/') {
+                            var id_to_watch = "";
+                            if (obj.message.substring(7, 12) == "&#34;") {
+                                var ind = obj.message.lastIndexOf("&#34;");
+                                if (ind != -1) {
+                                    if (!watching)  {
+                                        var name = obj.message.substring(12, ind);
+                                        name = name.replace(/&#34;/g, "\"");
+                                        var users = API.getUsers();
+                                        for (var k = 0; k < users.length; k++) {
+                                            if (users[k].username == name) {
+                                                if (users[k].permission <= API.getUser(obj.fromID).permission) {
+                                                    id_to_watch = users[k].id;
+                                                }
+                                                else {
+                                                    error = true;
+                                                    API.sendChat("/em User found, but you dont have enough permission for this!");
+                                                    id_to_watch = "";
+                                                }
+                                            }
+                                        }
+                                        if (id_to_watch != "") {
+                                            if (watch_list[0].id != id_to_watch) {
+                                                var date = new Date();
+                                                watch_list[0] = {
+                                                    "id" : id_to_watch,
+                                                    "start" : date.getTime(),
+                                                    "start_round" : number_of_songs_played,
+                                                    "votes" : 0,
+                                                    "unvoted" : 0,
+                                                    "woots" : 0,
+                                                    "mehs" : 0,
+                                                    "vote" : 0,
+                                                    "round" : number_of_songs_played
+                                                };
+                                                watching = true;
+                                                API.sendChat("/em Watching ...");
+                                                watch_iter = number_of_songs_played - 1;
+                                                watch_timer = setInterval(function() {
+                                                    var vote = watch_list[0].vote;
+                                                    if (vote != 0) {
+                                                        // voted
+                                                        if (watch_iter < number_of_songs_played) {
+                                                            if (vote == -1) {
+                                                                watch_list[0].mehs++;
+                                                                stored_vote = -1;
+                                                            }
+                                                            else {
+                                                                watch_list[0].woots++;
+                                                                stored_vote = 1;
+                                                            }
+                                                            watch_list[0].votes++;
+                                                            watch_iter++;
+                                                        }
+                                                        else {
+                                                            if (vote != 0) {
+                                                                if (vote == -1 && stored_vote == 1) {
+                                                                    watch_list[0].mehs++;
+                                                                    watch_list[0].woots--;
+                                                                    stored_vote = -1;
+                                                                }
+                                                                if (vote == 1 && stored_vote == -1) {
+                                                                    watch_list[0].woots++;
+                                                                    watch_list[0].mehs--;
+                                                                    stored_vote = 1;
+                                                                }
+                                                            }
+                                                        }
+                                                        unvoted = false;
+                                                    }
+                                                    else {
+                                                        unvoted = true;
+                                                    }
+                                                }, 5000);
+                                            }
+                                            else {
+                                                API.sendChat("/em Somebody is already watched!");
+                                            }
+
+                                        }
+                                        else {
+                                            if (!error) {
+                                                API.sendChat("/em This user is not here! If you can see him on the floor, he´s probably stucked!");
+                                                watching = false;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        ret = obj.message.search("/checkWatched");
+                        if (ret != -1 && obj.message[0] == '/') {
+                            if (API.getUser(obj.fromID).permission >= 1) {
+                                numb = parseInt(obj.message.substring(14,15));
+                                if (numb == 0) {
+                                        if (watching) {
+                                            var dat = new Date;
+                                            var current_time = dat.getTime();
+                                            var time_difference = Math.floor((current_time - watch_list[0].start)/1000);
+                                            var hours = Math.floor(time_difference/3600);
+                                            var minutes = Math.floor(time_difference/60);
+                                            var seconds = Math.floor(time_difference%60);
+                                            var time_str = "";
+                                            if (hours != 0) {
+                                                time_str += hours + "h";
+                                            }
+                                            if (minutes != 0) {
+                                                if (hours != 0) { time_str += ":"; }
+                                                time_str += minutes + "m";
+                                            }
+                                            if (seconds != 0) {
+                                                if (hours != 0 || minutes != 0) {
+                                                    time_str += ":";
+                                                }
+                                                time_str += seconds + "s";
+                                            }
+                                            var unvoted_score = (watch_list[0].unvoted == 0) ? 0 : watch_list[0].unvoted - 1;
+                                            var msg = "/em BIG BROTHER´s watching you for " + time_str + " " + API.getUser(watch_list[0].id).username + ": votes-" + watch_list[0].votes
+                                                    + ",unvoted-" + unvoted_score + ",woot-" + watch_list[0].woots + ",meh-" + watch_list[0].mehs;
+                                            API.sendChat(msg);
+                                        }
+                                        else {
+                                            API.sendChat("/em Nobody is watched!");
+                                        }
+                                }
+                            }
+                        }
+
+                        ret = obj.message.search("/lock");
+                        if (ret != -1 && obj.message[0] == "/") {
+                            if (API.getUser(obj.fromID).permission >= 3) {
+                                $.ajaxSetup({ cache: false });
+                                $.ajax({
+                                    url: "http://plug.dj/_/gateway/room.update_options",
+                                    type: 'POST',
+                                    data: JSON.stringify({
+                                        service: "room.update_options",
+                                        body: [Slug,{
+                                            "boothLocked":     true,
+                                            "waitListEnabled": true,
+                                            "maxPlays":        1,
+                                            "maxDJs":          5
+                                        }]
+                                    }),
+                                    async: this.async,
+                                    dataType: 'json',
+                                    contentType: 'application/json'
+                                }).done(function() {
+                                    API.sendChat('/em The booth has been locked!');
+                                });
+                            }
+                        }
+
+                        ret = obj.message.search("/unlock");
+                        if (ret != -1 && obj.message[0] == "/") {
+                            if (API.getUser(obj.fromID).permission >= 3) {
+                                $.ajaxSetup({ cache: false });
+                                $.ajax({
+                                    url: "http://plug.dj/_/gateway/room.update_options",
+                                    type: 'POST',
+                                    data: JSON.stringify({
+                                        service: "room.update_options",
+                                        body: [Slug,{
+                                            "boothLocked":     false,
+                                            "waitListEnabled": true,
+                                            "maxPlays":        1,
+                                            "maxDJs":          5
+                                        }]
+                                    }),
+                                    async: this.async,
+                                    dataType: 'json',
+                                    contentType: 'application/json'
+                                }).done(function() {
+                                    API.sendChat('/em The booth has been unlocked!');
+                                });
+                            }
+                        }
+
+                        ret = obj.message.search('/active');
+                        if (ret != -1 && obj.message[0] == '/' && API.getUser(obj.fromID).permission >= 1) {
+                            var active = false;
+                            if (obj.message.substring(8, 13) == "&#34;") {
+                                var ind = obj.message.lastIndexOf("&#34;");
+                                if (ind != -1) {
+                                    var name = obj.message.substring(13, ind);
                                     name = name.replace(/&#34;/g, "\"");
                                     var users = API.getUsers();
                                     for (var k = 0; k < users.length; k++) {
                                         if (users[k].username == name) {
-                                            if (users[k].permission <= API.getUser(obj.fromID).permission) {
-                                                id_to_watch = users[k].id;
-                                            }
-                                            else {
-                                                error = true;
-                                                API.sendChat("/em User found, but you dont have enough permission for this!");
-                                                id_to_watch = "";
-                                            }
+                                            active = true;
                                         }
                                     }
-                                    if (id_to_watch != "") {
-                                        if (watch_list[0].id != id_to_watch) {
-                                            var date = new Date();
-                                            watch_list[0] = {
-                                                "id" : id_to_watch,
-                                                "start" : date.getTime(),
-                                                "start_round" : number_of_songs_played,
-                                                "votes" : 0,
-                                                "unvoted" : 0,
-                                                "woots" : 0,
-                                                "mehs" : 0,
-                                                "vote" : 0,
-                                                "round" : number_of_songs_played
-                                            };
-                                            watching = true;
-                                            API.sendChat("/em Watching ...");
-                                            watch_iter = number_of_songs_played - 1;
-                                            watch_timer = setInterval(function() {
-                                                var vote = watch_list[0].vote;
-                                                if (vote != 0) {
-                                                    // voted
-                                                    if (watch_iter < number_of_songs_played) {
-                                                        if (vote == -1) {
-                                                            watch_list[0].mehs++;
-                                                            stored_vote = -1;
-                                                        }
-                                                        else {
-                                                            watch_list[0].woots++;
-                                                            stored_vote = 1;
-                                                        }
-                                                        watch_list[0].votes++;
-                                                        watch_iter++;
-                                                    }
-                                                    else {
-                                                        if (vote != 0) {
-                                                            if (vote == -1 && stored_vote == 1) {
-                                                                watch_list[0].mehs++;
-                                                                watch_list[0].woots--;
-                                                                stored_vote = -1;
-                                                            }
-                                                            if (vote == 1 && stored_vote == -1) {
-                                                                watch_list[0].woots++;
-                                                                watch_list[0].mehs--;
-                                                                stored_vote = 1;
-                                                            }
-                                                        }
-                                                    }
-                                                    unvoted = false;
-                                                }
-                                                else {
-                                                    unvoted = true;
-                                                }
-                                            }, 5000);
-                                        }
-                                        else {
-                                            API.sendChat("/em Somebody is already watched!");
-                                        }
-
+                                    if (active) {
+                                        API.sendChat("/em " + name + " is active!");
                                     }
                                     else {
-                                        if (!error) {
-                                            API.sendChat("/em This user is not here! If you can see him on the floor, he´s probably stucked!");
-                                            watching = false;
-                                        }
+                                        API.sendChat("/em " + name + " is not here!");
                                     }
+                                    active = false;
                                 }
                             }
                         }
-                    }
 
-                    ret = obj.message.search("/checkWatched");
-                    if (ret != -1 && obj.message[0] == '/') {
-                        if (API.getUser(obj.fromID).permission >= 1) {
-                            numb = parseInt(obj.message.substring(14,15));
-                            if (numb == 0) {
-                                    if (watching) {
-                                        var dat = new Date;
-                                        var current_time = dat.getTime();
-                                        var time_difference = Math.floor((current_time - watch_list[0].start)/1000);
-                                        var hours = Math.floor(time_difference/3600);
-                                        var minutes = Math.floor(time_difference/60);
-                                        var seconds = Math.floor(time_difference%60);
-                                        var time_str = "";
-                                        if (hours != 0) {
-                                            time_str += hours + "h";
-                                        }
-                                        if (minutes != 0) {
-                                            if (hours != 0) { time_str += ":"; }
-                                            time_str += minutes + "m";
-                                        }
-                                        if (seconds != 0) {
-                                            if (hours != 0 || minutes != 0) {
-                                                time_str += ":";
-                                            }
-                                            time_str += seconds + "s";
-                                        }
-                                        var unvoted_score = (watch_list[0].unvoted == 0) ? 0 : watch_list[0].unvoted - 1;
-                                        var msg = "/em BIG BROTHER´s watching you for " + time_str + " " + API.getUser(watch_list[0].id).username + ": votes-" + watch_list[0].votes
-                                                + ",unvoted-" + unvoted_score + ",woot-" + watch_list[0].woots + ",meh-" + watch_list[0].mehs;
-                                        API.sendChat(msg);
+                        ret = obj.message.search("/addElectric");
+                        if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
+                            if (isOnBooth()) {
+                                $.ajaxSetup({ cache: false });
+                                $.ajax({
+                                    url: "http://plug.dj/_/gateway/room.update_options",
+                                    type: 'POST',
+                                    data: JSON.stringify({
+                                        service: "room.update_options",
+                                        body: [Slug,{
+                                            "boothLocked":     true,
+                                            "waitListEnabled": true,
+                                            "maxPlays":        1,
+                                            "maxDJs":          5
+                                        }]
+                                    }),
+                                    async: this.async,
+                                    dataType: 'json',
+                                    contentType: 'application/json'
+                                }).done(function() {
+
+                                
+                                    API.sendChat('/em The booth has been locked!');
+
+                                    if (isUserInQueue(API.getUser(whiteList[1]))) {
+                                        API.moderateRemoveDJ(whiteList[1]);
                                     }
-                                    else {
-                                        API.sendChat("/em Nobody is watched!");
+
+                                    if (isOnBooth() && (API.getDJs().indexOf(API.getUser(whiteList[1])) !== 0)) {
+
+                                        $('#button-dj-waitlist-leave').click();
+                                        var click_tout = setTimeout(function(){
+                                            API.moderateAddDJ(whiteList[1]);
+
+                                            $.ajax({
+                                                url: "http://plug.dj/_/gateway/room.update_options",
+                                                type: 'POST',
+                                                data: JSON.stringify({
+                                                    service: "room.update_options",
+                                                    body: [Slug,{
+                                                        "boothLocked":     false,
+                                                        "waitListEnabled": true,
+                                                        "maxPlays":        1,
+                                                        "maxDJs":          5
+                                                    }]
+                                                }),
+                                                async: this.async,
+                                                dataType: 'json',
+                                                contentType: 'application/json'
+                                            }).done(function() {
+                                                API.sendChat('/em The booth has been unlocked!');
+                                            });
+
+                                        }, 2000);
                                     }
+                                });
                             }
                         }
                     }
-
-                    ret = obj.message.search("/lock");
-                    if (ret != -1 && obj.message[0] == "/") {
-                        if (API.getUser(obj.fromID).permission >= 3) {
-                            $.ajaxSetup({ cache: false });
-                            $.ajax({
-                                url: "http://plug.dj/_/gateway/room.update_options",
-                                type: 'POST',
-                                data: JSON.stringify({
-                                    service: "room.update_options",
-                                    body: [Slug,{
-                                        "boothLocked":     true,
-                                        "waitListEnabled": true,
-                                        "maxPlays":        1,
-                                        "maxDJs":          5
-                                    }]
-                                }),
-                                async: this.async,
-                                dataType: 'json',
-                                contentType: 'application/json'
-                            }).done(function() {
-                                API.sendChat('/em The booth has been locked!');
-                            });
-                        }
-                    }
-
-                    ret = obj.message.search("/unlock");
-                    if (ret != -1 && obj.message[0] == "/") {
-                        if (API.getUser(obj.fromID).permission >= 3) {
-                            $.ajaxSetup({ cache: false });
-                            $.ajax({
-                                url: "http://plug.dj/_/gateway/room.update_options",
-                                type: 'POST',
-                                data: JSON.stringify({
-                                    service: "room.update_options",
-                                    body: [Slug,{
-                                        "boothLocked":     false,
-                                        "waitListEnabled": true,
-                                        "maxPlays":        1,
-                                        "maxDJs":          5
-                                    }]
-                                }),
-                                async: this.async,
-                                dataType: 'json',
-                                contentType: 'application/json'
-                            }).done(function() {
-                                API.sendChat('/em The booth has been unlocked!');
-                            });
-                        }
-                    }
-
-                    ret = obj.message.search('/active');
-                    if (ret != -1 && obj.message[0] == '/' && API.getUser(obj.fromID).permission >= 1) {
-                        var active = false;
-                        if (obj.message.substring(8, 13) == "&#34;") {
-                            var ind = obj.message.lastIndexOf("&#34;");
-                            if (ind != -1) {
-                                var name = obj.message.substring(13, ind);
-                                name = name.replace(/&#34;/g, "\"");
-                                var users = API.getUsers();
-                                for (var k = 0; k < users.length; k++) {
-                                    if (users[k].username == name) {
-                                        active = true;
-                                    }
-                                }
-                                if (active) {
-                                    API.sendChat("/em " + name + " is active!");
-                                }
-                                else {
-                                    API.sendChat("/em " + name + " is not here!");
-                                }
-                                active = false;
-                            }
-                        }
-                    }
-
-                    ret = obj.message.search("/addElectric");
-                    if (ret != -1 && obj.message[0] == '/' && obj.fromID == whiteList[0]) {
-                        if (isOnBooth()) {
-                            $.ajaxSetup({ cache: false });
-                            $.ajax({
-                                url: "http://plug.dj/_/gateway/room.update_options",
-                                type: 'POST',
-                                data: JSON.stringify({
-                                    service: "room.update_options",
-                                    body: [Slug,{
-                                        "boothLocked":     true,
-                                        "waitListEnabled": true,
-                                        "maxPlays":        1,
-                                        "maxDJs":          5
-                                    }]
-                                }),
-                                async: this.async,
-                                dataType: 'json',
-                                contentType: 'application/json'
-                            }).done(function() {
-
-                            
-                                API.sendChat('/em The booth has been locked!');
-
-                                if (isUserInQueue(API.getUser(whiteList[1]))) {
-                                    API.moderateRemoveDJ(whiteList[1]);
-                                }
-
-                                if (isOnBooth() && (API.getDJs().indexOf(API.getUser(whiteList[1])) !== 0)) {
-
-                                    $('#button-dj-waitlist-leave').click();
-                                    var click_tout = setTimeout(function(){
-                                        API.moderateAddDJ(whiteList[1]);
-
-                                        $.ajax({
-                                            url: "http://plug.dj/_/gateway/room.update_options",
-                                            type: 'POST',
-                                            data: JSON.stringify({
-                                                service: "room.update_options",
-                                                body: [Slug,{
-                                                    "boothLocked":     false,
-                                                    "waitListEnabled": true,
-                                                    "maxPlays":        1,
-                                                    "maxDJs":          5
-                                                }]
-                                            }),
-                                            async: this.async,
-                                            dataType: 'json',
-                                            contentType: 'application/json'
-                                        }).done(function() {
-                                            API.sendChat('/em The booth has been unlocked!');
-                                        });
-
-                                    }, 2000);
-                                }
-                            });
-                        }
-                    }
+                }
+                else {
+                    API.sendChat("/em Nah " + API.getUser(obj.fromID).username + ". You´re blacklisted. Contact bot superuser or owner for more details.");
                 }
 
             //}
