@@ -106,9 +106,9 @@ var savedSong = new Array(song.author, song.title);
 var woots, mehs, curates, votes, mehsRatio, wootsRatio, percentil;
 
 var SUList = new Array(
-                    "50aeb062c3b97a2cb4c2a0a2",//Donna
-                    "50fc0b9fc3b97a409682a3d0",//me
-                    "50fda7f6c3b97a48cb78b3dc"//Electric Lover
+                        "50aeb062c3b97a2cb4c2a0a2",//Donna
+                        "50fc0b9fc3b97a409682a3d0",//me
+                        "50fda7f6c3b97a48cb78b3dc"//Electric Lover
                     );
 
 var whiteList = new Array(
@@ -119,16 +119,14 @@ var whiteList = new Array(
                         "50dcd9ffd6e4a967879c3628",//Lady of Luminosity
                         "50aeb3b696fba52c3ca0c5dc", //Celtic
                         "5102ed4596fba5767a14b08e"//Pointforger
-                    );
+                    );               
 
-
-//var commonUsersList = new Array();
 
 var blackList = new Array(
-        "50f96db0877b92289a5f1bca",//rokko
-        "50b2c894877b9268ceab44f9",//Vixen
-        "50aeb169d6e4a94f7747746b"//Husky
-    );
+                        "50f96db0877b92289a5f1bca",//rokko
+                        "50b2c894877b9268ceab44f9",//Vixen
+                        "50aeb169d6e4a94f7747746b"//Husky
+                    );
 
 
 
@@ -1174,7 +1172,7 @@ function initAPIListeners() {
 
         ret = obj.message.search("/setAllOptionsOff");
         if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
-            if (API.getSelf().id != whiteList[0]) {        
+            if (! isSuperuser(API.getSelf())) {        
                 autowoot = false;
                 $("#plugbot-btn-woot").css("color", autowoot ? "#3FFF00" : "#ED1C24");
                 jaaulde.utils.cookies.set(COOKIE_WOOT, autowoot);
