@@ -2021,7 +2021,7 @@ function onCookiesLoaded() {
         $('#button-vote-negative').click();
         $('#button-vote-positive').click();
     }
-    API.sendChat("/em you´re running JiRin´s moderating bot version " + version + ". Contact Donna for more details.");
+    API.sendChat("/em you´re running " + API.getUser(whiteList[1]).username + "`s moderating bot version " + version + ". Contact Donna for more details.");
 
 }
 
