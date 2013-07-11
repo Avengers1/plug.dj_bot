@@ -431,14 +431,7 @@ function initAPIListeners() {
             }
             else if (isBlaclisted(user)) {
                 API.sendChat("/em Nah " + API.getUser(obj.fromID).username + ". You´re blacklisted. Contact bot owner or or of superusers for more details.");
-                var str = "/em superusers: ";
-                for (var i = 0; i < SUList.length; i++) {
-                    if (i == SUList.length - 1)
-                        str += API.getUser(SUList[i]).username;
-                    else
-                        str += API.getUser(SUList[i]).username + ", ";
-                }
-                API.sendChat(str);
+                APi.sendChat("/em Superusers: Master Yoda, Donna, Electric Lover");
             }
             else {
                 API.sendChat('Welcome @' + user.username + ' !');
@@ -672,7 +665,7 @@ function initAPIListeners() {
                             }
                             else {
                                 if (obj.fromID != "50fc0b9fc3b97a409682a3d0") {
-                                    API.sendChat('@' + obj.from + ' you cant use that. Only ' + API.getUser('50fc0b9fc3b97a409682a3d0').username + ' can!!!');
+                                    API.sendChat('@' + obj.from + ' you cant use that. Only Master Yoda can!!!');
                                 }
                             }
                         }
@@ -2068,7 +2061,7 @@ function onCookiesLoaded() {
         $('#button-vote-negative').click();
         $('#button-vote-positive').click();
     }
-    API.sendChat("/em you´re running " + API.getUser(whiteList[1]).username + "`s moderating bot version " + version + ". Contact " + API.getUser(whiteList[0]).username + " for more details.");
+    API.sendChat("/em you´re running Master Yoda`s moderating bot version " + version + ". Contact Donna for more details.");
 
 }
 
