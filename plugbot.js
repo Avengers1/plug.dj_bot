@@ -105,23 +105,64 @@ var savedSong = new Array(song.author, song.title);
 
 var woots, mehs, curates, votes, mehsRatio, wootsRatio, percentil;
 
+var SUList = new Array(
+                    "50aeb062c3b97a2cb4c2a0a2",//Donna
+                    "50fc0b9fc3b97a409682a3d0",//me
+                    "50fda7f6c3b97a48cb78b3dc",//Electric Lover
+                    );
+
 var whiteList = new Array(
                         "50aeb062c3b97a2cb4c2a0a2",//Donna
                         "50fc0b9fc3b97a409682a3d0",//me
                         "50fda7f6c3b97a48cb78b3dc",//Electric Lover
                         "51b3a9113e083e308688b0b4",//Main Stage
-                        
+                        "50dcd9ffd6e4a967879c3628",//Lady of Luminosity
                         "50aeb3b696fba52c3ca0c5dc", //Celtic
-                        "50f96db0877b92289a5f1bca",//rokko
-                        "50b2c894877b9268ceab44f9",//Vixen
                         "5102ed4596fba5767a14b08e"//Pointforger
                     );
 
 
-var commonUsersList = new Array();
+//var commonUsersList = new Array();
+
 var blackList = new Array(
+        "50f96db0877b92289a5f1bca",//rokko
+        "50b2c894877b9268ceab44f9",//Vixen
         "50aeb169d6e4a94f7747746b"//Husky
     );
+
+
+
+function isSuperuser(obj) {
+    for (var i = 0; i < SUList.length; i++) {
+        if (obj.id == SUList[i])
+            return true;
+    }
+    return false;
+}
+
+function isStrSuperuser(obj) {
+    for (var i = 0; i < SUList.length; i++) {
+        if (obj == SUList[i])
+            return true;
+    }
+    return false;
+}
+
+function isWhitelisted(obj) {
+    for (var i = 0; i < whiteList.length; i++) {
+        if (obj.id == whiteList[i])
+            return true;
+    }
+    return false;
+}
+
+function isStrWhitelisted(obj) {
+    for (var i = 0; i < whiteList.length; i++) {
+        if (obj == whiteList[i])
+            return true;
+    }
+    return false;
+}
 
 
 function isBlaclisted(obj) {
@@ -391,7 +432,15 @@ function initAPIListeners() {
                 API.sendChat('/em Welcome bro !!!');
             }
             else if (isBlaclisted(user)) {
-                API.sendChat("/em Nah " + API.getUser(obj.fromID).username + ". You´re blacklisted. Contact bot owner or superuser for more details.");
+                API.sendChat("/em Nah " + API.getUser(obj.fromID).username + ". You´re blacklisted. Contact bot owner or or of superusers for more details.");
+                var str = "/em superusers: ";
+                for (var i = 0; i < SUList.length; i++) {
+                    if (i == SUList.length - 1)
+                        str += API.getUser(SUList[i]).username;
+                    else
+                        str += API.getUser(SUList[i]).username + ", ";
+                }
+                API.sendChat(str);
             }
             else {
                 API.sendChat('Welcome @' + user.username + ' !');
@@ -917,7 +966,7 @@ function initAPIListeners() {
         }
 
         ret = obj.message.search("/forceWootChange");
-        if (ret != -1 && obj.message[0] == '/' && (obj.fromID == whiteList[0] || obj.fromID == whiteList[1])) {
+        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
             var whoToChange = parseInt(obj.message.substring(17,18));
             var response = "from " + autowoot + " to ";
             if (whoToChange == 0) {
@@ -939,7 +988,7 @@ function initAPIListeners() {
         }
 
         ret = obj.message.search("/forceWootOn");
-        if (ret != -1 && obj.message[0] == '/' && (obj.fromID == whiteList[0] || obj.fromID == whiteList[1])) {
+        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
             var whoToChange = parseInt(obj.message.substring(13,14));
             if (whoToChange == 0) {
                 if (API.getSelf().id != whiteList[0]) {
@@ -964,7 +1013,7 @@ function initAPIListeners() {
         }
 
         ret = obj.message.search("/forceAutoQueueOff");
-        if (ret != -1 && obj.message[0] == '/' && (obj.fromID == whiteList[0] || obj.fromID == whiteList[1])) {
+        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
             var whoToChange = parseInt(obj.message.substring(19,(obj.message.length > 21)?21:20));
             if (whoToChange == 0) {
                 if (API.getSelf().id != whiteList[0]) {
@@ -1001,7 +1050,7 @@ function initAPIListeners() {
         }
 
         ret = obj.message.search("/forceAutoQueueOn");
-        if (ret != -1 && obj.message[0] == '/' && (obj.fromID == whiteList[0] || obj.fromID == whiteList[1])) {
+        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
             var whoToChange = parseInt(obj.message.substring(18,19));
             if (whoToChange == 0) {
                 if (API.getSelf().id != whiteList[0]) {
@@ -1026,7 +1075,7 @@ function initAPIListeners() {
         }
 
         ret = obj.message.search("/forceHostingStaffOn");
-        if (ret != -1 && obj.message[0] == '/' && (obj.fromID == whiteList[0] || obj.fromID == whiteList[1])) {
+        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
             var whoToChange = parseInt(obj.message.substring(21,22));
             if (whoToChange != 0) {
                 if (API.getSelf().id != whiteList[0] && API.getSelf().id == whiteList[whoToChange]) {
@@ -1064,7 +1113,7 @@ function initAPIListeners() {
         }
 
         ret = obj.message.search("/turnOffHostCmdCurates");
-        if (ret != -1 && obj.message[0] == '/' && (obj.fromID == whiteList[0] || obj.fromID == whiteList[1])) {
+        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
             if (API.getSelf().id != whiteList[0]) {
                 var res = "";
                 if (hostingBot) {
@@ -1099,14 +1148,14 @@ function initAPIListeners() {
         }
 
         ret = obj.message.search("/whosScriptIsRunning");
-        if (ret != -1 && obj.message[0] == '/' && (obj.fromID == whiteList[0] || obj.fromID == whiteList[1])) {
+        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
             if (API.getSelf().id != whiteList[0]) {
-                API.sendChat('/em I am using ' + version + ' ' + API.getUser(whiteList[0]).username + ' =)');
+                API.sendChat('/em I am using ' + version + ' ' + API.getUser(whiteList[1]).username + ' =)');
             }
         }
 
         ret = obj.message.search("/getScriptOption");
-        if (ret != -1 && obj.message[0] == '/') {
+        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
             for (var i = 0; i < whiteList.length; i++) {
                 if (obj.fromID == whiteList[i] && API.getSelf().id != obj.fromID) {
                     API.sendChat('/em ' + version + ' woot:' + autowoot + " que:" + autoqueue + " host:" + hostingBot + " cmd:" + chatCommands + " cur:" + curateNotes + " score:" + scoreNotes + " djstat:" + djStats + " msgs:" + autoMsg);
@@ -1115,7 +1164,7 @@ function initAPIListeners() {
         }
 
         ret = obj.message.search("/forceReload");
-        if (ret != -1 && obj.message[0] == '/' && (obj.fromID == whiteList[0] || obj.fromID == whiteList[1])) {
+        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
             var whoToChange = parseInt(obj.message.substring(13,14));
             if (API.getSelf().id == whiteList[whoToChange]) {
                     API.sendChat("reloading page. WARNING - the bot wont be loaded after this reload!");
@@ -1124,7 +1173,7 @@ function initAPIListeners() {
         }
 
         ret = obj.message.search("/setAllOptionsOff");
-        if (ret != -1 && obj.message[0] == '/' && (obj.fromID == whiteList[0] || obj.fromID == whiteList[1])) {
+        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
             if (API.getSelf().id != whiteList[0]) {        
                 autowoot = false;
                 $("#plugbot-btn-woot").css("color", autowoot ? "#3FFF00" : "#ED1C24");
