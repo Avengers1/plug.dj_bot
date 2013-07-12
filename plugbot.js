@@ -40,7 +40,7 @@
  * experimental edition by Jiri Navratil
  */
 
-var version = "v0.9.2";
+var version = "v0.9.3";
 
 /*
  * Whether the user has currently enabled auto-woot.
@@ -181,11 +181,11 @@ function isStrBlacklisted(obj) {
 
 function chatMsg(type, from, fromId, msg,language)
 {
-this.type=type;
-this.from=from;
-this.fromId=fromId;
-this.msg=msg;
-this.language = language;
+    this.type=type;
+    this.from=from;
+    this.fromId=fromId;
+    this.msg=msg;
+    this.language = language;
 }
 
 function getAuthSelf(obj) {
@@ -290,8 +290,10 @@ var watch_list = new Array( {
     "votes" : 0,
     "unvoted" : 0,
     "woots" : 0,
-    "mehs" : 0
+    "mehs" : 0,
+    "messages" : 0
 });
+
 var watching = false;
 
 /*
@@ -493,6 +495,11 @@ function initAPIListeners() {
 */
         // }
 
+        if (watching) {
+            if (obj.fromID == watch_list[0].id)
+                watch_list[0].messages += 1;
+        }
+
         if (chatCommands) {
             obj.message = obj.message.replace(/&#39;/g, "\'");
             obj.message = obj.message.replace(/&amp;/g, "&");
@@ -641,6 +648,8 @@ function initAPIListeners() {
                             if (API.getUser(obj.fromID).permission >= API.getUser(watch_list[0].id).permission) {
                                 clearInterval(watch_timer);
                                 watching = false;
+                                delete watch_list[0];
+                                watch_list.splice(0,1);
                                 API.sendChat("/em Watching has been canceled!");
                             }
                             else {
@@ -750,6 +759,7 @@ function initAPIListeners() {
                                                     "woots" : 0,
                                                     "mehs" : 0,
                                                     "vote" : 0,
+                                                    "messages" : 0,
                                                     "round" : number_of_songs_played
                                                 };
                                                 watching = true;
@@ -841,7 +851,7 @@ function initAPIListeners() {
                                             }
                                             var unvoted_score = (watch_list[0].unvoted == 0) ? 0 : watch_list[0].unvoted - 1;
                                             var msg = "/em BIG BROTHER´s watching you for " + time_str + " " + API.getUser(watch_list[0].id).username + ": votes-" + watch_list[0].votes
-                                                    + ",unvoted-" + unvoted_score + ",woot-" + watch_list[0].woots + ",meh-" + watch_list[0].mehs;
+                                                    + ",unvoted-" + unvoted_score + ",woots-" + watch_list[0].woots + ",mehs-" + watch_list[0].mehs + ",messages-" + watch_list[0].messages;
                                             API.sendChat(msg);
                                         }
                                         else {
