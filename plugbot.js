@@ -40,7 +40,7 @@
  * experimental edition by Jiri Navratil
  */
 
-var version = "v0.9.3";
+var version = "v0.9.4";
 
 /*
  * Whether the user has currently enabled auto-woot.
@@ -652,9 +652,10 @@ function initAPIListeners() {
                                     
                                     API.sendChat('/em ' + API.getDJs()[0].username + '. Your timeout cancel wont be fully applied. Timeout has been postponed by the half of your song´s length. Playing songs longer then 30 minutes is not allowed.');
                                 }
-
-                                clearTimeout(songTimeoutId);
-                                API.sendChat('/em Timeout has been canceled!');
+                                else {
+                                    clearTimeout(songTimeoutId);
+                                    API.sendChat('/em Timeout has been canceled!');
+                                }
                             }
                         }
                         if (obj.message.substring(8,13) == "watch") {
