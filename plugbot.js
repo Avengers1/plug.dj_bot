@@ -649,8 +649,15 @@ function initAPIListeners() {
                             if (API.getUser(obj.fromID).permission >= API.getUser(watch_list[0].id).permission) {
                                 clearInterval(watch_timer);
                                 watching = false;
-                                delete watch_list[0];
-                                watch_list.splice(0,1);
+                                watch_list[0] = {
+                                    "id" : "",
+                                    "start" : 0,
+                                    "votes" : 0,
+                                    "unvoted" : 0,
+                                    "woots" : 0,
+                                    "mehs" : 0,
+                                    "messages" : 0
+                                };
                                 API.sendChat("/em Watching has been canceled!");
                             }
                             else {
