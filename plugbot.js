@@ -650,7 +650,7 @@ function initAPIListeners() {
                                     songTimeoutId = setTimeout(function() {
                                         API.moderateForceSkip();
                                         API.sendChat('/em ' + ': ' + prevDj + ' has been skipped due to reaching song length limit!');
-                                    }, Math.floor(duration));
+                                    }, duration * 1000);
                                     
                                     API.sendChat('/em ' + API.getDJs()[0].username + '. Your timeout cancel wont be fully applied. Timeout has been postponed by the half of your song´s length. Playing songs longer then 30 minutes is not allowed.');
                                 }
