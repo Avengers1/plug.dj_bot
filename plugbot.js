@@ -641,6 +641,18 @@ function initAPIListeners() {
                     if (! isStrBlacklisted(obj.fromID)) {
                         if (obj.message.substring(8, 12) == "tout") {
                             if (API.getUser(obj.fromID).permission >= 2) {
+                                var media_cur = API.getMedia();
+                                if (media_cur.duration >= 1800) {
+                                    var duration = media_cur.duration;
+                                    duration = (duration <= 3600) ? duration/2 : 3600;
+                                    songTimeoutId = setTimeout(function() {
+                                        API.moderateForceSkip();
+                                        API.sendChat('/em ' + ': ' + prevDj + 'has been skipped due to reaching song length limit!');
+                                    }, duration);
+                                    
+                                    API.sendChat('/em ' + API.getDJs()[0].username + '. Your timeout cancel wont be fully applied. Timeout has been postponed by the half of your song´s length. Playing songs longer then 30 minutes is not allowed.');
+                                }
+
                                 clearTimeout(songTimeoutId);
                                 API.sendChat('/em Timeout has been canceled!');
                             }
