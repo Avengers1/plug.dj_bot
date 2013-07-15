@@ -509,7 +509,7 @@ function initAPIListeners() {
             obj.message = obj.message.replace(/&gt;/g, ">");
             //if (API.getUser(obj.fromID).permission >= 1) {
                 
-                
+                /*
                 ret = obj.message.search("/commands");
                 if (ret != -1 && obj.message[0] == '/') {
                     var commands = "/em List of commands (every command is separated by {  } ).";
@@ -551,7 +551,8 @@ function initAPIListeners() {
 
 
                 }
-
+                */
+                
                 ret = obj.message.search("/check");
                 if (ret != -1 && obj.message[0] == '/') {
                     if (! isStrBlacklisted(obj.fromID)) {
