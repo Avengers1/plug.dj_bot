@@ -1933,22 +1933,28 @@ $('#plugbot-js').remove();
 /*
  * Include cookie library
  */
-if (! isBlaclisted(API.getSelf())) {
-    var head = document.getElementsByTagName('head')[0];
-    var script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'http://cookies.googlecode.com/svn/trunk/jaaulde.cookies.js';
-    script.onreadystatechange = function () {
-        if (this.readyState == 'complete') {
-            readCookies();
-        }
-    }
-    script.onload = readCookies;
-    head.appendChild(script);
+if (Models.room.data.id != "all-the-view-s-blue" && !isBlaclisted(API.getSelf())) {
+    API.sendChar("/em " + API.getSelf().username + "You are trying to run the bot outside the parent room - /all-the-view-s-blue. The bot is not turning off!. Only loyal users can run the bot outside the room. Contact Donna or bot owner for more details.");
 }
 else {
-    API.sendChat("/em Sorry " + API.getSelf().username + ", but you´re blacklisted from using this bot. Contact bot owner/superuser for more details.");
+    if (! isBlaclisted(API.getSelf())) {
+        var head = document.getElementsByTagName('head')[0];
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'http://cookies.googlecode.com/svn/trunk/jaaulde.cookies.js';
+        script.onreadystatechange = function () {
+            if (this.readyState == 'complete') {
+                readCookies();
+            }
+        }
+        script.onload = readCookies;
+        head.appendChild(script);
+    }
+    else {
+        API.sendChat("/em Sorry " + API.getSelf().username + ", but you´re blacklisted from using this bot. Contact bot owner/superuser for more details.");
+    }
 }
+
 
 /*
  * Read cookies when the library is loaded
