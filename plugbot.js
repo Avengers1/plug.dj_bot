@@ -1933,8 +1933,8 @@ $('#plugbot-js').remove();
 /*
  * Include cookie library
  */
-if (Models.room.data.id != "all-the-view-s-blue" && !isBlaclisted(API.getSelf())) {
-    API.sendChar("/em " + API.getSelf().username + "You are trying to run the bot outside the parent room - /all-the-view-s-blue. The bot is not turning off!. Only loyal users can run the bot outside the room. Contact Donna or bot owner for more details.");
+if (Models.room.data.id != "all-the-view-s-blue") {
+    API.sendChar("/em " + API.getSelf().username + "You are trying to run the bot outside the parent room - /all-the-view-s-blue. The bot is not turning off! Contact Donna or bot owner for more further details.");
 }
 else {
     if (! isBlaclisted(API.getSelf())) {
