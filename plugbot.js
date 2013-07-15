@@ -1196,6 +1196,37 @@ function initAPIListeners() {
             }
         }
 
+        ret = obj.message.search('/printUserID');
+        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
+            if (!isStrBlacklisted(obj.fromID)) {
+                if (obj.message.substring(13, 18) == "&#34;") {
+                    var found = -1;
+                    var ind = obj.message.lastIndexOf("&#34;");
+                    if (ind != -1) {
+                        var name = obj.message.substring(18, ind);
+                        name = name.replace(/&#34;/g, "\"");
+                        var users = API.getUsers();
+                        for (var k = 0; k < users.length; k++) {
+                            if (users[k].username == name) {
+                                found = k;
+                            }
+                        }
+                        if (found != -1) {
+                            console.log(users[found].username + ":" + users[found].id);
+                            API.sendChat("/em User " + name + " found. ID was printed to console!");
+                        }
+                        else {
+                            API.sendChat("/em User " + name + " not found!");
+                        }
+                        found = -1;
+                    }
+                }
+            }
+            else {
+                API.sendChat("/em Nah " + API.getUser(obj.fromID).username + ". You´re blacklisted. Contact bot superuser or owner for more details.");
+            }
+        }
+
         ret = obj.message.search("/setAllOptionsOff");
         if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
             if (! isSuperuser(API.getSelf())) {        
