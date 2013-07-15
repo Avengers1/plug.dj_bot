@@ -510,6 +510,48 @@ function initAPIListeners() {
             //if (API.getUser(obj.fromID).permission >= 1) {
                 
                 
+                ret = obj.meesage.search("/commands");
+                if (ret != -1 && obj.message[0] == '/') {
+                    var commands = "/em List of commands (every command is separated by {  } ).";
+                    var users_list = "/em List of users(indexed from 0): superusers - Donna, Master Yoda, Old Electric Man";
+                    users_list += ";commonusers - Donna, Master Yoda, Old Eletric Man, Main Stage [staff], Lady of Luminosity, Celtic warrior, Jeremmy N@sty, Pointforger, Dj Fio [cz]";
+                    users_list += ";blacklisted - Huskey, Rokko, Vixen";
+                    var nonstaff;
+                    var common_users;
+                    var su_users;
+                    nonstaff += "/em Non-staff commands: { /check me } - print out your statistics.";
+                    nonstaff += " { /drink me } or { /drink \"name\" } - gives a coctail to the specified user .";
+                    nonstaff += " { /hug me } or { /hug \"name\" } - hugs the specified user.";
+
+                    common_users += "/em Common users bot commands: { /check \"name\"} - check the users statistics(Required permission - F-DJ)";
+                    common_users += " { /cancel tout } - cancel the running timeout(Required permission - Bouncer)";
+                    common_users += " { /cancel watch} - cancel the running spy mode(Required permission - higher then the user under watch)";
+                    common_users += " { /avatar number } - number 1-13 - change to the specific haloween avatar(Required permision - bot commonuser)";
+                    common_users += " { /watch \"name\" } - turn on the spy mode and record users round statictics(Required permision - higher permission then user under watch)";
+                    common_users += " { /checkWatched 0 } - check the user´s stats under spy mode(Required permission - F-DJ)";
+                    common_users += " { /active \"name\" } - check whether the user is stuck on the audience or if not(Required permission - F-DJ)";
+
+                    su_users += "/em Superuser commands(numbers as parameters of the command is number of user in whitelist array): { /forceWootChange number } - changes the autowoot settings to oposite";
+                    su_users += " { /forceWootOn number } - force autowoot to turn off";
+                    su_users += " { /forceAutoQueueOff number } - force autoqueue to turn off";
+                    su_users += " { /forceAutoQueueOn number } - force autoqueue to turn on";
+                    su_users += " { /forceHostingStaffOn number } - force all hosting functions to turn off,if they aren´t";
+                    su_users += " { /turnOffHostCmdCurates } - That command will turn off all hosting functions to all users";
+                    su_users += " { /setAllOptionsOff } - sets all bot options off for all users";
+                    su_users += " { /whosScriptIsRunning } - all users will type to chat to notice about them";
+                    su_users += " { /getScriptOption }  - all users will type and bot settings to chat";
+                    su_users += " { /forceReload number}  - force page reload - muahaha :D";
+                    su_users += " { /printUserID \"name\" } - print user ID to console,if found";
+
+                    API.sendChat(users_list);
+                    API.sendChat(commands);
+                    API.sendChat(nonstaff);
+                    API.sendChat(common_users);
+                    API.sendChat(su_users);
+
+
+                }
+
                 ret = obj.message.search("/check");
                 if (ret != -1 && obj.message[0] == '/') {
                     if (! isStrBlacklisted(obj.fromID)) {
