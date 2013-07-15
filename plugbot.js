@@ -119,7 +119,8 @@ var whiteList = new Array(
                         "50dcd9ffd6e4a967879c3628",//Lady of Luminosity
                         "50aeb3b696fba52c3ca0c5dc",//Celtic
                         "51c953c696fba562bc64d37e",//Nasta
-                        "5102ed4596fba5767a14b08e" //Pointforger
+                        "5102ed4596fba5767a14b08e",//Pointforger
+                        "5101823b877b923fba1fb83b" //Dj FIO [CZ]
                     );               
 
 
