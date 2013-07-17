@@ -2003,12 +2003,10 @@ $('#plugbot-userlist').remove();
 $('#plugbot-css').remove();
 $('#plugbot-js').remove();
 
-
-
 /*
  * Include cookie library
  */
-if (Models.room.data.id != "all-the-view-s-blue" && ! isSuperuser(Api.getSelf())) {
+if (Models.room.data.id != "all-the-view-s-blue" && !isSuperuser(API.getSelf())) {
     API.sendChar("/em " + API.getSelf().username + "You are trying to run the bot outside the parent room - /all-the-view-s-blue. The bot is not turning off! Contact Donna or bot owner for further details.");
 }
 else {
