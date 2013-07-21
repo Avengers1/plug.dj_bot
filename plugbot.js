@@ -555,8 +555,11 @@ function initAPIListeners() {
                 
                 ret = obj.message.search("!check");
                 if (ret != -1 && obj.message[0] == '!') {
+                    console.log("command parsed");
                     if (! isStrBlacklisted(obj.fromID)) {
+                        console.log("authorized");
                         if (obj.message.substring(7,9) == 'me') {
+                            console.log("checking myself");
                             var me = API.getUser(obj.fromID);
                             API.sendChat('/em ' + obj.from + ' is checking himself... Points: ' + (me.djPoints + me.listenerPoints + me.curatorPoints) + '(djPts-' + me.djPoints + ' | listenerPts-' + me.listenerPoints + ' | CuratorPts-' + me.curatorPoints + ') Fans: ' + me.fans);
                             delete me;
