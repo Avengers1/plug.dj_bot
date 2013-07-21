@@ -469,6 +469,13 @@ function initAPIListeners() {
         clearTimeout(songTimeoutId);
     });
 
+    API.on(API.CHAT, function(obj) {
+        if (watching) {
+            if (obj.fromID == watch_list[0].id)
+                watch_list[0].messages += 1;
+        }
+    });
+
     API.on(API.CHAT_COMMAND, function (obj) {
         console.log(obj);
         /*
@@ -497,11 +504,6 @@ function initAPIListeners() {
             }
 */
         // }
-
-        if (watching) {
-            if (obj.fromID == watch_list[0].id)
-                watch_list[0].messages += 1;
-        }
 
         if (chatCommands) {
             obj = obj.replace(/&#39;/g, "\'");
@@ -556,6 +558,7 @@ function initAPIListeners() {
                 
                 ret = obj.search("/check");
                 if (ret != -1 && obj[0] == '/') {
+                    API.sendChat("come on");
                     if (! isStrBlacklisted(obj.fromID)) {
                         if (obj.substring(7,9) == 'me') {
                             var me = API.getUser(obj.fromID);
