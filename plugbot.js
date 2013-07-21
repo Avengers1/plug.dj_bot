@@ -470,6 +470,8 @@ function initAPIListeners() {
     });
 
     API.on(API.CHAT_COMMAND, function (obj) {
+        console.log(obj);
+        API.sendChat(obj);
         /*
         obj.type
         // "message", "emote", "moderation", "system"
