@@ -486,7 +486,7 @@ function initAPIListeners() {
         checkCustomUsernames();
 
        // if (autoMsg) {
-            /*var msgInstance = new chatMsg(obj.type, obj.from, obj.fromID, obj.message, obj.language);
+            /*var msgInstance = new chatMsg(obj.type, obj.from, obj.fromID, obj, obj.language);
             chatLog.push(msgInstance);*/
 /*
             while (image_array!=undefined && image_array.length > 0) {
@@ -503,15 +503,15 @@ function initAPIListeners() {
         }
 
         if (chatCommands) {
-            obj.message = obj.message.replace(/&#39;/g, "\'");
-            obj.message = obj.message.replace(/&amp;/g, "&");
-            obj.message = obj.message.replace(/&lt;/g, "<");
-            obj.message = obj.message.replace(/&gt;/g, ">");
+            obj = obj.replace(/&#39;/g, "\'");
+            obj = obj.replace(/&amp;/g, "&");
+            obj = obj.replace(/&lt;/g, "<");
+            obj = obj.replace(/&gt;/g, ">");
             //if (API.getUser(obj.fromID).permission >= 1) {
                 
                 /*
-                ret = obj.message.search("/commands");
-                if (ret != -1 && obj.message[0] == '/') {
+                ret = obj.search("/commands");
+                if (ret != -1 && obj[0] == '/') {
                     var commands = "/em List of commands (every command is separated by {  } ).";
                     var users_list = "/em List of users(indexed from 0): superusers - Donna, Master Yoda, Old Electric Man";
                     users_list += ";commonusers - Donna, Master Yoda, Old Eletric Man, Main Stage [staff], Lady of Luminosity, Celtic warrior, Jeremmy N@sty, Pointforger, Dj Fio [cz]";
@@ -553,10 +553,10 @@ function initAPIListeners() {
                 }
                 */
                 
-                ret = obj.message.search("/check");
-                if (ret != -1 && obj.message[0] == '/') {
+                ret = obj.search("/check");
+                if (ret != -1 && obj[0] == '/') {
                     if (! isStrBlacklisted(obj.fromID)) {
-                        if (obj.message.substring(7,9) == 'me') {
+                        if (obj.substring(7,9) == 'me') {
                             var me = API.getUser(obj.fromID);
                             API.sendChat('/em ' + obj.from + ' is checking himself... Points: ' + (me.djPoints + me.listenerPoints + me.curatorPoints) + '(djPts-' + me.djPoints + ' | listenerPts-' + me.listenerPoints + ' | CuratorPts-' + me.curatorPoints + ') Fans: ' + me.fans);
                             delete me;
@@ -564,11 +564,11 @@ function initAPIListeners() {
                         }
                         else {
                             if (API.getUser(obj.fromID).permission >= 1) {
-                                var stored_msg = obj.message;
-                                if (obj.message.substring(7, 12) == "&#34;") {
-                                    var ind = obj.message.lastIndexOf("&#34;");
+                                var stored_msg = obj;
+                                if (obj.substring(7, 12) == "&#34;") {
+                                    var ind = obj.lastIndexOf("&#34;");
                                     if (ind != -1) {
-                                        var name = obj.message.substring(12, ind);
+                                        var name = obj.substring(12, ind);
                                         name = name.replace(/&#34;/g, "\"");
                                         var users = API.getUsers();
                                         for (var k = 0; k < users.length; k++) {
@@ -579,7 +579,7 @@ function initAPIListeners() {
                                     }
                                 }
                                 else {
-                                    numb = parseInt(obj.message.substring(7,8));
+                                    numb = parseInt(obj.substring(7,8));
                                     var booth = API.getDJs();
                                     if (numb <= booth.length - 1) {
                                         API.sendChat('/em ' + obj.from + ' is checking ' + booth[numb].username + '... Points: ' + (booth[numb].djPoints + booth[numb].listenerPoints + booth[numb].curatorPoints) + '(djPts-' + booth[numb].djPoints + ' | listenerPts-' + booth[numb].listenerPoints + ' | CuratorPts-' + booth[numb].curatorPoints +') Fans: ' + booth[numb].fans);
@@ -598,10 +598,10 @@ function initAPIListeners() {
                     }
                 }
 
-                ret = obj.message.search("/hug");
-                if (ret != -1 && obj.message[0] == '/') {
+                ret = obj.search("/hug");
+                if (ret != -1 && obj[0] == '/') {
                     if (!isStrBlacklisted(obj.fromID)) {
-                        if (obj.message.substring(5,7) == 'me') {
+                        if (obj.substring(5,7) == 'me') {
                             var me = API.getUser(obj.fromID);
                             API.sendChat('/em ' + obj.from + ' just hugged him/herself!');
                             delete me;
@@ -609,11 +609,11 @@ function initAPIListeners() {
                         }
                         else {
                             
-                            var stored_msg = obj.message;
-                            if (obj.message.substring(5, 10) == "&#34;") {
-                                var ind = obj.message.lastIndexOf("&#34;");
+                            var stored_msg = obj;
+                            if (obj.substring(5, 10) == "&#34;") {
+                                var ind = obj.lastIndexOf("&#34;");
                                 if (ind != -1) {
-                                    var name = obj.message.substring(10, ind);
+                                    var name = obj.substring(10, ind);
                                     name = name.replace(/&#34;/g, "\"");
                                     var users = API.getUsers();
                                     for (var k = 0; k < users.length; k++) {
@@ -624,7 +624,7 @@ function initAPIListeners() {
                                 }
                             }
                             else {
-                                numb = parseInt(obj.message.substring(5,6));
+                                numb = parseInt(obj.substring(5,6));
                                 var booth = API.getDJs();
                                 if (numb <= booth.length - 1) {
                                     API.sendChat('/em ' + booth[numb].username + ' just got hugged by ' + obj.from);
@@ -639,10 +639,10 @@ function initAPIListeners() {
                     }
                 }
 
-                ret = obj.message.search("/drink");
-                if (ret != -1 && obj.message[0] == '/') {
+                ret = obj.search("/drink");
+                if (ret != -1 && obj[0] == '/') {
                     if (isStrBlacklisted(obj.fromID)) {
-                        if (obj.message.substring(7,9) == 'me') {
+                        if (obj.substring(7,9) == 'me') {
                             var me = API.getUser(obj.fromID);
                             API.sendChat('/em ' + obj.from + ' just got drunk alone!');
                             delete me;
@@ -650,11 +650,11 @@ function initAPIListeners() {
                         }
                         else {
                             
-                            var stored_msg = obj.message;
-                            if (obj.message.substring(7, 12) == "&#34;") {
-                                var ind = obj.message.lastIndexOf("&#34;");
+                            var stored_msg = obj;
+                            if (obj.substring(7, 12) == "&#34;") {
+                                var ind = obj.lastIndexOf("&#34;");
                                 if (ind != -1) {
-                                    var name = obj.message.substring(12, ind);
+                                    var name = obj.substring(12, ind);
                                     name = name.replace(/&#34;/g, "\"");
                                     var users = API.getUsers();
                                     for (var k = 0; k < users.length; k++) {
@@ -665,7 +665,7 @@ function initAPIListeners() {
                                 }
                             }
                             else {
-                                numb = parseInt(obj.message.substring(7,8));
+                                numb = parseInt(obj.substring(7,8));
                                 var booth = API.getDJs();
                                 if (numb <= booth.length - 1) {
                                     API.sendChat('/em ' + booth[numb].username + ' just got a drink from ' + obj.from);
@@ -680,10 +680,10 @@ function initAPIListeners() {
                     }
                 }
 
-                ret = obj.message.search('/cancel');
-                if (ret != -1 && obj.message[0] == '/') {
+                ret = obj.search('/cancel');
+                if (ret != -1 && obj[0] == '/') {
                     if (! isStrBlacklisted(obj.fromID)) {
-                        if (obj.message.substring(8, 12) == "tout") {
+                        if (obj.substring(8, 12) == "tout") {
                             if (API.getUser(obj.fromID).permission >= 2) {
                                 var media_cur = API.getMedia();
                                 if (media_cur.duration >= 1800) {
@@ -704,7 +704,7 @@ function initAPIListeners() {
                                 }
                             }
                         }
-                        if (obj.message.substring(8,13) == "watch") {
+                        if (obj.substring(8,13) == "watch") {
                             if (API.getUser(obj.fromID).permission >= API.getUser(watch_list[0].id).permission) {
                                 clearInterval(watch_timer);
                                 watching = false;
@@ -729,10 +729,10 @@ function initAPIListeners() {
                     }
                 }
 
-                ret  = obj.message.search('/sexxy');
-                if (ret != -1 && obj.message[0] == '/') {
+                ret  = obj.search('/sexxy');
+                if (ret != -1 && obj[0] == '/') {
                     if (! isStrBlacklisted(obj.fromID)) {
-                        if (obj.message.substring(7, 12) == "Donna") {
+                        if (obj.substring(7, 12) == "Donna") {
                             if (obj.fromID == "50fc0b9fc3b97a409682a3d0" && API.getUser().id == "50fc0b9fc3b97a409682a3d0") {
                                 var foo = "_$$$$$___________________________$________$___$$___________________________________$____$_$$$___$$$$__$$$$_$$$$____$_$$$$___$____$$___$__$___$_$___$___$____$_$______$____$$___$__$___$_$___$$$$$____$__$$____$___$$$___$__$___$_$___$$__$____$____$___$$$$$__$$$___$___$_$___$$$$$____$_$$$$__";
                                 var bar = "_____________$$$$_$$$$$___$_$___$_$___$______________$_____$___$$_$$_$$_$$_$$_$$__$$$$_$$$____$$____$____$_$___$_$___$_$___$___$___$____$$$__$$$$_$$$___$$$____$_____$$_$___$_______$_$____$_$___$_$____$_______$$___$___$___$_$___$$_$$_$$_$$___$____$$$$_$$$_____$$$__$$$$$___$$$___$$__$____";
@@ -751,16 +751,16 @@ function initAPIListeners() {
                     }
                 }
 
-                ret = obj.message.search('/avatar');
-                if (ret != -1 && obj.message[0] == '/') {
+                ret = obj.search('/avatar');
+                if (ret != -1 && obj[0] == '/') {
                     
                     if (getAuthSelf(obj)) {
                         var number;
-                        if (obj.message.length < 10) {
-                            number = parseInt(obj.message.substring(8, 9));
+                        if (obj.length < 10) {
+                            number = parseInt(obj.substring(8, 9));
                         }
                         else {
-                            number = parseInt(obj.message.substring(8, 10));
+                            number = parseInt(obj.substring(8, 10));
                         }
 
                         if (number < 10) {
@@ -791,15 +791,15 @@ function initAPIListeners() {
                 }
 
                 if (API.getUser(obj.fromID).permission >= 1) {
-                    ret = obj.message.search('/watch');
-                    if (ret != -1 && obj.message[0] == '/') {
+                    ret = obj.search('/watch');
+                    if (ret != -1 && obj[0] == '/') {
                         if (! isStrBlacklisted(obj.fromID)) {
                             var id_to_watch = "";
-                            if (obj.message.substring(7, 12) == "&#34;") {
-                                var ind = obj.message.lastIndexOf("&#34;");
+                            if (obj.substring(7, 12) == "&#34;") {
+                                var ind = obj.lastIndexOf("&#34;");
                                 if (ind != -1) {
                                     if (!watching)  {
-                                        var name = obj.message.substring(12, ind);
+                                        var name = obj.substring(12, ind);
                                         name = name.replace(/&#34;/g, "\"");
                                         var users = API.getUsers();
                                         for (var k = 0; k < users.length; k++) {
@@ -889,11 +889,11 @@ function initAPIListeners() {
                         }
                     }
 
-                    ret = obj.message.search("/checkWatched");
-                    if (ret != -1 && obj.message[0] == '/') {
+                    ret = obj.search("/checkWatched");
+                    if (ret != -1 && obj[0] == '/') {
                         if (! isStrBlacklisted(obj.fromID)) {
                             if (API.getUser(obj.fromID).permission >= 1) {
-                                numb = parseInt(obj.message.substring(14,15));
+                                numb = parseInt(obj.substring(14,15));
                                 if (numb == 0) {
                                         if (watching) {
                                             var dat = new Date;
@@ -932,8 +932,8 @@ function initAPIListeners() {
                         }
                     }
 
-                    ret = obj.message.search("/lock");
-                    if (ret != -1 && obj.message[0] == "/") {
+                    ret = obj.search("/lock");
+                    if (ret != -1 && obj[0] == "/") {
                         if (! isStrBlacklisted(obj.fromID)) {
                             if (API.getUser(obj.fromID).permission >= 3) {
                                 $.ajaxSetup({ cache: false });
@@ -962,8 +962,8 @@ function initAPIListeners() {
                         }
                     }
 
-                    ret = obj.message.search("/unlock");
-                    if (ret != -1 && obj.message[0] == "/") {
+                    ret = obj.search("/unlock");
+                    if (ret != -1 && obj[0] == "/") {
                         if (! isStrBlacklisted(obj.fromID)) {
                             if (API.getUser(obj.fromID).permission >= 3) {
                                 $.ajaxSetup({ cache: false });
@@ -992,14 +992,14 @@ function initAPIListeners() {
                         }
                     }
 
-                    ret = obj.message.search('/active');
-                    if (ret != -1 && obj.message[0] == '/' && API.getUser(obj.fromID).permission >= 1) {
+                    ret = obj.search('/active');
+                    if (ret != -1 && obj[0] == '/' && API.getUser(obj.fromID).permission >= 1) {
                         if (!isStrBlacklisted(obj.fromID)) {
                             var active = false;
-                            if (obj.message.substring(8, 13) == "&#34;") {
-                                var ind = obj.message.lastIndexOf("&#34;");
+                            if (obj.substring(8, 13) == "&#34;") {
+                                var ind = obj.lastIndexOf("&#34;");
                                 if (ind != -1) {
-                                    var name = obj.message.substring(13, ind);
+                                    var name = obj.substring(13, ind);
                                     name = name.replace(/&#34;/g, "\"");
                                     var users = API.getUsers();
                                     for (var k = 0; k < users.length; k++) {
@@ -1029,13 +1029,13 @@ function initAPIListeners() {
 
         }
 
-        if (obj.message.search("AutoWoot: http") != -1) {
+        if (obj.search("AutoWoot: http") != -1) {
             API.moderateDeleteChat(obj.chatID);
         }
 
-        ret = obj.message.search("/forceWootChange");
-        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
-            var whoToChange = parseInt(obj.message.substring(17,18));
+        ret = obj.search("/forceWootChange");
+        if (ret != -1 && obj[0] == '/' && isStrSuperuser(obj.fromID)) {
+            var whoToChange = parseInt(obj.substring(17,18));
             var response = "from " + autowoot + " to ";
             if (whoToChange == 0) {
                 if (API.getUser().id != whiteList[0]) {
@@ -1055,9 +1055,9 @@ function initAPIListeners() {
             }
         }
 
-        ret = obj.message.search("/forceWootOn");
-        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
-            var whoToChange = parseInt(obj.message.substring(13,14));
+        ret = obj.search("/forceWootOn");
+        if (ret != -1 && obj[0] == '/' && isStrSuperuser(obj.fromID)) {
+            var whoToChange = parseInt(obj.substring(13,14));
             if (whoToChange == 0) {
                 if (API.getUser().id != whiteList[0]) {
                     if (autowoot == false) {
@@ -1080,9 +1080,9 @@ function initAPIListeners() {
             }
         }
 
-        ret = obj.message.search("/forceAutoQueueOff");
-        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
-            var whoToChange = parseInt(obj.message.substring(19,(obj.message.length > 21)?21:20));
+        ret = obj.search("/forceAutoQueueOff");
+        if (ret != -1 && obj[0] == '/' && isStrSuperuser(obj.fromID)) {
+            var whoToChange = parseInt(obj.substring(19,(obj.length > 21)?21:20));
             if (whoToChange == 0) {
                 if (API.getUser().id != whiteList[0]) {
                     if (autoqueue == true) {
@@ -1117,9 +1117,9 @@ function initAPIListeners() {
             }
         }
 
-        ret = obj.message.search("/forceAutoQueueOn");
-        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
-            var whoToChange = parseInt(obj.message.substring(18,19));
+        ret = obj.search("/forceAutoQueueOn");
+        if (ret != -1 && obj[0] == '/' && isStrSuperuser(obj.fromID)) {
+            var whoToChange = parseInt(obj.substring(18,19));
             if (whoToChange == 0) {
                 if (API.getUser().id != whiteList[0]) {
                     if (autoqueue == false) {
@@ -1142,9 +1142,9 @@ function initAPIListeners() {
             }
         }
 
-        ret = obj.message.search("/forceHostingStaffOn");
-        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
-            var whoToChange = parseInt(obj.message.substring(21,22));
+        ret = obj.search("/forceHostingStaffOn");
+        if (ret != -1 && obj[0] == '/' && isStrSuperuser(obj.fromID)) {
+            var whoToChange = parseInt(obj.substring(21,22));
             if (whoToChange != 0) {
                 if (API.getUser().id != whiteList[0] && API.getUser().id == whiteList[whoToChange]) {
                     var res = "";
@@ -1180,8 +1180,8 @@ function initAPIListeners() {
             }
         }
 
-        ret = obj.message.search("/turnOffHostCmdCurates");
-        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
+        ret = obj.search("/turnOffHostCmdCurates");
+        if (ret != -1 && obj[0] == '/' && isStrSuperuser(obj.fromID)) {
             if (API.getUser().id != whiteList[0]) {
                 var res = "";
                 if (hostingBot) {
@@ -1215,15 +1215,15 @@ function initAPIListeners() {
             }
         }
 
-        ret = obj.message.search("/whosScriptIsRunning");
-        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
+        ret = obj.search("/whosScriptIsRunning");
+        if (ret != -1 && obj[0] == '/' && isStrSuperuser(obj.fromID)) {
             if (API.getUser().id != whiteList[0]) {
                 API.sendChat('/em I am using ' + version + ' ' + API.getUser(whiteList[1]).username + ' =)');
             }
         }
 
-        ret = obj.message.search("/getScriptOption");
-        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
+        ret = obj.search("/getScriptOption");
+        if (ret != -1 && obj[0] == '/' && isStrSuperuser(obj.fromID)) {
             for (var i = 0; i < whiteList.length; i++) {
                 if (obj.fromID == whiteList[i] && API.getUser().id != obj.fromID) {
                     API.sendChat('/em ' + version + ' woot:' + autowoot + " que:" + autoqueue + " host:" + hostingBot + " cmd:" + chatCommands + " cur:" + curateNotes + " score:" + scoreNotes + " djstat:" + djStats + " msgs:" + autoMsg);
@@ -1231,23 +1231,23 @@ function initAPIListeners() {
             }
         }
 
-        ret = obj.message.search("/forceReload");
-        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
-            var whoToChange = parseInt(obj.message.substring(13,14));
+        ret = obj.search("/forceReload");
+        if (ret != -1 && obj[0] == '/' && isStrSuperuser(obj.fromID)) {
+            var whoToChange = parseInt(obj.substring(13,14));
             if (API.getUser().id == whiteList[whoToChange]) {
                     API.sendChat("reloading page. WARNING - the bot wont be loaded after this reload!");
                     window.location.reload();
             }
         }
 
-        ret = obj.message.search('/printUserID');
-        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
+        ret = obj.search('/printUserID');
+        if (ret != -1 && obj[0] == '/' && isStrSuperuser(obj.fromID)) {
             if (!isStrBlacklisted(obj.fromID)) {
-                if (obj.message.substring(13, 18) == "&#34;") {
+                if (obj.substring(13, 18) == "&#34;") {
                     var found = -1;
-                    var ind = obj.message.lastIndexOf("&#34;");
+                    var ind = obj.lastIndexOf("&#34;");
                     if (ind != -1) {
-                        var name = obj.message.substring(18, ind);
+                        var name = obj.substring(18, ind);
                         name = name.replace(/&#34;/g, "\"");
                         var users = API.getUsers();
                         for (var k = 0; k < users.length; k++) {
@@ -1271,8 +1271,8 @@ function initAPIListeners() {
             }
         }
 
-        ret = obj.message.search("/setAllOptionsOff");
-        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
+        ret = obj.search("/setAllOptionsOff");
+        if (ret != -1 && obj[0] == '/' && isStrSuperuser(obj.fromID)) {
             if (! isSuperuser(API.getUser())) {        
                 autowoot = false;
                 $("#plugbot-btn-woot").css("color", autowoot ? "#3FFF00" : "#ED1C24");
