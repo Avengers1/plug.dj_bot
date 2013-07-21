@@ -469,10 +469,6 @@ function initAPIListeners() {
         clearTimeout(songTimeoutId);
     });
 
-    API.on(API.CHAT_COMMAND, function (obj) {
-        API.sendChat(obj);
-    });
-
     API.on(API.CHAT, function (obj) {
         /*
         obj.type
@@ -557,8 +553,8 @@ function initAPIListeners() {
                 }
                 */
                 
-                ret = obj.message.search("/check");
-                if (ret != -1 && obj.message[0] == '/') {
+                ret = obj.message.search("!check");
+                if (ret != -1 && obj.message[0] == '!') {
                     if (! isStrBlacklisted(obj.fromID)) {
                         if (obj.message.substring(7,9) == 'me') {
                             var me = API.getUser(obj.fromID);
