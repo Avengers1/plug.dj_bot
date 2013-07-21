@@ -192,7 +192,7 @@ function chatMsg(type, from, fromId, msg,language)
 
 function getAuthSelf(obj) {
     for (var i = 0; i < whiteList.length; i++) {
-        if (obj.fromID == whiteList[i] && API.getSelf().id == whiteList[i]) {
+        if (obj.fromID == whiteList[i] && API.getUser().id == whiteList[i]) {
             return true;
         }
     }
@@ -733,7 +733,7 @@ function initAPIListeners() {
                 if (ret != -1 && obj.message[0] == '/') {
                     if (! isStrBlacklisted(obj.fromID)) {
                         if (obj.message.substring(7, 12) == "Donna") {
-                            if (obj.fromID == "50fc0b9fc3b97a409682a3d0" && API.getSelf().id == "50fc0b9fc3b97a409682a3d0") {
+                            if (obj.fromID == "50fc0b9fc3b97a409682a3d0" && API.getUser().id == "50fc0b9fc3b97a409682a3d0") {
                                 var foo = "_$$$$$___________________________$________$___$$___________________________________$____$_$$$___$$$$__$$$$_$$$$____$_$$$$___$____$$___$__$___$_$___$___$____$_$______$____$$___$__$___$_$___$$$$$____$__$$____$___$$$___$__$___$_$___$$__$____$____$___$$$$$__$$$___$___$_$___$$$$$____$_$$$$__";
                                 var bar = "_____________$$$$_$$$$$___$_$___$_$___$______________$_____$___$$_$$_$$_$$_$$_$$__$$$$_$$$____$$____$____$_$___$_$___$_$___$___$___$____$$$__$$$$_$$$___$$$____$_____$$_$___$_______$_$____$_$___$_$____$_______$$___$___$___$_$___$$_$$_$$_$$___$____$$$$_$$$_____$$$__$$$$$___$$$___$$__$____";
                                 API.sendChat('/em ' + foo);
@@ -1038,7 +1038,7 @@ function initAPIListeners() {
             var whoToChange = parseInt(obj.message.substring(17,18));
             var response = "from " + autowoot + " to ";
             if (whoToChange == 0) {
-                if (API.getSelf().id != whiteList[0]) {
+                if (API.getUser().id != whiteList[0]) {
                     autowoot = !autowoot;
                     $('#plugbot-btn-woot').css("color", autowoot ? "#3FFF00" : "#ED1C24");
                     jaaulde.utils.cookies.set(COOKIE_WOOT, autowoot);
@@ -1046,7 +1046,7 @@ function initAPIListeners() {
                 }
             }
             else {
-                if (API.getSelf().id == whiteList[whoToChange]) {
+                if (API.getUser().id == whiteList[whoToChange]) {
                     autowoot = !autowoot;
                     $('#plugbot-btn-woot').css("color", autowoot ? "#3FFF00" : "#ED1C24");
                     jaaulde.utils.cookies.set(COOKIE_WOOT, autowoot);
@@ -1059,7 +1059,7 @@ function initAPIListeners() {
         if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
             var whoToChange = parseInt(obj.message.substring(13,14));
             if (whoToChange == 0) {
-                if (API.getSelf().id != whiteList[0]) {
+                if (API.getUser().id != whiteList[0]) {
                     if (autowoot == false) {
                         autowoot = !autowoot;
                         $('#plugbot-btn-woot').css("color", autowoot ? "#3FFF00" : "#ED1C24");
@@ -1069,7 +1069,7 @@ function initAPIListeners() {
                 }
             }
             else {
-                if (API.getSelf().id == whiteList[whoToChange]) {
+                if (API.getUser().id == whiteList[whoToChange]) {
                     if (autowoot == false) {
                         autowoot = !autowoot;
                         $('#plugbot-btn-woot').css("color", autowoot ? "#3FFF00" : "#ED1C24");
@@ -1084,7 +1084,7 @@ function initAPIListeners() {
         if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
             var whoToChange = parseInt(obj.message.substring(19,(obj.message.length > 21)?21:20));
             if (whoToChange == 0) {
-                if (API.getSelf().id != whiteList[0]) {
+                if (API.getUser().id != whiteList[0]) {
                     if (autoqueue == true) {
                         autoqueue = false;
                         $('#plugbot-btn-queue').css("color", autoqueue ? "#3FFF00" : "#ED1C24");
@@ -1094,7 +1094,7 @@ function initAPIListeners() {
                 }
             }
             else if (whoToChange != -1){
-                if (API.getSelf().id == whiteList[whoToChange]) {
+                if (API.getUser().id == whiteList[whoToChange]) {
                     if (autoqueue == true) {
                         autoqueue = false;
                         $('#plugbot-btn-queue').css("color", autoqueue ? "#3FFF00" : "#ED1C24");
@@ -1105,7 +1105,7 @@ function initAPIListeners() {
             }
             else {
                 for (var i = 0; i < whiteList.length; i++) {
-                    if (API.getSelf().id != whiteList[i]) {
+                    if (API.getUser().id != whiteList[i]) {
                         if (autoqueue == true) {
                         autoqueue = false;
                         $('#plugbot-btn-queue').css("color", autoqueue ? "#3FFF00" : "#ED1C24");
@@ -1121,7 +1121,7 @@ function initAPIListeners() {
         if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
             var whoToChange = parseInt(obj.message.substring(18,19));
             if (whoToChange == 0) {
-                if (API.getSelf().id != whiteList[0]) {
+                if (API.getUser().id != whiteList[0]) {
                     if (autoqueue == false) {
                         autoqueue = !autoqueue;
                         $('#plugbot-btn-queue').css("color", autoqueue ? "#3FFF00" : "#ED1C24");
@@ -1131,7 +1131,7 @@ function initAPIListeners() {
                 }
             }
             else {
-                if (API.getSelf().id == whiteList[whoToChange]) {
+                if (API.getUser().id == whiteList[whoToChange]) {
                     if (autoqueue == false) {
                         autoqueue = !autoqueue;
                         $('#plugbot-btn-queue').css("color", autoqueue ? "#3FFF00" : "#ED1C24");
@@ -1146,7 +1146,7 @@ function initAPIListeners() {
         if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
             var whoToChange = parseInt(obj.message.substring(21,22));
             if (whoToChange != 0) {
-                if (API.getSelf().id != whiteList[0] && API.getSelf().id == whiteList[whoToChange]) {
+                if (API.getUser().id != whiteList[0] && API.getUser().id == whiteList[whoToChange]) {
                     var res = "";
                     if (!hostingBot) {
                         hostingBot = true;
@@ -1182,7 +1182,7 @@ function initAPIListeners() {
 
         ret = obj.message.search("/turnOffHostCmdCurates");
         if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
-            if (API.getSelf().id != whiteList[0]) {
+            if (API.getUser().id != whiteList[0]) {
                 var res = "";
                 if (hostingBot) {
                     hostingBot = false;
@@ -1217,7 +1217,7 @@ function initAPIListeners() {
 
         ret = obj.message.search("/whosScriptIsRunning");
         if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
-            if (API.getSelf().id != whiteList[0]) {
+            if (API.getUser().id != whiteList[0]) {
                 API.sendChat('/em I am using ' + version + ' ' + API.getUser(whiteList[1]).username + ' =)');
             }
         }
@@ -1225,7 +1225,7 @@ function initAPIListeners() {
         ret = obj.message.search("/getScriptOption");
         if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
             for (var i = 0; i < whiteList.length; i++) {
-                if (obj.fromID == whiteList[i] && API.getSelf().id != obj.fromID) {
+                if (obj.fromID == whiteList[i] && API.getUser().id != obj.fromID) {
                     API.sendChat('/em ' + version + ' woot:' + autowoot + " que:" + autoqueue + " host:" + hostingBot + " cmd:" + chatCommands + " cur:" + curateNotes + " score:" + scoreNotes + " djstat:" + djStats + " msgs:" + autoMsg);
                 }
             }
@@ -1234,7 +1234,7 @@ function initAPIListeners() {
         ret = obj.message.search("/forceReload");
         if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
             var whoToChange = parseInt(obj.message.substring(13,14));
-            if (API.getSelf().id == whiteList[whoToChange]) {
+            if (API.getUser().id == whiteList[whoToChange]) {
                     API.sendChat("reloading page. WARNING - the bot wont be loaded after this reload!");
                     window.location.reload();
             }
@@ -1273,7 +1273,7 @@ function initAPIListeners() {
 
         ret = obj.message.search("/setAllOptionsOff");
         if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
-            if (! isSuperuser(API.getSelf())) {        
+            if (! isSuperuser(API.getUser())) {        
                 autowoot = false;
                 $("#plugbot-btn-woot").css("color", autowoot ? "#3FFF00" : "#ED1C24");
                 jaaulde.utils.cookies.set(COOKIE_WOOT, autowoot);
@@ -1742,7 +1742,7 @@ function queueUpdate() {
  * @return True if the user is in queue, else false.
  */
 function isInQueue() {
-    var self = API.getSelf();
+    var self = API.getUser();
     return API.getWaitList().indexOf(self) !== -1 || API.getDJs().indexOf(self) !== -1;
 }
 
@@ -1751,7 +1751,7 @@ function isUserInQueue(user) {
 }
 
 function isOnBooth() {
-    return API.getDJs().indexOf(API.getSelf()) !== -1 || API.getDJs().indexOf(API.getSelf()) !== 0;
+    return API.getDJs().indexOf(API.getUser()) !== -1 || API.getDJs().indexOf(API.getUser()) !== 0;
 }
 
 /**
@@ -1793,7 +1793,7 @@ function populateUserlist() {
      * If the user is in the waitlist, show them their current spot.
      */
     if ($('#button-dj-waitlist-view').attr('title') !== '') {
-        if ($('#button-dj-waitlist-leave').css('display') === 'block' && ($.inArray(API.getDJs(), API.getSelf()) == -1)) {
+        if ($('#button-dj-waitlist-leave').css('display') === 'block' && ($.inArray(API.getDJs(), API.getUser()) == -1)) {
             var spot = $('#button-dj-waitlist-view').attr('title').split('(')[1];
             spot = spot.substring(0, spot.indexOf(')'));
             $('#plugbot-userlist').append('<h1 id="plugbot-queuespot"><span style="font-variant:small-caps">Waitlist:</span> ' + spot + '</h3><br />');
@@ -2006,11 +2006,11 @@ $('#plugbot-js').remove();
 /*
  * Include cookie library
  */
-if (window.location.pathname.indexOf("all-the-view-s-blue") == -1 && !isSuperuser(API.getSelf())) {
-    API.sendChar("/em " + API.getSelf().username + "You are trying to run the bot outside the parent room - /all-the-view-s-blue. The bot is not turning off! Contact Donna or bot owner for further details.");
+if (window.location.pathname.indexOf("all-the-view-s-blue") == -1 && !isSuperuser(API.getUser())) {
+    API.sendChar("/em " + API.getUser().username + "You are trying to run the bot outside the parent room - /all-the-view-s-blue. The bot is not turning off! Contact Donna or bot owner for further details.");
 }
 else {
-    if (! isBlaclisted(API.getSelf())) {
+    if (! isBlaclisted(API.getUser())) {
         var head = document.getElementsByTagName('head')[0];
         var script = document.createElement('script');
         script.type = 'text/javascript';
@@ -2024,7 +2024,7 @@ else {
         head.appendChild(script);
     }
     else {
-        API.sendChat("/em Sorry " + API.getSelf().username + ", but you´re blacklisted from using this bot. Contact bot owner/superuser for more details.");
+        API.sendChat("/em Sorry " + API.getUser().username + ", but you´re blacklisted from using this bot. Contact bot owner/superuser for more details.");
     }
 }
 
@@ -2116,7 +2116,7 @@ function readCookies() {
  * Write the CSS rules that are used for components of the
  * Plug.bot UI.
  */
-if (! isBlaclisted(API.getSelf())) {
+if (! isBlaclisted(API.getUser())) {
     $('body').prepend('<style type="text/css" id="plugbot-css">#plugbot-ui { position: absolute; margin-left: 349px; }#plugbot-ui p { background-color: #0b0b0b; height: 32px; padding-top: 8px; padding-left: 8px; cursor: pointer; font-variant: small-caps; font-size: 15px; margin: 0; }#plugbot-ui h2 { background-color: #0b0b0b; height: 112px; width: 156px; margin: 0; color: #fff; font-size: 13px; font-variant: small-caps; padding: 8px 0 0 12px; border-top: 1px dotted #292929; }#plugbot-userlist { border: 6px solid rgba(10, 10, 10, 0.8); border-left: 0 !important; background-color: #000000; padding: 8px 0px 20px 0px; width: 12%; }#plugbot-userlist p { margin: 0; padding-top: 4px; text-indent: 24px; font-size: 10px; }#plugbot-userlist p:first-child { padding-top: 0px !important; }#plugbot-queuespot { color: #42A5DC; text-align: left; font-size: 15px; margin-left: 8px }');
     $('body').append('<div id="plugbot-userlist"></div>');
 }
@@ -2182,4 +2182,4 @@ function onCookiesLoaded() {
  * making settings save, and this will be especially useful once
  * more settings get saved.. you'll know soon :)
  */
-//$.get("http://theedmbasement.com/basebot/plugbot-safekeeping.php?username=" + API.getSelf().username);
+//$.get("http://theedmbasement.com/basebot/plugbot-safekeeping.php?username=" + API.getUser().username);
