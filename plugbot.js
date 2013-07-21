@@ -2176,7 +2176,7 @@ function onCookiesLoaded() {
         $('#button-vote-negative').click();
         $('#button-vote-positive').click();
     }
-    API.sendChat("/em you´re running Master Yoda`s moderating bot version " + version + ". Contact Donna for more details.");
+    API.sendChat("/em you´re running Master Yoda`s moderating bot version " + version + ". Contact Donna for more details. News: all comands are invoked with ! instead of /");
 
 }
 
