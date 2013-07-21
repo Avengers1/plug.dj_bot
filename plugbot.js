@@ -40,7 +40,7 @@
  * experimental edition by Jiri Navratil
  */
 
-var version = "v0.9.5";
+var version = "v0.9.6";
 
 /*
  * Whether the user has currently enabled auto-woot.
@@ -2176,7 +2176,7 @@ function onCookiesLoaded() {
         $('#button-vote-negative').click();
         $('#button-vote-positive').click();
     }
-    API.sendChat("/em you´re running Master Yoda`s moderating bot version " + version + ". Contact Donna for more details. News: all comands are invoked with ! instead of /");
+    API.sendChat("/em you´re running Master Yoda`s moderating bot version " + version + ". Contact Donna for more details. News: all comands are invoked with ! instead of / and avatar change is not working anymore !!!");
 
 }
 
