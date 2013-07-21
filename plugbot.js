@@ -469,7 +469,7 @@ function initAPIListeners() {
         clearTimeout(songTimeoutId);
     });
 
-    API.on(API.CHAT, function (obj) {
+    API.on(API.CHAT_COMMAND, function (obj) {
         /*
         obj.type
         // "message", "emote", "moderation", "system"
