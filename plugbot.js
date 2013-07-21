@@ -507,10 +507,10 @@ function initAPIListeners() {
         }
 
         if (chatCommands) {
-            obj = obj.replace(/&#39;/g, "\'");
-            obj = obj.replace(/&amp;/g, "&");
-            obj = obj.replace(/&lt;/g, "<");
-            obj = obj.replace(/&gt;/g, ">");
+            obj.message = obj.message.replace(/&#39;/g, "\'");
+            obj.message = obj.message.replace(/&amp;/g, "&");
+            obj.message = obj.message.replace(/&lt;/g, "<");
+            obj.message = obj.message.replace(/&gt;/g, ">");
             //if (API.getUser(obj.fromID).permission >= 1) {
                 
                 /*
