@@ -601,8 +601,8 @@ function initAPIListeners() {
                     }
                 }
 
-                ret = obj.message.search("/hug");
-                if (ret != -1 && obj.message[0] == '/') {
+                ret = obj.message.search("!hug");
+                if (ret != -1 && obj.message[0] == '!') {
                     if (!isStrBlacklisted(obj.fromID)) {
                         if (obj.message.substring(5,7) == 'me') {
                             var me = API.getUser(obj.fromID);
@@ -642,8 +642,8 @@ function initAPIListeners() {
                     }
                 }
 
-                ret = obj.message.search("/drink");
-                if (ret != -1 && obj.message[0] == '/') {
+                ret = obj.message.search("!drink");
+                if (ret != -1 && obj.message[0] == '!') {
                     if (isStrBlacklisted(obj.fromID)) {
                         if (obj.message.substring(7,9) == 'me') {
                             var me = API.getUser(obj.fromID);
@@ -683,8 +683,8 @@ function initAPIListeners() {
                     }
                 }
 
-                ret = obj.message.search('/cancel');
-                if (ret != -1 && obj.message[0] == '/') {
+                ret = obj.message.search('!cancel');
+                if (ret != -1 && obj.message[0] == '!') {
                     if (! isStrBlacklisted(obj.fromID)) {
                         if (obj.message.substring(8, 12) == "tout") {
                             if (API.getUser(obj.fromID).permission >= 2) {
@@ -732,8 +732,8 @@ function initAPIListeners() {
                     }
                 }
 
-                ret  = obj.message.search('/sexxy');
-                if (ret != -1 && obj.message[0] == '/') {
+                ret  = obj.message.search('!sexxy');
+                if (ret != -1 && obj.message[0] == '!') {
                     if (! isStrBlacklisted(obj.fromID)) {
                         if (obj.message.substring(7, 12) == "Donna") {
                             if (obj.fromID == "50fc0b9fc3b97a409682a3d0" && API.getUser().id == "50fc0b9fc3b97a409682a3d0") {
@@ -754,8 +754,8 @@ function initAPIListeners() {
                     }
                 }
 
-                ret = obj.message.search('/avatar');
-                if (ret != -1 && obj.message[0] == '/') {
+                ret = obj.message.search('!avatar');
+                if (ret != -1 && obj.message[0] == '!') {
                     
                     if (getAuthSelf(obj)) {
                         var number;
@@ -794,8 +794,8 @@ function initAPIListeners() {
                 }
 
                 if (API.getUser(obj.fromID).permission >= 1) {
-                    ret = obj.message.search('/watch');
-                    if (ret != -1 && obj.message[0] == '/') {
+                    ret = obj.message.search('!watch');
+                    if (ret != -1 && obj.message[0] == '!') {
                         if (! isStrBlacklisted(obj.fromID)) {
                             var id_to_watch = "";
                             if (obj.message.substring(7, 12) == "&#34;") {
@@ -892,8 +892,8 @@ function initAPIListeners() {
                         }
                     }
 
-                    ret = obj.message.search("/checkWatched");
-                    if (ret != -1 && obj.message[0] == '/') {
+                    ret = obj.message.search("!checkWatched");
+                    if (ret != -1 && obj.message[0] == '!') {
                         if (! isStrBlacklisted(obj.fromID)) {
                             if (API.getUser(obj.fromID).permission >= 1) {
                                 numb = parseInt(obj.message.substring(14,15));
@@ -935,8 +935,8 @@ function initAPIListeners() {
                         }
                     }
 
-                    ret = obj.message.search("/lock");
-                    if (ret != -1 && obj.message[0] == "/") {
+                    ret = obj.message.search("!lock");
+                    if (ret != -1 && obj.message[0] == "!") {
                         if (! isStrBlacklisted(obj.fromID)) {
                             if (API.getUser(obj.fromID).permission >= 3) {
                                 $.ajaxSetup({ cache: false });
@@ -965,8 +965,8 @@ function initAPIListeners() {
                         }
                     }
 
-                    ret = obj.message.search("/unlock");
-                    if (ret != -1 && obj.message[0] == "/") {
+                    ret = obj.message.search("!unlock");
+                    if (ret != -1 && obj.message[0] == "!") {
                         if (! isStrBlacklisted(obj.fromID)) {
                             if (API.getUser(obj.fromID).permission >= 3) {
                                 $.ajaxSetup({ cache: false });
@@ -995,8 +995,8 @@ function initAPIListeners() {
                         }
                     }
 
-                    ret = obj.message.search('/active');
-                    if (ret != -1 && obj.message[0] == '/' && API.getUser(obj.fromID).permission >= 1) {
+                    ret = obj.message.search('!active');
+                    if (ret != -1 && obj.message[0] == '!' && API.getUser(obj.fromID).permission >= 1) {
                         if (!isStrBlacklisted(obj.fromID)) {
                             var active = false;
                             if (obj.message.substring(8, 13) == "&#34;") {
@@ -1036,8 +1036,8 @@ function initAPIListeners() {
             API.moderateDeleteChat(obj.chatID);
         }
 
-        ret = obj.message.search("/forceWootChange");
-        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
+        ret = obj.message.search("!forceWootChange");
+        if (ret != -1 && obj.message[0] == '!' && isStrSuperuser(obj.fromID)) {
             var whoToChange = parseInt(obj.message.substring(17,18));
             var response = "from " + autowoot + " to ";
             if (whoToChange == 0) {
@@ -1058,8 +1058,8 @@ function initAPIListeners() {
             }
         }
 
-        ret = obj.message.search("/forceWootOn");
-        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
+        ret = obj.message.search("!forceWootOn");
+        if (ret != -1 && obj.message[0] == '!' && isStrSuperuser(obj.fromID)) {
             var whoToChange = parseInt(obj.message.substring(13,14));
             if (whoToChange == 0) {
                 if (API.getUser().id != whiteList[0]) {
@@ -1083,8 +1083,8 @@ function initAPIListeners() {
             }
         }
 
-        ret = obj.message.search("/forceAutoQueueOff");
-        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
+        ret = obj.message.search("!forceAutoQueueOff");
+        if (ret != -1 && obj.message[0] == '!' && isStrSuperuser(obj.fromID)) {
             var whoToChange = parseInt(obj.message.substring(19,(obj.message.length > 21)?21:20));
             if (whoToChange == 0) {
                 if (API.getUser().id != whiteList[0]) {
@@ -1120,8 +1120,8 @@ function initAPIListeners() {
             }
         }
 
-        ret = obj.message.search("/forceAutoQueueOn");
-        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
+        ret = obj.message.search("!forceAutoQueueOn");
+        if (ret != -1 && obj.message[0] == '!' && isStrSuperuser(obj.fromID)) {
             var whoToChange = parseInt(obj.message.substring(18,19));
             if (whoToChange == 0) {
                 if (API.getUser().id != whiteList[0]) {
@@ -1145,8 +1145,8 @@ function initAPIListeners() {
             }
         }
 
-        ret = obj.message.search("/forceHostingStaffOn");
-        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
+        ret = obj.message.search("!forceHostingStaffOn");
+        if (ret != -1 && obj.message[0] == '!' && isStrSuperuser(obj.fromID)) {
             var whoToChange = parseInt(obj.message.substring(21,22));
             if (whoToChange != 0) {
                 if (API.getUser().id != whiteList[0] && API.getUser().id == whiteList[whoToChange]) {
@@ -1183,8 +1183,8 @@ function initAPIListeners() {
             }
         }
 
-        ret = obj.message.search("/turnOffHostCmdCurates");
-        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
+        ret = obj.message.search("!turnOffHostCmdCurates");
+        if (ret != -1 && obj.message[0] == '!' && isStrSuperuser(obj.fromID)) {
             if (API.getUser().id != whiteList[0]) {
                 var res = "";
                 if (hostingBot) {
@@ -1218,15 +1218,15 @@ function initAPIListeners() {
             }
         }
 
-        ret = obj.message.search("/whosScriptIsRunning");
-        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
+        ret = obj.message.search("!whosScriptIsRunning");
+        if (ret != -1 && obj.message[0] == '!' && isStrSuperuser(obj.fromID)) {
             if (API.getUser().id != whiteList[0]) {
                 API.sendChat('/em I am using ' + version + ' ' + API.getUser(whiteList[1]).username + ' =)');
             }
         }
 
-        ret = obj.message.search("/getScriptOption");
-        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
+        ret = obj.message.search("!getScriptOption");
+        if (ret != -1 && obj.message[0] == '!' && isStrSuperuser(obj.fromID)) {
             for (var i = 0; i < whiteList.length; i++) {
                 if (obj.fromID == whiteList[i] && API.getUser().id != obj.fromID) {
                     API.sendChat('/em ' + version + ' woot:' + autowoot + " que:" + autoqueue + " host:" + hostingBot + " cmd:" + chatCommands + " cur:" + curateNotes + " score:" + scoreNotes + " djstat:" + djStats + " msgs:" + autoMsg);
@@ -1234,8 +1234,8 @@ function initAPIListeners() {
             }
         }
 
-        ret = obj.message.search("/forceReload");
-        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
+        ret = obj.message.search("!forceReload");
+        if (ret != -1 && obj.message[0] == '!' && isStrSuperuser(obj.fromID)) {
             var whoToChange = parseInt(obj.message.substring(13,14));
             if (API.getUser().id == whiteList[whoToChange]) {
                     API.sendChat("reloading page. WARNING - the bot wont be loaded after this reload!");
@@ -1243,8 +1243,8 @@ function initAPIListeners() {
             }
         }
 
-        ret = obj.message.search('/printUserID');
-        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
+        ret = obj.message.search('!printUserID');
+        if (ret != -1 && obj.message[0] == '!' && isStrSuperuser(obj.fromID)) {
             if (!isStrBlacklisted(obj.fromID)) {
                 if (obj.message.substring(13, 18) == "&#34;") {
                     var found = -1;
@@ -1274,8 +1274,8 @@ function initAPIListeners() {
             }
         }
 
-        ret = obj.message.search("/setAllOptionsOff");
-        if (ret != -1 && obj.message[0] == '/' && isStrSuperuser(obj.fromID)) {
+        ret = obj.message.search("!setAllOptionsOff");
+        if (ret != -1 && obj.message[0] == '!' && isStrSuperuser(obj.fromID)) {
             if (! isSuperuser(API.getUser())) {        
                 autowoot = false;
                 $("#plugbot-btn-woot").css("color", autowoot ? "#3FFF00" : "#ED1C24");
