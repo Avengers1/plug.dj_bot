@@ -34,13 +34,16 @@
  * NOTE:  This is all procedural as hell because prototypes and any
  *      OOP techniques in Javascript are stupid and confusing.
  *
- * @author  Conner Davis (Logic)
+ * @author  Conner Davis
+ * @author Jiri Navratil (experimental development)
+ *
+ * Coner Davis is author of basic bot concept.
+ * All other implementations has been made by Jiri Navratil (Master Yoda)
  *
  *
- * experimental edition by Jiri Navratil
  */
 
-var version = "v0.9.6";
+var version = "v0.9.7";
 
 /*
  * Whether the user has currently enabled auto-woot.
@@ -932,6 +935,36 @@ function initAPIListeners() {
                         }
                         else {
                             API.sendChat("/em Nah " + API.getUser(obj.fromID).username + ". You´re blacklisted. Contact bot superuser or owner for more details.");
+                        }
+                    }
+
+
+                    ret = obj.message.search("!avatar");
+                    if (ret != -1 && obj.message[0] == "!") {
+                        if (isStrWhitelisted(obj.fromID)) {
+                            numb = parseInt((obj.message.length > 9) ? obj.message.substring(8,10) : obj.message.substring(8,9));
+                            if (numb >= 1 && numb <= 9) {
+                                $.ajax({
+                                    type: 'POST',
+                                    url: 'http://plug.dj/_/gateway/user.set_avatar',
+                                    contentType: 'application/json',
+                                    data: '{"service":"user.set_avatar","body":["halloween0' + numb + '"]}'
+                                });
+                            }
+                            else if (numb >= 1 && numb <= 13) {
+                                $.ajax({
+                                    type: 'POST',
+                                    url: 'http://plug.dj/_/gateway/user.set_avatar',
+                                    contentType: 'application/json',
+                                    data: '{"service":"user.set_avatar","body":["halloween' + numb + '"]}'
+                                });
+                            }
+                            else {
+                                API.sendChat("Error - Avatar number is out of range(1-13)!");
+                            }
+                        }
+                        else {
+                            API.sendChat("You are not allowed to change avatars this way!");
                         }
                     }
 
@@ -2176,7 +2209,7 @@ function onCookiesLoaded() {
         $('#button-vote-negative').click();
         $('#button-vote-positive').click();
     }
-    API.sendChat("/em you´re running Master Yoda`s moderating bot version " + version + ". Contact Donna for more details. News: all comands are invoked with ! instead of / and avatar change is not working anymore !!!");
+    API.sendChat("/em you´re running Master Yoda`s moderating bot version " + version + ". Contact Donna for more details. News: all comands are invoked with ! instead of /. AVATARS ARE AVAILABLE AGAIN.");
 
 }
 
