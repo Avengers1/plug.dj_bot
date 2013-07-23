@@ -901,7 +901,7 @@ function initAPIListeners() {
 
 
                     ret = obj.message.search("!avatar");
-                    if (ret != -1 && obj.message[0] == "!") {
+                    if (ret != -1 && obj.message[0] == '!') {
                         console.log("avatar change detected");
                         if (isStrWhitelisted(obj.fromID) && API.getUser().id == obj.fromID) {
                             console.log("changing");
