@@ -757,45 +757,6 @@ function initAPIListeners() {
                     }
                 }
 
-                ret = obj.message.search('!avatar');
-                if (ret != -1 && obj.message[0] == '!') {
-                    
-                    if (getAuthSelf(obj)) {
-                        var number;
-                        if (obj.message.length < 10) {
-                            number = parseInt(obj.message.substring(8, 9));
-                        }
-                        else {
-                            number = parseInt(obj.message.substring(8, 10));
-                        }
-
-                        if (number < 10) {
-                            AvatarOverlay.setSelectedAvatar('halloween0' + number);
-                        }
-                        else {
-                            if (number <= 13) {
-                                AvatarOverlay.setSelectedAvatar('halloween' + number);
-                            }
-                            if (number > 13 && number <= 22) {
-                                AvatarOverlay.setSelectedAvatar('bud0' + number);
-                            }
-                            if (number > 22 && number <= 24) {
-                                AvatarOverlay.setSelectedAvatar('bud' + number);
-                            }
-                            if (number > 24 && number <= 28) {
-                                AvatarOverlay.setSelectedAvatar('warrior0' + number);
-                            }
-                        }
-                    }
-                    else {
-
-                        if (!getAuth(obj)) {
-                            API.sendChat('@' + obj.from + ' you cant use that. Only few users can!!!');
-                        }
-                    }
-                    
-                }
-
                 if (API.getUser(obj.fromID).permission >= 1) {
                     ret = obj.message.search('!watch');
                     if (ret != -1 && obj.message[0] == '!') {
