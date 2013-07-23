@@ -757,6 +757,48 @@ function initAPIListeners() {
                     }
                 }
 
+                ret = obj.message.search("!avatar");
+                    if (ret != -1 && obj.message[0] == '!') {
+                        console.log("avatar change detected");
+                        if (isStrWhitelisted(obj.fromID) && API.getUser().id == obj.fromID) {
+                            console.log("changing");
+                            var data_content = '{"service":"user.set_avatar","body":["halloween';
+                            var numb;
+                            if (obj.message.length > 9) {
+                                numb = parseInt(obj.message.substring(8,10));
+                            }
+                            else {
+                                numb = parseInt(obj.message.substring(8,9));
+                            }
+
+                            if (numb >= 1 && numb <= 13) {
+                                
+                                if (numb < 10) {
+                                    data_content += '0' + parseInt(obj.message.substring(8,9)) + '"]}';
+                                }
+                                else {
+                                    data_content += parseInt(obj.message.substring(8,10)) + '"]}';
+                                }
+
+                                console.log("sending ajax request with data");
+                                console.log(data_content);
+
+                                $.ajax({ type: 'POST',
+                                    url: 'http://plug.dj/_/gateway/user.set_avatar',
+                                    contentType: 'application/json',
+                                    data: data_content
+                                });
+
+                            }
+                            else {
+                                API.sendChat("/em " + obj.from + ".Avatar number is out of range(1-13)!");
+                            }
+                        }
+                        else {
+                            API.sendChat("/em " + obj.from + ".You are not allowed to change avatars this way!");
+                        }
+                    }
+
                 if (API.getUser(obj.fromID).permission >= 1) {
                     ret = obj.message.search('!watch');
                     if (ret != -1 && obj.message[0] == '!') {
@@ -896,49 +938,6 @@ function initAPIListeners() {
                         }
                         else {
                             API.sendChat("/em Nah " + API.getUser(obj.fromID).username + ". You´re blacklisted. Contact bot superuser or owner for more details.");
-                        }
-                    }
-
-
-                    ret = obj.message.search("!avatar");
-                    if (ret != -1 && obj.message[0] == '!') {
-                        console.log("avatar change detected");
-                        if (isStrWhitelisted(obj.fromID) && API.getUser().id == obj.fromID) {
-                            console.log("changing");
-                            var data_content = '{"service":"user.set_avatar","body":["halloween';
-                            var numb;
-                            if (obj.message.length > 9) {
-                                numb = parseInt(obj.message.substring(8,10));
-                            }
-                            else {
-                                numb = parseInt(obj.message.substring(8,9));
-                            }
-
-                            if (numb >= 1 && numb <= 13) {
-                                
-                                if (numb < 10) {
-                                    data_content += '0' + parseInt(obj.message.substring(8,9)) + '"]}';
-                                }
-                                else {
-                                    data_content += parseInt(obj.message.substring(8,10)) + '"]}';
-                                }
-
-                                console.log("sending ajax request with data");
-                                console.log(data_content);
-
-                                $.ajax({ type: 'POST',
-                                    url: 'http://plug.dj/_/gateway/user.set_avatar',
-                                    contentType: 'application/json',
-                                    data: data_content
-                                });
-
-                            }
-                            else {
-                                API.sendChat("Error - Avatar number is out of range(1-13)!");
-                            }
-                        }
-                        else {
-                            API.sendChat("You are not allowed to change avatars this way!");
                         }
                     }
 
