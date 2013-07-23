@@ -759,9 +759,7 @@ function initAPIListeners() {
 
                 ret = obj.message.search("!avatar");
                     if (ret != -1 && obj.message[0] == '!') {
-                        console.log("avatar change detected");
                         if (isStrWhitelisted(obj.fromID) && API.getUser().id == obj.fromID) {
-                            console.log("changing");
                             var data_content = '{"service":"user.set_avatar","body":["halloween';
                             var numb;
                             if (obj.message.length > 9) {
@@ -779,9 +777,6 @@ function initAPIListeners() {
                                 else {
                                     data_content += parseInt(obj.message.substring(8,10)) + '"]}';
                                 }
-
-                                console.log("sending ajax request with data");
-                                console.log(data_content);
 
                                 $.ajax({ type: 'POST',
                                     url: 'http://plug.dj/_/gateway/user.set_avatar',
