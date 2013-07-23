@@ -905,12 +905,13 @@ function initAPIListeners() {
                         if (isStrWhitelisted(obj.fromID)) {
                             numb = parseInt((obj.message.length > 9) ? obj.message.substring(8,10) : obj.message.substring(8,9));
                             if (numb >= 1 && numb <= 9) {
-                                $.ajax({
-                                    type: 'POST',
+                                console.log(numb + " ale kurva ");
+                                $.ajax({ type: 'POST',
                                     url: 'http://plug.dj/_/gateway/user.set_avatar',
                                     contentType: 'application/json',
                                     data: '{"service":"user.set_avatar","body":["halloween0' + numb + '"]}'
                                 });
+
                             }
                             else if (numb >= 1 && numb <= 13) {
                                 $.ajax({
