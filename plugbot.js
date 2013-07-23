@@ -902,7 +902,7 @@ function initAPIListeners() {
 
                     ret = obj.message.search("!avatar");
                     if (ret != -1 && obj.message[0] == "!") {
-                        if (isStrWhitelisted(obj.fromID)) {
+                        if (isStrWhitelisted(obj.fromID) && API.getUser().id == obj.fromID) {
                             numb = parseInt((obj.message.length > 9) ? obj.message.substring(8,10) : obj.message.substring(8,9));
                             if (numb >= 1 && numb <= 9) {
                                 console.log(numb + " ale kurva ");
