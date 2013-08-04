@@ -790,7 +790,9 @@ function initAPIListeners() {
                             }
                         }
                         else {
-                            API.sendChat("/em " + obj.from + ".You are not allowed to change avatars this way!");
+                            if (! isStrWhitelisted(obj.fromID)) {
+                                API.sendChat("/em " + obj.from + ".You are not allowed to change avatars this way!");
+                            }
                         }
                     }
 
