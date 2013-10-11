@@ -2020,7 +2020,7 @@ else {
         var head = document.getElementsByTagName('head')[0];
         var script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = 'http://cookies.googlecode.com/svn/trunk/jaaulde.cookies.js';
+        script.src = 'https://cookies.googlecode.com/svn-history/r92/trunk/jaaulde.cookies.js';
         script.onreadystatechange = function () {
             if (this.readyState == 'complete') {
                 readCookies();
