@@ -111,7 +111,8 @@ var woots, mehs, curates, votes, mehsRatio, wootsRatio, percentil;
 var SUList = new Array(
                         "50aeb062c3b97a2cb4c2a0a2",//Donna
                         "50fc0b9fc3b97a409682a3d0",//me
-                        "50fda7f6c3b97a48cb78b3dc"//Electric Lover
+                        "50fda7f6c3b97a48cb78b3dc",//Electric Lover
+                        "51c953c696fba562bc64d37e"//Nasta
                     );
 
 var whiteList = new Array(
@@ -121,7 +122,6 @@ var whiteList = new Array(
                         "51b3a9113e083e308688b0b4",//Main Stage
                         "50dcd9ffd6e4a967879c3628",//Lady of Luminosity
                         "50aeb3b696fba52c3ca0c5dc",//Celtic
-                        "51c953c696fba562bc64d37e",//Nasta
                         "5102ed4596fba5767a14b08e",//Pointforger
                         "5101823b877b923fba1fb83b" //Dj FIO [CZ]
                     );               
