@@ -101,7 +101,7 @@ var chatCommands;
 /*
  * global variables
  */
-var prevDj = API.getDJs()[0].username;
+var prevDj = API.getDJ().username;
 var savedScore = new Array(0, 0, 0, 0);
 var song = API.getMedia();
 var savedSong = new Array(song.author, song.title);
@@ -586,7 +586,7 @@ function initAPIListeners() {
                                 }
                                 else {
                                     numb = parseInt(obj.message.substring(7,8));
-                                    var booth = API.getDJs();
+                                    var booth = API.getWaitList();
                                     if (numb <= booth.length - 1) {
                                         API.sendChat('/em ' + obj.from + ' is checking ' + booth[numb].username + '... Points: ' + (booth[numb].djPoints + booth[numb].listenerPoints + booth[numb].curatorPoints) + '(djPts-' + booth[numb].djPoints + ' | listenerPts-' + booth[numb].listenerPoints + ' | CuratorPts-' + booth[numb].curatorPoints +') Fans: ' + booth[numb].fans);
                                     }
@@ -631,7 +631,7 @@ function initAPIListeners() {
                             }
                             else {
                                 numb = parseInt(obj.message.substring(5,6));
-                                var booth = API.getDJs();
+                                var booth = API.getWaitList();
                                 if (numb <= booth.length - 1) {
                                     API.sendChat('/em ' + booth[numb].username + ' just got hugged by ' + obj.from);
                                 }
@@ -672,7 +672,7 @@ function initAPIListeners() {
                             }
                             else {
                                 numb = parseInt(obj.message.substring(7,8));
-                                var booth = API.getDJs();
+                                var booth = API.getWaitList();
                                 if (numb <= booth.length - 1) {
                                     API.sendChat('/em ' + booth[numb].username + ' just got a drink from ' + obj.from);
                                 }
@@ -702,7 +702,7 @@ function initAPIListeners() {
                                         API.sendChat('/em ' + ': ' + prevDj + ' has been skipped due to reaching song length limit!');
                                     }, duration * 1000);
                                     
-                                    API.sendChat('/em ' + API.getDJs()[0].username + '. Your timeout cancel wont be fully applied. Timeout has been postponed by the half of your song´s length. Playing songs longer then 30 minutes is not allowed.');
+                                    API.sendChat('/em ' + API.getDJ().username + '. Your timeout cancel wont be fully applied. Timeout has been postponed by the half of your song´s length. Playing songs longer then 30 minutes is not allowed.');
                                 }
                                 else {
                                     clearTimeout(songTimeoutId);
@@ -1551,7 +1551,7 @@ function initUIListeners() {
 }
 
 function checkScore() {
-    var Djs = API.getDJs();
+    var Djs = API.getWaitList();
 
     if (votes >= 5 && votes <= 10) {
         if (mehsRatio > 0.5 && curates == 0) {
@@ -1585,7 +1585,7 @@ function djAdvanced(obj) {
     if (chatCommands) {
         number_of_songs_played++;
         if (watching) {
-            if (unvoted && API.getDJs()[0].id != watch_list[0].id) {
+            if (unvoted && API.getDJ().id != watch_list[0].id) {
                 watch_list[0].unvoted++;
                 watch_iter++;
                 stored_vote = 0;
@@ -1749,15 +1749,15 @@ function queueUpdate() {
  */
 function isInQueue() {
     var self = API.getUser();
-    return API.getWaitList().indexOf(self) !== -1 || API.getDJs().indexOf(self) !== -1;
+    return API.getWaitList().indexOf(self) !== -1 || API.getDJ() == self;
 }
 
 function isUserInQueue(user) {
-    return API.getWaitList().indexOf(user) !== -1 || API.getDJs().indexOf(user) !== -1;
+    return API.getWaitList().indexOf(user) !== -1 || API.getDJ() == self;
 }
 
 function isOnBooth() {
-    return API.getDJs().indexOf(API.getUser()) !== -1 || API.getDJs().indexOf(API.getUser()) !== 0;
+    return API.getDJ() == API.getUser();
 }
 
 /**
@@ -1799,7 +1799,7 @@ function populateUserlist() {
      * If the user is in the waitlist, show them their current spot.
      */
     if ($('#button-dj-waitlist-view').attr('title') !== '') {
-        if ($('#button-dj-waitlist-leave').css('display') === 'block' && ($.inArray(API.getDJs(), API.getUser()) == -1)) {
+        if ($('#button-dj-waitlist-leave').css('display') === 'block' && ($.inArray(API.getWaitList(), API.getUser()) == -1)) {
             var spot = $('#button-dj-waitlist-view').attr('title').split('(')[1];
             spot = spot.substring(0, spot.indexOf(')'));
             $('#plugbot-userlist').append('<h1 id="plugbot-queuespot"><span style="font-variant:small-caps">Waitlist:</span> ' + spot + '</h3><br />');
@@ -1902,7 +1902,7 @@ function appendUser(user) {
      * to denote that they're playing right now (since
      * they can't vote their own song.)
      */
-    if (API.getDJs()[0].username == username) {
+    if (API.getDJ().username == username) {
         if (imagePrefix === 'normal') {
             drawUserlistItem('void', '#42A5DC', username);
         } else {
@@ -1995,7 +1995,7 @@ function drawUserlistItem(imagePath, color, username) {
      * Write the HTML code to the userlist.
      */
     $('#plugbot-userlist').append(
-        '<p style="cursor:pointer;' + (imagePath === 'void' ? '' : 'text-indent:6px !important;') + 'color:' + color + ';' + ((API.getDJs()[0].username == username) ? 'font-size:15px;font-weight:bold;' : '') + '" onclick="$(\'#chat-input-field\').val($(\'#chat-input-field\').val() + \'@' + username + ' \').focus();">' + username + '</p>');
+        '<p style="cursor:pointer;' + (imagePath === 'void' ? '' : 'text-indent:6px !important;') + 'color:' + color + ';' + ((API.getDJ().username == username) ? 'font-size:15px;font-weight:bold;' : '') + '" onclick="$(\'#chat-input-field\').val($(\'#chat-input-field\').val() + \'@' + username + ' \').focus();">' + username + '</p>');
 }
 
 ///////////////////////////////////////////////////////////
