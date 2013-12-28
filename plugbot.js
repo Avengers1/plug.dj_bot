@@ -1371,7 +1371,7 @@ function displayUI() {
     /*
      * Generate the HTML code for the UI.
      */
-    $('#chat').prepend('<div id="plugbot-ui"></div>');
+    $('#chat').prepend('<div id="plugbot-ui" style="position: absolute; margin-left: -165px;"></div>');
     var cWoot = autowoot ? "#3FFF00" : "#ED1C24";
     var cQueue = autoqueue ? "#3FFF00" : "#ED1C24";
     var cHideVideo = hideVideo ? "#3FFF00" : "#ED1C24";
