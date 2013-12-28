@@ -513,7 +513,7 @@ function initAPIListeners() {
             //if (API.getUser(obj.fromID).permission >= 1) {
                 
                 
-                ret = obj.search("!commands");
+                ret = obj.message.search("!commands");
                 if (ret != -1 && obj[0] == '!') {
                     var commands = "/em List of commands (every command is separated by {  } ).";
                     var users_list = "/em List of users(indexed from 0): superusers - Donna, Master Yoda, Old Electric Man";
